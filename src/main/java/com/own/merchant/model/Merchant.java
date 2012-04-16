@@ -1,5 +1,6 @@
 package com.own.merchant.model;
 
+import java.io.Serializable;
 import java.util.List;
 
 import com.own.transaction.enums.MerchantStatus;
@@ -10,7 +11,12 @@ import com.own.transaction.merchant.model.MerchantAccount;
  * @author ankul
  *
  */
-public class Merchant {
+public class Merchant implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	private String merchantName;
 	
