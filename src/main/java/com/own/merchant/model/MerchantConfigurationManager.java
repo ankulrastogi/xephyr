@@ -23,7 +23,7 @@ public class MerchantConfigurationManager {
 	
 	public MerchantConfigurationManager(Merchant merchant)
 	{
-		this.configFile = merchant.getConfiguration();
+		this.configFile = null;//merchant.getConfiguration();
 	}
 	
 	public void loadConfigurationForMerchant()

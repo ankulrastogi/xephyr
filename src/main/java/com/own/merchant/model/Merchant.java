@@ -1,16 +1,21 @@
 package com.own.merchant.model;
 
 import java.io.Serializable;
-import java.util.List;
 
-import com.own.transaction.enums.MerchantStatus;
-import com.own.transaction.merchant.model.MerchantAccount;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  * This is a class containing the details related to a merchant object
  * @author ankul
  *
  */
+@Entity
+@Table(name="merchant")
 public class Merchant implements Serializable{
 
 	/**
@@ -18,58 +23,28 @@ public class Merchant implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private String merchantName;
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name="merchantID",unique=true,nullable=false,insertable=false)
+	private Integer id;
 	
-	private List<MerchantAccount> accounts;
-	
-	private MerchantStatus status;
-	
-	private MerchantDetails details;
-	
-	private String configuration;
-	
+	@Column(name="merchantName")
+	private String name;
 
-
-	
-
-	public String getMerchantName() {
-		return merchantName;
+	public String getName() {
+		return name;
 	}
 
-	public void setMerchantName(String merchantName) {
-		this.merchantName = merchantName;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public List<MerchantAccount> getAccounts() {
-		return accounts;
+	public Integer getId() {
+		return id;
 	}
 
-	public void setAccounts(List<MerchantAccount> accounts) {
-		this.accounts = accounts;
-	}
-
-	public MerchantStatus getStatus() {
-		return status;
-	}
-
-	public void setStatus(MerchantStatus status) {
-		this.status = status;
-	}
-
-	public MerchantDetails getDetails() {
-		return details;
-	}
-
-	public void setDetails(MerchantDetails details) {
-		this.details = details;
-	}
-
-	public String getConfiguration() {
-		return configuration;
-	}
-
-	public void setConfiguration(String configuration) {
-		this.configuration = configuration;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 	
 	
