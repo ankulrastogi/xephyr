@@ -1,5 +1,6 @@
-package com.own.merchant.model;
+package com.own.merchant.enums;
 
 public enum SubscriptionType {
 
+	
 }

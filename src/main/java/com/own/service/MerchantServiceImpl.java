@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.own.database.dao.MerchantDAO;
 import com.own.merchant.model.Merchant;
 import com.own.service.exception.AppException;
-import com.own.service.exception.DuplicateValue;
+import com.own.service.exception.DuplicateValueException;
 
 
 @Service
@@ -19,7 +19,7 @@ public class MerchantServiceImpl implements MerchantService{
 	MerchantDAO merchantDao;
 	
 	@Transactional
-	public Merchant createMerchant(Merchant merchant) throws DuplicateValue {
+	public Merchant createMerchant(Merchant merchant) throws DuplicateValueException {
 		
 		return merchantDao.save(merchant);
 	}

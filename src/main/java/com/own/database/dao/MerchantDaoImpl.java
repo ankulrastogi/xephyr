@@ -32,12 +32,11 @@ public class MerchantDaoImpl  implements MerchantDAO{
 		return null;
 	}
 
-	public SessionFactory getSessionFactory() {
-		return sessionFactory;
-	}
-
+	@Autowired
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
+
+	
 
 }

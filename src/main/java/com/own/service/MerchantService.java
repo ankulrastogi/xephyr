@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.own.merchant.model.Merchant;
 import com.own.service.exception.AppException;
-import com.own.service.exception.DuplicateValue;
+import com.own.service.exception.DuplicateValueException;
 
 /**
  * Base service for merchant. All the operations defined for a merchant will be
@@ -23,7 +23,7 @@ public interface MerchantService {
 	 * @param merchant
 	 * @return
 	 */
-	public Merchant createMerchant(Merchant merchant) throws DuplicateValue;
+	public Merchant createMerchant(Merchant merchant) throws DuplicateValueException;
 
 	/**
 	 * API to update the current state of the merchant to a new state.

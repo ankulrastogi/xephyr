@@ -6,11 +6,11 @@ package com.own.service.exception;
  * @author ankul
  *
  */
-public class DuplicateValue extends Exception {
+public class DuplicateValueException extends Exception {
 
 	private Object dupValue;
 	
-	public DuplicateValue(Object dupValue) {
+	public DuplicateValueException(Object dupValue) {
 		this.dupValue = dupValue;
 	}
 	
