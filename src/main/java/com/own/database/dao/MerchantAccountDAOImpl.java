@@ -13,6 +13,7 @@ public class MerchantAccountDAOImpl implements MerchantAccountDAO {
 	@Override
 	public MerchantAccount save(MerchantAccount account) {
 		// TODO Auto-generated method stub
+		
 		return (MerchantAccount)sessionFactory.getCurrentSession().save(account);
 	}
 
