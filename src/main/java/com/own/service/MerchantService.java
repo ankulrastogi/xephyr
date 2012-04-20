@@ -18,7 +18,7 @@ public interface MerchantService {
 
 	/**
 	 * Creates a merchant in a system. If the merchant already exists then an
-	 * error is thrown, along with the old merchant information
+	 * error is thrown, along with the already existing merchant information.
 	 * 
 	 * @param merchant
 	 * @return
@@ -66,4 +66,30 @@ public interface MerchantService {
 	public Merchant activateMerchantAccount(Merchant merchant,
 			List<String> accountID, boolean activateAll) throws AppException;
 
+	/**
+	 * Find the merchant based on the search string
+	 * @param params
+	 * @return
+	 */
+	public List<Merchant> searchMerchant(SearchParams params);
+	
+	
+	/**
+	 * Finds a merchant by merchantID
+	 * @param merchantID
+	 * @return
+	 */
+	public Merchant getMerchantByID(String merchantID);
+	
+	public Merchant getMerchant(String merchantEmail);
+	
+	/**
+	 * Inner class to incorporate search params needed to search for a merchants
+	 * @author ankul
+	 *
+	 */
+	class SearchParams
+	{
+		
+	}
 }

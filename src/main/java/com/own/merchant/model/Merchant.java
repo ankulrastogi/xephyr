@@ -31,6 +31,9 @@ public class Merchant implements Serializable{
 	@Column(name="merchantName")
 	private String name;
 
+	@Column(name="merchantEmail")
+	private String emailID;
+	
 	public String getName() {
 		return name;
 	}
@@ -45,6 +48,14 @@ public class Merchant implements Serializable{
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	public String getEmailID() {
+		return emailID;
+	}
+
+	public void setEmailID(String emailID) {
+		this.emailID = emailID;
 	}
 	
 	

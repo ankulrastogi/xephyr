@@ -4,10 +4,17 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.own.controller.utils.ServiceConstants;
+import com.own.controller.utils.ServiceUtils;
+import com.own.merchant.model.Merchant;
+import com.own.merchant.model.ServiceResponse;
 import com.own.service.MerchantService;
+import com.own.service.exception.DuplicateValueException;
 
 /**
  * REST based controller to handle all the merchant related requests.
@@ -28,11 +35,28 @@ public class MerchantController {
 	/**
 	 * Add the specified merchant to the system
 	 * 
-	 * @return
+	 * @return ServiceResponse - standard service response
+	 * @throws DuplicateValueException
 	 */
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
-	public String addMerchant() {
-		return null;
+	public @ResponseBody
+	ServiceResponse addMerchant(@RequestBody Merchant merchant) {
+		Merchant response = null;
+		ServiceResponse resp = null;
+
+		try {
+			response = mService.createMerchant(merchant);
+		} catch (DuplicateValueException e) {
+
+			resp = ServiceUtils.composeServiceResponse(ServiceConstants.FAIL, e
+					.getErrorCode().toArray(new String[] {}), null);
+			logger.info("Merchant already exists" + e.getDuplicateValue());
+		}
+
+		resp = ServiceUtils.composeServiceResponse(ServiceConstants.SUCCESS,
+				null, response);
+
+		return resp;
 	}
 
 	/**
