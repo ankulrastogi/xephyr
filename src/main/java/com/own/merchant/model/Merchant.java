@@ -1,6 +1,7 @@
 package com.own.merchant.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,6 +9,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import com.own.transaction.merchant.model.MerchantAccount;
 
 /**
  * This is a class containing the details related to a merchant object
@@ -30,6 +33,10 @@ public class Merchant implements Serializable{
 	
 	@Column(name="merchantName")
 	private String name;
+	
+	List<MerchantAccount> accounts;
+	
+	
 
 	@Column(name="merchantEmail")
 	private String emailID;
