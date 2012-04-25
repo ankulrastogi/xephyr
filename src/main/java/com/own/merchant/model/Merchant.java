@@ -65,5 +65,14 @@ public class Merchant implements Serializable{
 		this.emailID = emailID;
 	}
 	
+	/**
+	 * Enumerates the types on which the merchant can be searched
+	 * @author ankul
+	 *
+	 */
+	public enum SearchTypes
+	{
+		EMAIL,ID,NAME
+	}
 	
 }

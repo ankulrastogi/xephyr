@@ -1,6 +1,7 @@
 package com.own.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,7 +9,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.own.database.dao.MerchantDAO;
 import com.own.merchant.MerchantManager;
+import com.own.merchant.manager.MerchantValidatorImpl.ValidationType;
 import com.own.merchant.model.Merchant;
+import com.own.merchant.model.Merchant.SearchTypes;
 import com.own.service.exception.AppException;
 import com.own.service.exception.DuplicateValueException;
 
@@ -24,7 +27,10 @@ public class MerchantServiceImpl implements MerchantService{
 	
 	
 	@Transactional
-	public Merchant createMerchant(Merchant merchant) throws DuplicateValueException {
+	public Merchant createMerchant(Merchant merchant, ValidationType type) throws DuplicateValueException {
+		
+		manager.isValidMerchant(merchant,ValidationType.PRE);
+		
 		
 		if(!manager.checkMerchantByEmail(merchant.getEmailID()))
 		{
@@ -54,11 +60,6 @@ public class MerchantServiceImpl implements MerchantService{
 		return null;
 	}
 
-	@Override
-	public List<Merchant> searchMerchant(SearchParams params) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public Merchant getMerchantByID(String merchantID) {
@@ -67,7 +68,13 @@ public class MerchantServiceImpl implements MerchantService{
 	}
 
 	@Override
-	public Merchant getMerchant(String merchantEmail) {
+	public Merchant getMerchantByEmail(String merchantEmail) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Merchant> findMerchant(Map<SearchTypes, String> searchParamMap) {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -45,7 +45,7 @@ public class MerchantController {
 		ServiceResponse resp = null;
 
 		try {
-			response = mService.createMerchant(merchant);
+			response = mService.createMerchant(merchant, null);
 		} catch (DuplicateValueException e) {
 
 			resp = ServiceUtils.composeServiceResponse(ServiceConstants.FAIL, e
@@ -60,7 +60,7 @@ public class MerchantController {
 	}
 
 	/**
-	 * Configure a merchant withing the system. This is when a shared key will
+	 * Configure a merchant within the system. This is when a shared key will
 	 * be generated After this only the merchant will be able to add the account
 	 * details.
 	 * 

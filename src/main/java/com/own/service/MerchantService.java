@@ -1,8 +1,11 @@
 package com.own.service;
 
 import java.util.List;
+import java.util.Map;
 
+import com.own.merchant.manager.MerchantValidatorImpl.ValidationType;
 import com.own.merchant.model.Merchant;
+import com.own.merchant.model.Merchant.SearchTypes;
 import com.own.service.exception.AppException;
 import com.own.service.exception.DuplicateValueException;
 
@@ -21,9 +24,10 @@ public interface MerchantService {
 	 * error is thrown, along with the already existing merchant information.
 	 * 
 	 * @param merchant
+	 * @param type TODO
 	 * @return
 	 */
-	public Merchant createMerchant(Merchant merchant) throws DuplicateValueException;
+	public Merchant createMerchant(Merchant merchant, ValidationType type) throws DuplicateValueException;
 
 	/**
 	 * API to update the current state of the merchant to a new state.
@@ -67,29 +71,25 @@ public interface MerchantService {
 			List<String> accountID, boolean activateAll) throws AppException;
 
 	/**
-	 * Find the merchant based on the search string
-	 * @param params
-	 * @return
-	 */
-	public List<Merchant> searchMerchant(SearchParams params);
-	
-	
-	/**
 	 * Finds a merchant by merchantID
 	 * @param merchantID
 	 * @return
 	 */
 	public Merchant getMerchantByID(String merchantID);
 	
-	public Merchant getMerchant(String merchantEmail);
+	/**
+	 * Finds a merchant by merchant Email. There will be only one merchant account associcated with an email
+	 * @param merchantEmail
+	 * @return
+	 */
+	public Merchant getMerchantByEmail(String merchantEmail);
+	
 	
 	/**
-	 * Inner class to incorporate search params needed to search for a merchants
-	 * @author ankul
-	 *
+	 * Finds list of merchants based on the search params provided in the map.
+	 * @param searchParamMap
 	 */
-	class SearchParams
-	{
-		
-	}
+	public List<Merchant> findMerchant(Map<SearchTypes, String> searchParamMap);
+	
+	
 }
