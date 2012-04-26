@@ -34,6 +34,9 @@ public class Merchant implements Serializable{
 	@Column(name="merchantName")
 	private String name;
 	
+	@Column(name="merchantID")
+	private String merchantID;
+
 	List<MerchantAccount> accounts;
 	
 	
@@ -65,6 +68,14 @@ public class Merchant implements Serializable{
 		this.emailID = emailID;
 	}
 	
+	public String getMerchantID() {
+		return merchantID;
+	}
+
+	public void setMerchantID(String merchantID) {
+		this.merchantID = merchantID;
+	}
+
 	/**
 	 * Enumerates the types on which the merchant can be searched
 	 * @author ankul

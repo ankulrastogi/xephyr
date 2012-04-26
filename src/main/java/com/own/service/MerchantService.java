@@ -8,6 +8,7 @@ import com.own.merchant.model.Merchant;
 import com.own.merchant.model.Merchant.SearchTypes;
 import com.own.service.exception.AppException;
 import com.own.service.exception.DuplicateValueException;
+import com.own.service.exception.MerchantValidationException;
 
 /**
  * Base service for merchant. All the operations defined for a merchant will be
@@ -108,7 +109,7 @@ public interface MerchantService {
 	 * @param merchant
 	 * @return
 	 */
-	public boolean canLogin(Merchant merchant);
+	public boolean authenticate(Merchant merchant) throws MerchantValidationException;
 	
 	
 

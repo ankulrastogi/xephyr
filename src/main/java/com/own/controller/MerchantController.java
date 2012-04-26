@@ -19,6 +19,7 @@ import com.own.merchant.model.Merchant;
 import com.own.merchant.model.ServiceResponse;
 import com.own.service.MerchantService;
 import com.own.service.exception.DuplicateValueException;
+import com.own.service.exception.MerchantValidationException;
 
 /**
  * REST based controller to handle all the merchant related requests.
@@ -120,15 +121,21 @@ public class MerchantController {
 	 */
 	public void loginMerchant(@RequestBody Merchant merchant)
 	{
-		if(mService.canLogin(merchant))
-		{
-			logger.info("Merchant successfully authenticated");
+		try {
+			if(mService.authenticate(merchant))
+			{
+				logger.info("Merchant successfully authenticated");
+				
+			}
+			else
+			{
+				logger.info("Merchant cannot be authenticated");
+				
+			}
 			
-		}
-		else
-		{
-			logger.info("Merchant cannot be authenticated");
-			
+		} catch (MerchantValidationException e) {
+			logger.info("The credentials/details provided by the merchant are not valid");
+			e.printStackTrace();
 		}
 		
 		

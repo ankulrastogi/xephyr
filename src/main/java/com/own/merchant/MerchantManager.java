@@ -44,6 +44,8 @@ public interface MerchantManager {
 	 * @return
 	 */
 	public boolean isValidMerchant(Merchant merchant,ValidationType type);
+
+	
 	
 	
 }

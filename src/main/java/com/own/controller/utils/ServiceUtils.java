@@ -16,5 +16,17 @@ public class ServiceUtils {
 		return sResponse;
 		
 	}
+	
+	/**
+	 * This method compares two strings and checks if both are equal or not 
+	 * 
+	 * @param one
+	 * @param two
+	 * @return
+	 */
+	public static boolean compareString(String one,String two)
+	{
+		return false;
+	}
 
 }
