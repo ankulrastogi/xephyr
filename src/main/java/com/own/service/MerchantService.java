@@ -71,6 +71,18 @@ public interface MerchantService {
 			List<String> accountID, boolean activateAll) throws AppException;
 
 	/**
+	 * Gets the merchant object based on the params provided.
+	 * Basically searches for a merchant to verify if the merchant exists in the
+	 * system.Returns single merchant instance or else return null
+	 * @param merchant
+	 * @return Merchant
+	 */
+	public Merchant getMerchantInfo(Merchant merchant);
+	
+	
+	//public List<Merchant> getMerchantInfo()
+	
+	/**
 	 * Finds a merchant by merchantID
 	 * @param merchantID
 	 * @return
@@ -92,4 +104,5 @@ public interface MerchantService {
 	public List<Merchant> findMerchant(Map<SearchTypes, String> searchParamMap);
 	
 	
+
 }
