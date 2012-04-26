@@ -102,6 +102,13 @@ public interface MerchantService {
 	 * @param searchParamMap
 	 */
 	public List<Merchant> findMerchant(Map<SearchTypes, String> searchParamMap);
+
+	/**
+	 * Checks if the merchant can login to the system or not.
+	 * @param merchant
+	 * @return
+	 */
+	public boolean canLogin(Merchant merchant);
 	
 	
 

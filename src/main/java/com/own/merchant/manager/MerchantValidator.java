@@ -9,7 +9,7 @@ public interface MerchantValidator {
 
 	public void setValidationType(ValidationType type);
 	
-	public boolean isValidaMerchant(Merchant merchant,ValidationType type);
+	public boolean isValidMerchant(Merchant merchant,ValidationType type);
 	
 	public boolean isValidMerchant(Merchant merchant);
 	

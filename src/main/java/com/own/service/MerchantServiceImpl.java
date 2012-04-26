@@ -3,28 +3,36 @@ package com.own.service;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.own.database.dao.MerchantDAO;
 import com.own.merchant.MerchantManager;
+import com.own.merchant.manager.MerchantValidator;
 import com.own.merchant.manager.MerchantValidatorImpl.ValidationType;
 import com.own.merchant.model.Merchant;
 import com.own.merchant.model.Merchant.SearchTypes;
 import com.own.service.exception.AppException;
 import com.own.service.exception.DuplicateValueException;
+import com.own.service.exception.MerchantValidationException;
 
 
 @Service
 public class MerchantServiceImpl implements MerchantService{
 
+	private static Logger logger = Logger.getLogger(MerchantServiceImpl.class);
+	
+	
 	@Autowired
 	MerchantDAO merchantDao;
 	
 	@Autowired
 	MerchantManager manager;
-	
+
+	@Autowired
+	MerchantValidator validator;
 	
 	@Transactional
 	public Merchant createMerchant(Merchant merchant, ValidationType type) throws DuplicateValueException {
@@ -79,5 +87,20 @@ public class MerchantServiceImpl implements MerchantService{
 		return null;
 	}
 
+	@Override
+	public Merchant getMerchantInfo(Merchant merchant) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean canLogin(Merchant merchant) throws MerchantValidationException {
+		Map<String, String> response  = validator.validateMerchant(merchant,ValidationType.LOGIN);
+		if(response.size() != 0)
+		{
+			throw new MerchantValidationException(response);
+		}
+	return false;
+	}
 
 }

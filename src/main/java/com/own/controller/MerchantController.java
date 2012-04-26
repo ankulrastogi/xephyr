@@ -1,5 +1,7 @@
 package com.own.controller;
 
+import java.util.Map;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,6 +13,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.own.controller.utils.ServiceConstants;
 import com.own.controller.utils.ServiceUtils;
+import com.own.merchant.manager.MerchantValidator;
+import com.own.merchant.manager.MerchantValidatorImpl.ValidationType;
 import com.own.merchant.model.Merchant;
 import com.own.merchant.model.ServiceResponse;
 import com.own.service.MerchantService;
@@ -31,6 +35,9 @@ public class MerchantController {
 
 	@Autowired
 	MerchantService mService;
+	
+	@Autowired
+	MerchantValidator validator;
 
 	/**
 	 * Add the specified merchant to the system
@@ -107,4 +114,23 @@ public class MerchantController {
 		return null;
 	}
 
+	/**
+	 * Validate merchant credentials and login the merchant if he is authenticated.
+	 * Not sure whether it should redirect to a view or something
+	 */
+	public void loginMerchant(@RequestBody Merchant merchant)
+	{
+		if(mService.canLogin(merchant))
+		{
+			logger.info("Merchant successfully authenticated");
+			
+		}
+		else
+		{
+			logger.info("Merchant cannot be authenticated");
+			
+		}
+		
+		
+	}
 }

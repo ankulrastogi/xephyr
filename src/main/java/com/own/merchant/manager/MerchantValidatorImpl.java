@@ -16,7 +16,7 @@ import com.own.merchant.model.Merchant;
 @Component
 public class MerchantValidatorImpl implements MerchantValidator {
 	public enum ValidationType {
-		PRE, POST
+		PRE, POST, LOGIN
 	}
 
 	private ValidationType type;
@@ -27,9 +27,12 @@ public class MerchantValidatorImpl implements MerchantValidator {
 
 		ValidationType.PRE.ordinal();
 		switch (type) {
+
 		case POST:// validations related to POST-persistance
 
 		case PRE: // validations related to PRE-persistance
+			break;
+		case LOGIN: // basic username password validations
 			break;
 		default:
 			break;
@@ -45,7 +48,7 @@ public class MerchantValidatorImpl implements MerchantValidator {
 	}
 
 	@Override
-	public boolean isValidaMerchant(Merchant merchant, ValidationType type) {
+	public boolean isValidMerchant(Merchant merchant, ValidationType type) {
 
 		this.type = type;
 
