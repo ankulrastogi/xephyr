@@ -8,14 +8,15 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.Validator;
 
 import com.own.controller.utils.ServiceUtils;
-import com.own.database.dao.MerchantDAO;
 import com.own.merchant.MerchantManager;
 import com.own.merchant.manager.MerchantValidator;
 import com.own.merchant.manager.MerchantValidatorImpl.ValidationType;
 import com.own.merchant.model.Merchant;
 import com.own.merchant.model.Merchant.SearchTypes;
+import com.own.merchant.model.MerchantRegistration;
 import com.own.service.exception.AppException;
 import com.own.service.exception.DuplicateValueException;
 import com.own.service.exception.MerchantException;
@@ -32,12 +33,13 @@ public class MerchantServiceImpl implements MerchantService {
 
 	@Autowired
 	MerchantValidator merchantValidator;
-
+	
 	@Transactional
 	public Merchant createMerchant(Merchant merchant, ValidationType type)
 			throws DuplicateValueException,MerchantException {
 
 		Merchant response = null;
+		
 		
 		merchantManager.validateMerchant(merchant, ValidationType.PRE);
 		
@@ -130,6 +132,12 @@ public class MerchantServiceImpl implements MerchantService {
 		}
 
 		return true;
+	}
+
+	@Override
+	public MerchantRegistration registerMerchant(MerchantRegistration rMerchant) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -1,6 +1,5 @@
 package com.own.service.exception;
 
-import java.util.List;
 
 
 /**

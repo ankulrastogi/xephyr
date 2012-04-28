@@ -1,7 +1,5 @@
 package com.own.controller;
 
-import java.util.Map;
-
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,9 +12,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.own.controller.utils.ServiceConstants;
 import com.own.controller.utils.ServiceUtils;
 import com.own.merchant.manager.MerchantValidator;
-import com.own.merchant.manager.MerchantValidatorImpl.ValidationType;
 import com.own.merchant.model.Merchant;
+import com.own.merchant.model.MerchantRegistration;
 import com.own.merchant.model.ServiceResponse;
+import com.own.service.MerchantRegistrationService;
 import com.own.service.MerchantService;
 import com.own.service.exception.DuplicateValueException;
 import com.own.service.exception.MerchantException;
@@ -40,6 +39,9 @@ public class MerchantController {
 	
 	@Autowired
 	MerchantValidator validator;
+	
+	@Autowired
+	MerchantRegistrationService merchantRegistrationService;
 
 	/**
 	 * Add the specified merchant to the system
@@ -49,12 +51,14 @@ public class MerchantController {
 	 */
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public @ResponseBody
-	ServiceResponse addMerchant(@RequestBody Merchant merchant) {
-		Merchant response = null;
+	ServiceResponse registerMerchant(@RequestBody MerchantRegistration rMerchant) {
+		MerchantRegistration register = null;
 		ServiceResponse resp = null;
 
 		try {
-			response = mService.createMerchant(merchant, null);
+		
+			register = merchantRegistrationService.registerMerchant(rMerchant);
+			
 		} catch (DuplicateValueException e) {
 
 			resp = ServiceUtils.composeServiceResponse(ServiceConstants.FAIL, e
@@ -69,7 +73,7 @@ public class MerchantController {
 		}
 
 		resp = ServiceUtils.composeServiceResponse(ServiceConstants.SUCCESS,
-				null, response);
+				null, register);
 
 		return resp;
 	}

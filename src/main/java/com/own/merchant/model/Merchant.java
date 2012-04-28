@@ -15,6 +15,7 @@ import com.own.transaction.merchant.model.MerchantAccount;
 
 /**
  * This is a class containing the details related to a merchant object
+ * TODO - See how JSR303 validations can be applied, Also check on validation Groups
  * @author ankul
  *
  */
@@ -29,7 +30,7 @@ public class Merchant implements Serializable{
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="merchantID",unique=true,nullable=false,insertable=false)
+	@Column(name="merchantID")
 	private Integer id;
 	
 	@Column(name="merchantName")
@@ -40,8 +41,6 @@ public class Merchant implements Serializable{
 
 	@Transient
 	List<MerchantAccount> accounts;
-	
-	
 
 	@Column(name="merchantEmail")
 	private String emailID;
@@ -77,6 +76,15 @@ public class Merchant implements Serializable{
 	public void setMerchantUsername(String merchantUsername) {
 		this.merchantUsername = merchantUsername;
 	}
+
+	
+	@Override
+	public String toString() {
+		return "Merchant [id=" + id + ", name=" + name + ", merchantUsername="
+				+ merchantUsername + ", accounts=" + accounts + ", emailID="
+				+ emailID + "]";
+	}
+
 
 	/**
 	 * Enumerates the types on which the merchant can be searched

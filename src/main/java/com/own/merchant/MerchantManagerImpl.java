@@ -30,8 +30,8 @@ public class MerchantManagerImpl implements MerchantManager {
 
 	@Override
 	public Merchant saveMerchant(Merchant merchant) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return merchantDao.save(merchant);
 	}
 
 	@Override

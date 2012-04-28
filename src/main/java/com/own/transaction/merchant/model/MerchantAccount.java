@@ -2,16 +2,11 @@ package com.own.transaction.merchant.model;
 
 import java.io.Serializable;
 
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.LockModeType;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.persistence.Version;

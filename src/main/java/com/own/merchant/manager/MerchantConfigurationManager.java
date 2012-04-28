@@ -1,6 +1,5 @@
 package com.own.merchant.manager;
 
-import java.util.List;
 import java.util.Map;
 
 import com.own.merchant.model.Merchant;

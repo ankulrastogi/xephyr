@@ -6,6 +6,7 @@ import java.util.Map;
 import com.own.merchant.manager.MerchantValidatorImpl.ValidationType;
 import com.own.merchant.model.Merchant;
 import com.own.merchant.model.Merchant.SearchTypes;
+import com.own.merchant.model.MerchantRegistration;
 import com.own.service.exception.AppException;
 import com.own.service.exception.DuplicateValueException;
 import com.own.service.exception.MerchantException;
@@ -113,6 +114,13 @@ public interface MerchantService {
 	 * @return
 	 */
 	public boolean authenticate(Merchant merchant) throws MerchantValidationException;
+
+	/**
+	 * Registers a merchant in the system. Similar to signUp
+	 * @param rMerchant
+	 * @return
+	 */
+	public MerchantRegistration registerMerchant(MerchantRegistration rMerchant);
 	
 	
 

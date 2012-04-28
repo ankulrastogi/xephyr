@@ -11,7 +11,11 @@ public class ServiceUtils {
 		
 		ServiceResponse sResponse = new ServiceResponse();
 		sResponse.setResponse(response);
-		sResponse.setErrorCode(Arrays.asList(errorCodes));
+		if(null != errorCodes)
+		{
+			sResponse.setErrorCode(Arrays.asList(errorCodes));
+		}
+		
 		sResponse.setResponse(response);
 		return sResponse;
 		

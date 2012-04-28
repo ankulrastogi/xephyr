@@ -7,5 +7,10 @@ package com.own.service.exception;
  */
 public class MerchantException extends BaseException{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	
 }

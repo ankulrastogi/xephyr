@@ -52,6 +52,9 @@
 				<beans:value>
 					com.own.merchant.model.Merchant
 				</beans:value>
+				<beans:value>
+					com.own.merchant.model.MerchantRegistration
+				</beans:value>
 			</beans:list>
 		</beans:property>
 		
