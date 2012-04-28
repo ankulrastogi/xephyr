@@ -19,14 +19,18 @@ public class RegistrationManagerImpl implements RegistrationManager{
 
 	@Override
 	public MerchantRegistration findByEmail(String emailID) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return merchantRegistrationDAO.getRegistrationByEmail(emailID);
 	}
 
 	@Override
 	public boolean checkRegistrationByEmail(String emailID) {
-		// TODO Auto-generated method stub
-		return false;
+		
+		MerchantRegistration response = merchantRegistrationDAO.getRegistrationByEmail(emailID);
+		if(null == response)
+			return false;
+		
+		return true;
 	}
 
 }

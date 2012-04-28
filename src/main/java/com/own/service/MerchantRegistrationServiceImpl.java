@@ -31,6 +31,7 @@ public class MerchantRegistrationServiceImpl implements
 		if (registrationManager.checkRegistrationByEmail(rMerchant.getEmail())) {
 			response = registrationManager.findByEmail(rMerchant.getEmail());
 			logger.info("Throw new exception that the merchant already exists");
+			return response;
 		}
 		
 		response = registrationManager.save(rMerchant);
