@@ -19,13 +19,17 @@ public class MerchantValidatorImpl implements MerchantValidator {
 		PRE, POST, LOGIN
 	}
 
+	private ValidationType DEFAULT = ValidationType.PRE;
 	private ValidationType type;
 
+	public MerchantValidatorImpl() {
+		this.type = DEFAULT;
+	}
+	
 	Map<String, String> errorMap = new HashMap<String, String>();
 
-	public void validate(Merchant merchant) {
+	private  void validate(Merchant merchant) {
 
-		ValidationType.PRE.ordinal();
 		switch (type) {
 
 		case POST:// validations related to POST-persistance
@@ -55,8 +59,8 @@ public class MerchantValidatorImpl implements MerchantValidator {
 		return isValidMerchant(merchant);
 	}
 
-	@Override
-	public boolean isValidMerchant(Merchant merchant) {
+	
+	private boolean isValidMerchant(Merchant merchant) {
 
 		validate(merchant);
 		if (errorMap.size() == 0)
@@ -64,12 +68,13 @@ public class MerchantValidatorImpl implements MerchantValidator {
 		return false;
 	}
 
-	@Override
-	public Map<String, String> validateMerchant(Merchant merchant) {
+	
+	private Map<String, String> validateMerchant(Merchant merchant) {
 
 		validate(merchant);
 		return errorMap;
 	}
+	
 
 	@Override
 	public Map<String, String> validateMerchant(Merchant merchant,

@@ -19,6 +19,7 @@ import com.own.merchant.model.Merchant;
 import com.own.merchant.model.ServiceResponse;
 import com.own.service.MerchantService;
 import com.own.service.exception.DuplicateValueException;
+import com.own.service.exception.MerchantException;
 import com.own.service.exception.MerchantValidationException;
 
 /**
@@ -57,8 +58,14 @@ public class MerchantController {
 		} catch (DuplicateValueException e) {
 
 			resp = ServiceUtils.composeServiceResponse(ServiceConstants.FAIL, e
-					.getErrorCode().toArray(new String[] {}), null);
-			logger.info("Merchant already exists" + e.getDuplicateValue());
+					.getErrorCodes().toArray(new String[] {}), null);
+			logger.info("Merchant already exists" + e.getDuplicateValue() + ":" + e.getErrorMessage());
+		}
+		catch (MerchantException e) {
+			resp = ServiceUtils.composeServiceResponse(ServiceConstants.FAIL, e
+					.getErrorCodes().toArray(new String[] {}), null);
+			logger.info("General merchant exception" + e.getErrorMessage());
+			
 		}
 
 		resp = ServiceUtils.composeServiceResponse(ServiceConstants.SUCCESS,

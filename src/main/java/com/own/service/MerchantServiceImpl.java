@@ -18,6 +18,7 @@ import com.own.merchant.model.Merchant;
 import com.own.merchant.model.Merchant.SearchTypes;
 import com.own.service.exception.AppException;
 import com.own.service.exception.DuplicateValueException;
+import com.own.service.exception.MerchantException;
 import com.own.service.exception.MerchantValidationException;
 
 @Service
@@ -25,25 +26,32 @@ public class MerchantServiceImpl implements MerchantService {
 
 	private static Logger logger = Logger.getLogger(MerchantServiceImpl.class);
 
-	@Autowired
-	MerchantDAO merchantDao;
 
 	@Autowired
-	MerchantManager manager;
+	MerchantManager merchantManager;
 
 	@Autowired
-	MerchantValidator validator;
+	MerchantValidator merchantValidator;
 
 	@Transactional
 	public Merchant createMerchant(Merchant merchant, ValidationType type)
-			throws DuplicateValueException {
+			throws DuplicateValueException,MerchantException {
 
-		manager.isValidMerchant(merchant, ValidationType.PRE);
-
-		if (!manager.checkMerchantByEmail(merchant.getEmailID())) {
-			merchant = manager.saveMerchant(merchant);
+		Merchant response = null;
+		
+		merchantManager.validateMerchant(merchant, ValidationType.PRE);
+		
+		if (merchantManager.checkMerchantByEmail(merchant.getEmailID())) {
+			response = merchantManager.getMerchantByEmail(merchant.getEmailID());
+			logger.info("Throw new exception that the merchant already exists");
 		}
-		return merchantDao.save(merchant);
+		
+		response = merchantManager.saveMerchant(merchant);
+		
+		merchantManager.validateMerchant(merchant, ValidationType.POST);
+		
+		
+		return response;
 	}
 
 	public Merchant updateMerchant(Merchant merchant) throws AppException {
@@ -95,13 +103,13 @@ public class MerchantServiceImpl implements MerchantService {
 	public boolean authenticate(Merchant merchant)
 			throws MerchantValidationException {
 		Map<String, String> response = new HashMap<String, String>();
-		response = validator.validateMerchant(merchant, ValidationType.LOGIN);
+		response = merchantValidator.validateMerchant(merchant, ValidationType.LOGIN);
 		if (response.size() != 0) {
 			throw new MerchantValidationException(response);
 		}
 
-		Merchant validMerchant = manager.getMerchantByID(merchant
-				.getMerchantID());
+		Merchant validMerchant = merchantManager.getMerchantByID(merchant
+				.getMerchantUsername());
 
 		if (null == validMerchant) {
 			logger.info("no merchant found for the given username");
@@ -109,8 +117,8 @@ public class MerchantServiceImpl implements MerchantService {
 			response.put("ERROR", "no merchant found for the given username");
 
 		}
-		if (ServiceUtils.compareString(validMerchant.getMerchantID(),
-				merchant.getMerchantID())) {
+		if (ServiceUtils.compareString(validMerchant.getMerchantUsername(),
+				merchant.getMerchantUsername())) {
 			logger.info("Merchant successfully authenticated:");
 		} else {
 			logger.info("No matching merchant found");

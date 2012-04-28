@@ -11,9 +11,5 @@ public interface MerchantValidator {
 	
 	public boolean isValidMerchant(Merchant merchant,ValidationType type);
 	
-	public boolean isValidMerchant(Merchant merchant);
-	
-	public Map<String,String> validateMerchant(Merchant merchant);
-	
 	public Map<String,String> validateMerchant(Merchant merchant,ValidationType type);
 }

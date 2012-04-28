@@ -13,6 +13,23 @@
 		<org.aspectj-version>1.6.9</org.aspectj-version>
 		<org.slf4j-version>1.5.10</org.slf4j-version>
 	</properties>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>jboss-public-repository-group</id>
+			<name>JBoss Public Maven Repository Group</name>
+			<url>https://repository.jboss.org/nexus/content/groups/public-jboss/</url>
+			<layout>default</layout>
+			<releases>
+				<enabled>true</enabled>
+				<updatePolicy>never</updatePolicy>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>never</updatePolicy>
+			</snapshots>
+		</pluginRepository>
+	</pluginRepositories>
+
 	<dependencies>
 		<!-- Spring -->
 		<dependency>
@@ -164,23 +181,23 @@
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
-      <groupId>org.powermock</groupId>
-      <artifactId>powermock-module-junit4-legacy</artifactId>
-      <version>1.4.12</version>
-      <scope>test</scope>
-   </dependency>
-   <dependency>
-      <groupId>org.powermock</groupId>
-      <artifactId>powermock-api-easymock</artifactId>
-      <version>1.4.12</version>
-      <scope>test</scope>
-   </dependency> 
-   <dependency>
-    <groupId>org.easymock</groupId>
-    <artifactId>easymock</artifactId>
-    <version>3.1</version>
-    <scope>test</scope>
-</dependency>
+			<groupId>org.powermock</groupId>
+			<artifactId>powermock-module-junit4-legacy</artifactId>
+			<version>1.4.12</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.powermock</groupId>
+			<artifactId>powermock-api-easymock</artifactId>
+			<version>1.4.12</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.easymock</groupId>
+			<artifactId>easymock</artifactId>
+			<version>3.1</version>
+			<scope>test</scope>
+		</dependency>
 
 	</dependencies>
 	<build>
@@ -231,6 +248,25 @@
 					<warName>test</warName>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.jboss.as.plugins</groupId>
+				<artifactId>jboss-as-maven-plugin</artifactId>
+				<version>7.1.1.Final</version>
+				<configuration>
+					<hostname>localhost</hostname>
+					<port>9999</port>
+					<filename>test.war</filename>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>deploy</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
 		</plugins>
 
 	</build>

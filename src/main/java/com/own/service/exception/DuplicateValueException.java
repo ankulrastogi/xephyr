@@ -8,11 +8,11 @@ import java.util.List;
  * @author ankul
  *
  */
-public class DuplicateValueException extends Exception {
+public class DuplicateValueException extends BaseException {
 
 	private Object dupValue;
 	
-	private List<String> errorCode;
+	
 	
 	public DuplicateValueException(Object dupValue) {
 		this.dupValue = dupValue;
@@ -23,14 +23,5 @@ public class DuplicateValueException extends Exception {
 		return dupValue;
 	}
 
-	public List<String> getErrorCode() {
-		
-		return errorCode;
-	}
-	
-	public void addErrorCode(String errorCode)
-	{
-		this.errorCode.add(errorCode);
-	}
 	
 }

@@ -2,6 +2,7 @@ package com.own.merchant;
 
 import com.own.merchant.manager.MerchantValidatorImpl.ValidationType;
 import com.own.merchant.model.Merchant;
+import com.own.service.exception.MerchantException;
 import com.own.transaction.enums.MerchantStatus;
 
 import com.own.transaction.merchant.model.MerchantAccount;
@@ -18,11 +19,19 @@ public interface MerchantManager {
 	 */
 	public boolean checkMerchantByEmail(String mEmailID);
 	
+	/**
+	 * Gets the merchant information from the database based on the emailID
+	 * 
+	 * @param emailID
+	 * @return
+	 */
+	public Merchant getMerchantByEmail(String emailID);
+	
 	public Merchant saveMerchant(Merchant merchant);
 	
 	public void saveMerchantDetails(Merchant merchant);
 	
-	public MerchantAccount createNewMerchant();
+	public MerchantAccount createNewMerchantAccount();
 	
 	public MerchantStatus getMerchantStatus(Merchant merchant);
 	
@@ -39,13 +48,14 @@ public interface MerchantManager {
 	 * A Merchant is checked for validaity in two cases.
 	 * Pre-persitance - Merchant is checked if the mandatory values are present(email,name,details,username/password etc)
 	 * Post-persistance - Apart from pre-persistance checks it should have shared key,unique Merchant ID).
+	 * Login - Checks if the fields required for login are present or not 
 	 * Should delegate call to MerchantValidator to get the desired information
 	 * @param merchant
 	 * @return
+	 * @throws MerchantException in case the merchant information is nor proper
 	 */
-	public boolean isValidMerchant(Merchant merchant,ValidationType type);
+	public boolean validateMerchant(Merchant merchant,ValidationType type) throws MerchantException;
 
-	
 	
 	
 }

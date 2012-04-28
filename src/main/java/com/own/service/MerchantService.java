@@ -8,6 +8,7 @@ import com.own.merchant.model.Merchant;
 import com.own.merchant.model.Merchant.SearchTypes;
 import com.own.service.exception.AppException;
 import com.own.service.exception.DuplicateValueException;
+import com.own.service.exception.MerchantException;
 import com.own.service.exception.MerchantValidationException;
 
 /**
@@ -23,12 +24,14 @@ public interface MerchantService {
 	/**
 	 * Creates a merchant in a system. If the merchant already exists then an
 	 * error is thrown, along with the already existing merchant information.
+	 * Merchant information is validated both at PRE level to check if the merchant information is consistent
 	 * 
 	 * @param merchant
 	 * @param type TODO
 	 * @return
+	 * @throws DuplicateValueException,MerchantException 
 	 */
-	public Merchant createMerchant(Merchant merchant, ValidationType type) throws DuplicateValueException;
+	public Merchant createMerchant(Merchant merchant, ValidationType type) throws DuplicateValueException, DuplicateValueException,MerchantException;
 
 	/**
 	 * API to update the current state of the merchant to a new state.

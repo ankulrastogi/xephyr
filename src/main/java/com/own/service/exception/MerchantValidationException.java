@@ -5,6 +5,7 @@ import java.util.Map;
 /**
  * Exception to track if the basic merchant validation has field.
  * Checks if the required field have proper values
+ * Not sure if it is required
  * @author Ankul.Rastogi
  *
  */

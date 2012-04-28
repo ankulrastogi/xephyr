@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.own.transaction.merchant.model.MerchantAccount;
 
@@ -34,9 +35,10 @@ public class Merchant implements Serializable{
 	@Column(name="merchantName")
 	private String name;
 	
-	@Column(name="merchantID")
-	private String merchantID;
+	@Column(name="merchantUsername")
+	private String merchantUsername;
 
+	@Transient
 	List<MerchantAccount> accounts;
 	
 	
@@ -68,12 +70,12 @@ public class Merchant implements Serializable{
 		this.emailID = emailID;
 	}
 	
-	public String getMerchantID() {
-		return merchantID;
+	public String getMerchantUsername() {
+		return merchantUsername;
 	}
 
-	public void setMerchantID(String merchantID) {
-		this.merchantID = merchantID;
+	public void setMerchantUsername(String merchantUsername) {
+		this.merchantUsername = merchantUsername;
 	}
 
 	/**
