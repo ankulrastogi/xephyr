@@ -5,4 +5,9 @@
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
 		
+		<!-- Properties files place holders -->
+		<bean id="errorProperties" class="org.springframework.context.support.ResourceBundleMessageSource" />
+		
+		<bean id="errorCodeFactory" class="com.own.service.factory.ErrorCodeFactory" factory-method="getInstance" />
+	
 </beans>

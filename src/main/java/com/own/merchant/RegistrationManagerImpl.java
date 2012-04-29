@@ -8,7 +8,7 @@ import com.own.merchant.model.MerchantRegistration;
 @Component
 public class RegistrationManagerImpl implements RegistrationManager{
 
-	@Autowired
+	@Autowired	
 	MerchantRegistrationDAO merchantRegistrationDAO;
 	
 	@Override
