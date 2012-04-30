@@ -1,8 +1,10 @@
 package com.own.service;
 
+import java.util.Map;
+
 import com.own.merchant.model.MerchantRegistration;
-import com.own.service.exception.DuplicateValueException;
-import com.own.service.exception.MerchantException;
+import com.own.merchant.model.MerchantRegistration.ValidationType;
+import com.own.service.exception.ServiceException;
 
 
 /**
@@ -19,7 +21,7 @@ public interface MerchantRegistrationService {
 	 * @param rMerchant
 	 * @return
 	 */
-	public MerchantRegistration registerMerchant(MerchantRegistration rMerchant) throws DuplicateValueException,MerchantException;
+	public MerchantRegistration registerMerchant(MerchantRegistration rMerchant) throws ServiceException;
 	
 	
 	/**
@@ -40,6 +42,17 @@ public interface MerchantRegistrationService {
 	 * Save merchant registration
 	 */
 	public MerchantRegistration saveRegistration(MerchantRegistration rMerchant);
+
+
+	/**
+	 * Validates a registration object based on the validation type
+	 * @param rMerchant
+	 * @param signup
+	 * @return
+	 * @throws ServiceException 
+	 */
+	public Map<String, String> validate(MerchantRegistration rMerchant,
+			ValidationType signup) throws ServiceException;
 	
 	
 }

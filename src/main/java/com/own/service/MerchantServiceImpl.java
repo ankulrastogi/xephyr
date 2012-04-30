@@ -41,7 +41,7 @@ public class MerchantServiceImpl implements MerchantService {
 		Merchant response = null;
 		
 		
-		merchantManager.validateMerchant(merchant, ValidationType.PRE);
+		merchantValidator.validateMerchant(merchant, ValidationType.PRE);
 		
 		if (merchantManager.checkMerchantByEmail(merchant.getEmailID())) {
 			response = merchantManager.getMerchantByEmail(merchant.getEmailID());
@@ -50,7 +50,7 @@ public class MerchantServiceImpl implements MerchantService {
 		
 		response = merchantManager.saveMerchant(merchant);
 		
-		merchantManager.validateMerchant(merchant, ValidationType.POST);
+		merchantValidator.validateMerchant(merchant, ValidationType.POST);
 		
 		
 		return response;

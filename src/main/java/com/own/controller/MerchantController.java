@@ -14,12 +14,13 @@ import com.own.controller.utils.ServiceUtils;
 import com.own.merchant.manager.MerchantValidator;
 import com.own.merchant.model.Merchant;
 import com.own.merchant.model.MerchantRegistration;
+import com.own.merchant.model.MerchantRegistration.ValidationType;
 import com.own.merchant.model.ServiceResponse;
 import com.own.service.MerchantRegistrationService;
 import com.own.service.MerchantService;
 import com.own.service.exception.DuplicateValueException;
-import com.own.service.exception.MerchantException;
 import com.own.service.exception.MerchantValidationException;
+import com.own.service.exception.ServiceException;
 
 /**
  * REST based controller to handle all the merchant related requests.
@@ -54,22 +55,16 @@ public class MerchantController {
 	ServiceResponse registerMerchant(@RequestBody MerchantRegistration rMerchant) {
 		MerchantRegistration register = null;
 		ServiceResponse resp = null;
+		
 
 		try {
-		
+			merchantRegistrationService.validate(rMerchant,ValidationType.SIGNUP);
+			
 			register = merchantRegistrationService.registerMerchant(rMerchant);
 			
-		} catch (DuplicateValueException e) {
-
-			resp = ServiceUtils.composeServiceResponse(ServiceConstants.FAIL, e
-					.getErrorCodes().toArray(new String[] {}), null);
-			logger.info("Merchant already exists" + e.getDuplicateValue() + ":" + e.getErrorMessage());
-		}
-		catch (MerchantException e) {
-			resp = ServiceUtils.composeServiceResponse(ServiceConstants.FAIL, e
-					.getErrorCodes().toArray(new String[] {}), null);
-			logger.info("General merchant exception" + e.getErrorMessage());
-			
+		} catch (ServiceException e) {
+			resp = ServiceUtils.composeServiceResponse(ServiceConstants.FAIL, e.getErrorMessage(), null);
+			return resp;
 		}
 
 		resp = ServiceUtils.composeServiceResponse(ServiceConstants.SUCCESS,

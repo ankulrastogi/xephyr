@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.own.merchant.model.MerchantRegistration;
+import com.own.merchant.model.MerchantRegistration.ValidationType;
+import com.own.service.exception.IllegalStateException;
 
 @Component
 public class RegistrationManagerImpl implements RegistrationManager{
@@ -12,9 +14,11 @@ public class RegistrationManagerImpl implements RegistrationManager{
 	MerchantRegistrationDAO merchantRegistrationDAO;
 	
 	@Override
-	public MerchantRegistration save(MerchantRegistration rMerchant) {
-		
-		return merchantRegistrationDAO.save(rMerchant);
+	public MerchantRegistration save(MerchantRegistration rMerchant) throws IllegalStateException {
+		rMerchant.validate(ValidationType.PRE);
+		MerchantRegistration result = merchantRegistrationDAO.save(rMerchant);
+		result.validate(ValidationType.POST);
+		return result;
 	}
 
 	@Override

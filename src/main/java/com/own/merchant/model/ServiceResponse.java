@@ -1,12 +1,12 @@
 package com.own.merchant.model;
 
-import java.util.List;
+import java.util.Map;
 
 public class ServiceResponse {
 
 	private String responseCode;
 	
-	private List<String> errorCode;
+	private Map<String,String> errorMap;
 	
 	private Object response;
 
@@ -18,12 +18,12 @@ public class ServiceResponse {
 		this.responseCode = responseCode;
 	}
 
-	public List<String> getErrorCode() {
-		return errorCode;
+	public Map<String,String> getErrorMap() {
+		return errorMap;
 	}
 
-	public void setErrorCode(List<String> errorCode) {
-		this.errorCode = errorCode;
+	public void setErrorMap(Map<String,String> errorMap) {
+		this.errorMap = errorMap;
 	}
 
 	public Object getResponse() {

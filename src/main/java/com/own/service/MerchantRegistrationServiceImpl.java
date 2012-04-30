@@ -1,5 +1,7 @@
 package com.own.service;
 
+import java.util.Map;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -7,8 +9,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.own.merchant.RegistrationManager;
 import com.own.merchant.model.MerchantRegistration;
-import com.own.service.exception.DuplicateValueException;
-import com.own.service.exception.MerchantException;
+import com.own.merchant.model.MerchantRegistration.ValidationType;
+import com.own.service.exception.IllegalStateException;
+import com.own.service.exception.ServiceException;
 @Service
 public class MerchantRegistrationServiceImpl implements
 		MerchantRegistrationService{
@@ -21,25 +24,29 @@ public class MerchantRegistrationServiceImpl implements
 	@Override
 	@Transactional
 	public MerchantRegistration registerMerchant(
-			MerchantRegistration rMerchant)throws DuplicateValueException,MerchantException {
+			MerchantRegistration rMerchant)throws ServiceException {
 		
-		MerchantRegistration response = null;
-		
-		//TODO find a way for validation
-		//merchantManager.validateMerchant(merchant, ValidationType.PRE);
-		
-		if (registrationManager.checkRegistrationByEmail(rMerchant.getEmail())) {
-			response = registrationManager.findByEmail(rMerchant.getEmail());
+		MerchantRegistration response = registrationManager.findByEmail(rMerchant.getEmail());
+		if (null != response) {
+			
 			logger.info("Throw new exception that the merchant already exists");
-			return response;
+			
+			throw new ServiceException("code","message");
 		}
 		
-		response = registrationManager.save(rMerchant);
+		try
+		{
+			response = registrationManager.save(rMerchant);
+			
+		}catch (IllegalStateException e) {
+		
+			
+			logger.info("the objects cannot be verified PRE or POST validation");
+			throw new ServiceException("code","message");
+		}
+		
 		
 		logger.info(response);
-		
-		//TODO find a way for validation
-		//merchantManager.validateMerchant(merchant, ValidationType.POST);
 		
 		
 		return response;
@@ -63,6 +70,13 @@ public class MerchantRegistrationServiceImpl implements
 	@Override
 	public MerchantRegistration getRegistrationByEmail(String emailID) {
 		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Map<String, String> validate(MerchantRegistration rMerchant,
+			ValidationType signup) throws ServiceException {
+		
 		return null;
 	}
 

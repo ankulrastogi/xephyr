@@ -1,11 +1,16 @@
 package com.own.merchant.model;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import com.own.service.exception.IllegalStateException;
 
 
 
@@ -89,5 +94,24 @@ public class MerchantRegistration {
 				+ "]";
 	}
 	
-	
+
+	public enum ValidationType
+	{
+		SIGNUP,PRE,POST
+	}
+	public Map<String, String> validate(ValidationType type) throws IllegalStateException
+	{
+		Map<String, String> errorMap = new HashMap<String, String>();
+		
+		switch(type)
+		{
+		case POST://conditions for signup
+		case PRE: //conditions for pre persistence
+		case SIGNUP://conditions for signup
+		}
+		return errorMap;
+	}
+	{
+		
+	}
 }

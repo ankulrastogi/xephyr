@@ -1,35 +1,31 @@
 package com.own.controller.utils;
 
-import java.util.Arrays;
+import java.util.Map;
 
 import com.own.merchant.model.ServiceResponse;
 
 public class ServiceUtils {
 
-	public static ServiceResponse composeServiceResponse(String respCode, String[] errorCodes,
-			Object response) {
-		
+
+	public static ServiceResponse composeServiceResponse(String respCode,
+			Map<String, String> errorMessage, Object response) {
+
 		ServiceResponse sResponse = new ServiceResponse();
 		sResponse.setResponse(response);
-		if(null != errorCodes)
-		{
-			sResponse.setErrorCode(Arrays.asList(errorCodes));
-		}
-		
+		sResponse.setErrorMap(errorMessage);
 		sResponse.setResponse(response);
 		return sResponse;
-		
+
 	}
-	
+
 	/**
-	 * This method compares two strings and checks if both are equal or not 
+	 * This method compares two strings and checks if both are equal or not
 	 * 
 	 * @param one
 	 * @param two
 	 * @return
 	 */
-	public static boolean compareString(String one,String two)
-	{
+	public static boolean compareString(String one, String two) {
 		return false;
 	}
 
