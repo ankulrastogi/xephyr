@@ -5,12 +5,17 @@ import java.util.Map;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
-import com.own.service.exception.IllegalStateException;
+import org.apache.commons.lang3.StringUtils;
+
+import com.own.service.exception.IllegalObjectStateException;
 
 
 
@@ -36,7 +41,10 @@ public class MerchantRegistration {
 	private String activationLink;
 	
 	@Column(name="registrationStatus")
-	private String status;
+	private RegistrationStatus status;
+	
+	@Transient
+	private String rePassword;
 
 	public Integer getSignUpID() {
 		return signUpID;
@@ -78,11 +86,11 @@ public class MerchantRegistration {
 		this.activationLink = activationLink;
 	}
 
-	public String getStatus() {
+	public RegistrationStatus getStatus() {
 		return status;
 	}
 
-	public void setStatus(String status) {
+	public void setStatus(RegistrationStatus status) {
 		this.status = status;
 	}
 
@@ -99,19 +107,54 @@ public class MerchantRegistration {
 	{
 		SIGNUP,PRE,POST
 	}
-	public Map<String, String> validate(ValidationType type) throws IllegalStateException
+	
+	public enum RegistrationStatus
+	{
+		PENDING, ACTIVE
+	}
+	public void validate(ValidationType type) throws IllegalObjectStateException
 	{
 		Map<String, String> errorMap = new HashMap<String, String>();
 		
 		switch(type)
 		{
-		case POST://conditions for signup
+		case POST://conditions for POST
+					if(this.signUpID == 0)
+						errorMap.put("field.empty", "SignUp ID is empty");
 		case PRE: //conditions for pre persistence
+					if(this.status == null)
+						errorMap.put("field.empty", "status is empty");
 		case SIGNUP://conditions for signup
+					if(StringUtils.isEmpty(this.activationLink))
+						errorMap.put("field.empty", "activation link is empty");
+					if(StringUtils.isEmpty(this.email))
+						errorMap.put("field.empty", "email link is empty");
+					if(StringUtils.isEmpty(this.password))
+						errorMap.put("field.empty", "password is empty");
 		}
-		return errorMap;
+		
+		if(!errorMap.isEmpty())
+			throw new IllegalObjectStateException(errorMap);
+	}
+	
+	public String getRePassword() {
+		return rePassword;
+	}
+
+	public void setRePassword(String rePassword) {
+		this.rePassword = rePassword;
 	}
 	{
 		
+	}
+	
+	public boolean activationExpired() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public boolean consumed() {
+		// TODO Auto-generated method stub
+		return this.getStatus().equals(RegistrationStatus.ACTIVE);
 	}
 }

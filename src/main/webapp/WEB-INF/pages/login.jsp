@@ -6,37 +6,41 @@
 <div class="inner group" role="main">
 	<div class="app_callout">
 		<div class="box">
-			<h1><fmt:message key="dlt.login.label.signin"/></h1>
+			<h1>Test</h1>
 			<form action="doLogin" method="POST">
 
 				<div class="form_input">
-					<label for="email"><fmt:message key="dlt.login.label.email"/></label> <input id="email" name="email"
+					<label for="email">Email</label> <input id="email" name="email"
+						type="text" value="">
+				</div>
+				<div class="form_input">
+					<label for="username">Username</label> <input id="username" name="username"
 						type="text" value="">
 				</div>
 				
 					<div class="form_input">
-					<label for="password"><fmt:message key="dlt.login.label.password"/></label> <input id="password"
+					<label for="password">Password</label> <input id="password"
 						name="password" type="password" value=""> <a
-						class="forgot" href="password_recover.php"><fmt:message key="dlt.login.label.forgotpassword"/></a>
+						class="forgot" href="password_recover.php">Forgot</a>
 				</div>
 
-				<button class="primary" type="submit" ><fmt:message key="dlt.login.label.signin"/></button>
+				<button class="primary" type="submit" >Sign In</button>
 			</form>
 		</div>
 
 		<div class="app_help">
-			<p><fmt:message key="dlt.login.label.donthavelifewayid"/>
-				<a class="button primary"> <fmt:message key="dlt.login.label.createonennow"/></a>
+			<p>Dont have
+				<a class="button primary"> New </a>
 			</p>
-			<p> <fmt:message key="dlt.login.label.needhelp"/>
-				 <a href="https://support.lifeway.com/app/answers/list" target="_blank"><fmt:message key="dlt.login.label.faq"/></a><fmt:message key="dlt.login.label.question"/>
+			<p> HELP
+				 <a href="https://support.lifeway.com/app/answers/list" target="_blank">FAQ</a>Question
 			</p>
 		</div>
 	</div>
 
 	<div class="app_info">
 	<fmt:message key="dlt.login.label.aboutdlt"/>
-	<spring:message code="${model.errormessage}"/>
+	
 		
 	</div>
 </div>

@@ -53,6 +53,15 @@ public interface MerchantRegistrationService {
 	 */
 	public Map<String, String> validate(MerchantRegistration rMerchant,
 			ValidationType signup) throws ServiceException;
+
+
+	/**
+	 * Activates a given registration for a merchant
+	 * @param emailID
+	 * @param identifier
+	 * @throws ServiceException 
+	 */
+	public void activateRegistration(String emailID, String identifier) throws ServiceException;
 	
 	
 }

@@ -33,5 +33,10 @@
 		<put-attribute name="title" value="DLT: User Profile" />
 		<put-attribute name="body" value="/WEB-INF/pages/profile.jsp" />
 	</definition>
+	
+	<definition name="register" extends="baseLayout">
+		<put-attribute name="title" value="Merchant:register" />
+		<put-attribute name="body" value="/WEB-INF/pages/register.jsp" />
+	</definition>
 
 </tiles-definitions>

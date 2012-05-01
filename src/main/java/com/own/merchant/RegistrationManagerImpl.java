@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 
 import com.own.merchant.model.MerchantRegistration;
 import com.own.merchant.model.MerchantRegistration.ValidationType;
-import com.own.service.exception.IllegalStateException;
+import com.own.service.exception.IllegalObjectStateException;
 
 @Component
 public class RegistrationManagerImpl implements RegistrationManager{
@@ -14,7 +14,7 @@ public class RegistrationManagerImpl implements RegistrationManager{
 	MerchantRegistrationDAO merchantRegistrationDAO;
 	
 	@Override
-	public MerchantRegistration save(MerchantRegistration rMerchant) throws IllegalStateException {
+	public MerchantRegistration save(MerchantRegistration rMerchant) throws IllegalObjectStateException {
 		rMerchant.validate(ValidationType.PRE);
 		MerchantRegistration result = merchantRegistrationDAO.save(rMerchant);
 		result.validate(ValidationType.POST);
@@ -35,6 +35,14 @@ public class RegistrationManagerImpl implements RegistrationManager{
 			return false;
 		
 		return true;
+	}
+
+	@Override
+	public MerchantRegistration update(MerchantRegistration rMerchant)throws IllegalObjectStateException {
+		rMerchant.validate(ValidationType.PRE);
+		MerchantRegistration result = merchantRegistrationDAO.update(rMerchant);
+		result.validate(ValidationType.POST);
+		return result;
 	}
 
 }

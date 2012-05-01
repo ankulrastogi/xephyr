@@ -1,5 +1,6 @@
 package com.own.controller.utils;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import com.own.merchant.model.ServiceResponse;
@@ -11,8 +12,20 @@ public class ServiceUtils {
 			Map<String, String> errorMessage, Object response) {
 
 		ServiceResponse sResponse = new ServiceResponse();
-		sResponse.setResponse(response);
+		sResponse.setResponseCode(respCode);
 		sResponse.setErrorMap(errorMessage);
+		sResponse.setResponse(response);
+		return sResponse;
+
+	}
+	
+	public static ServiceResponse composeServiceResponse(String respCode,
+			String errorMessage, Object response) {
+		Map<String, String> errorMap = new HashMap<String, String>();
+		errorMap.put("ERROR", errorMessage);
+		ServiceResponse sResponse = new ServiceResponse();
+		sResponse.setResponseCode(respCode);
+		sResponse.setErrorMap(errorMap);
 		sResponse.setResponse(response);
 		return sResponse;
 

@@ -1,5 +1,7 @@
 package com.own.service.exception;
 
+import java.util.Map;
+
 
 
 /**
@@ -11,15 +13,25 @@ public class DuplicateValueException extends BaseException {
 
 	private Object dupValue;
 	
-	
-	
-	public DuplicateValueException(Object dupValue) {
-		this.dupValue = dupValue;
+	public DuplicateValueException() {
+		super();
 	}
 	
-	public Object getDuplicateValue()
+	public DuplicateValueException(String errorCode,String message)
 	{
-		return dupValue;
+		super(errorCode,message);
+	}
+	
+	public DuplicateValueException(Map<String, String> errorMap)
+	{
+		super(errorMap);
+	}
+	
+	@Override
+	public DuplicateValueException addErrorCode(String error, String message) {
+		
+		this.errorCodes.put(error, message);
+		return this;
 	}
 
 	

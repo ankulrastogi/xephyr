@@ -31,13 +31,29 @@ public class MerchantRegistrationDAOImpl implements MerchantRegistrationDAO {
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public MerchantRegistration getRegistrationByEmail(String emailID) {
 		Session currentSession = this.sessionFactory.getCurrentSession();
-		@SuppressWarnings("unchecked")
+		
 		List<MerchantRegistration> result = (List<MerchantRegistration>) currentSession
 				.createCriteria(MerchantRegistration.class)
 				.add(Restrictions.eq("email", emailID)).list();
 
+		if(null == result || result.size() == 0)
+			return null;
+		
+		return result.get(0);
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public MerchantRegistration update(MerchantRegistration rMerchant) {
+		Session currentSession = this.sessionFactory.getCurrentSession();
+		currentSession.update(rMerchant);
+		List<MerchantRegistration> result = (List<MerchantRegistration>) currentSession
+				.createCriteria(MerchantRegistration.class)
+				.add(Restrictions.eq("signUpID", rMerchant.getSignUpID())).list();
+		
 		if(null == result || result.size() == 0)
 			return null;
 		

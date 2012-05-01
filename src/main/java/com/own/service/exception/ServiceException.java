@@ -3,13 +3,12 @@ package com.own.service.exception;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ServiceException extends Exception {
+public class ServiceException extends BaseException {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private Map<String, String> errorMessage;
 	
 	public ServiceException() {
 		super();
@@ -17,17 +16,19 @@ public class ServiceException extends Exception {
 	
 	public ServiceException(Map<String, String> errorMessage)
 	{
-		this.errorMessage = errorMessage;
+		super(errorMessage);
 	}
 	
-	public Map<String, String> getErrorMessage()
-	{
-		return this.errorMessage;
-	}
 	
 	public ServiceException(String errorCode,String message)
 	{
-		this.errorMessage = new HashMap<String, String>();
-		errorMessage.put(errorCode, message);
+		super(errorCode,message);
+	}
+	
+	@Override
+	public ServiceException addErrorCode(String error, String message) {
+		
+		this.errorCodes.put(error, message);
+		return this;
 	}
 }

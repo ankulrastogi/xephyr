@@ -1,5 +1,7 @@
 package com.own.controller;
 
+import java.util.HashMap;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -63,14 +65,31 @@ public class MerchantController {
 			register = merchantRegistrationService.registerMerchant(rMerchant);
 			
 		} catch (ServiceException e) {
-			resp = ServiceUtils.composeServiceResponse(ServiceConstants.FAIL, e.getErrorMessage(), null);
+			resp = ServiceUtils.composeServiceResponse(ServiceConstants.FAIL, e.getErrorMessages(),null);
 			return resp;
 		}
 
 		resp = ServiceUtils.composeServiceResponse(ServiceConstants.SUCCESS,
-				null, register);
+				new HashMap<String, String>(), register);
 
 		return resp;
+	}
+	/**
+	 * Activates a new merchant. 
+	 */
+	@RequestMapping(value={"/activate/{id}/{activationURL}"},method=RequestMethod.GET)
+	public @ResponseBody ServiceResponse activateRegistration(@PathVariable("id") String emailID,@PathVariable("activationURL")String identifier)
+	{
+		if(null == emailID || null == identifier)
+			return ServiceUtils.composeServiceResponse(ServiceConstants.FAIL, "Invalid request",null);
+		
+		try {
+			merchantRegistrationService.activateRegistration(emailID,identifier);
+		} catch (ServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	/**

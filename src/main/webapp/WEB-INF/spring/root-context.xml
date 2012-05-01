@@ -9,8 +9,26 @@
 		
 		<!-- Properties files place holders -->
 		
-		<util:properties id="errorCodes" location="classpath:errorCode.properties"/>	
+<!-- 		<util:properties id="errorCodes" location="classpath:errorCode.properties" />	 -->
+	
 		
-		<bean id="errorCodeFactory" class="com.own.service.factory.ErrorCodeFactory" factory-method="getInstance" />
+		<!-- Logging -->
+	<bean id="log4jInitialization"
+		class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="targetClass" value="org.springframework.util.Log4jConfigurer" />
+		<property name="targetMethod" value="initLogging" />
+		<property name="arguments">
+			<value>classpath:log4j.xml</value>
+		</property>
+	</bean>
+	
+	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<property name="basenames">
+			<list>
+				<value>classpath:messages/messages</value>
+			</list>
+		</property>
+		<property name="cacheSeconds" value="0" />
+	</bean>
 	
 </beans>

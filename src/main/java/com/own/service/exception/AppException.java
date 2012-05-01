@@ -13,4 +13,10 @@ public class AppException extends BaseException {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+
+	@Override
+	public BaseException addErrorCode(String error, String message) {
+		this.errorCodes.put(error, message);
+		return this;
+	}
 }

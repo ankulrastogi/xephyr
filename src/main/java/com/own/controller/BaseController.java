@@ -15,7 +15,7 @@ public class BaseController {
 	public String getWelcomeFile()
 	{
 		logger.info("in Home");
-		return "home";
+		return "login";
 	}
 	
 }	
