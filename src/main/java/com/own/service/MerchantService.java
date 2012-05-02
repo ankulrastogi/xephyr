@@ -3,14 +3,14 @@ package com.own.service;
 import java.util.List;
 import java.util.Map;
 
-import com.own.merchant.manager.MerchantValidatorImpl.ValidationType;
 import com.own.merchant.model.Merchant;
 import com.own.merchant.model.Merchant.SearchTypes;
 import com.own.merchant.model.MerchantRegistration;
 import com.own.service.exception.AppException;
 import com.own.service.exception.DuplicateValueException;
-import com.own.service.exception.MerchantException;
+import com.own.service.exception.IllegalObjectStateException;
 import com.own.service.exception.MerchantValidationException;
+import com.own.service.exception.ServiceException;
 
 /**
  * Base service for merchant. All the operations defined for a merchant will be
@@ -28,11 +28,11 @@ public interface MerchantService {
 	 * Merchant information is validated both at PRE level to check if the merchant information is consistent
 	 * 
 	 * @param merchant
-	 * @param type TODO
 	 * @return
 	 * @throws DuplicateValueException,MerchantException 
+	 * @throws ServiceException 
 	 */
-	public Merchant createMerchant(Merchant merchant, ValidationType type) throws DuplicateValueException, DuplicateValueException,MerchantException;
+	public Merchant createMerchant(Merchant merchant)throws ServiceException;
 
 	/**
 	 * API to update the current state of the merchant to a new state.
@@ -112,8 +112,9 @@ public interface MerchantService {
 	 * Checks if the merchant can login to the system or not.
 	 * @param merchant
 	 * @return
+	 * @throws IllegalObjectStateException 
 	 */
-	public boolean authenticate(Merchant merchant) throws MerchantValidationException;
+	public boolean authenticate(Merchant merchant) throws MerchantValidationException, IllegalObjectStateException;
 
 	/**
 	 * Registers a merchant in the system. Similar to signUp

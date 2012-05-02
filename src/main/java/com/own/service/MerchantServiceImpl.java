@@ -8,19 +8,18 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.Validator;
 
 import com.own.controller.utils.ServiceUtils;
 import com.own.merchant.MerchantManager;
-import com.own.merchant.manager.MerchantValidator;
-import com.own.merchant.manager.MerchantValidatorImpl.ValidationType;
+
 import com.own.merchant.model.Merchant;
 import com.own.merchant.model.Merchant.SearchTypes;
+import com.own.merchant.model.Merchant.ValidationType;
 import com.own.merchant.model.MerchantRegistration;
 import com.own.service.exception.AppException;
-import com.own.service.exception.DuplicateValueException;
-import com.own.service.exception.MerchantException;
+import com.own.service.exception.IllegalObjectStateException;
 import com.own.service.exception.MerchantValidationException;
+import com.own.service.exception.ServiceException;
 
 @Service
 public class MerchantServiceImpl implements MerchantService {
@@ -31,26 +30,38 @@ public class MerchantServiceImpl implements MerchantService {
 	@Autowired
 	MerchantManager merchantManager;
 
-	@Autowired
-	MerchantValidator merchantValidator;
 	
 	@Transactional
-	public Merchant createMerchant(Merchant merchant, ValidationType type)
-			throws DuplicateValueException,MerchantException {
+	public Merchant createMerchant(Merchant merchant)
+			throws ServiceException {
 
 		Merchant response = null;
 		
 		
-		merchantValidator.validateMerchant(merchant, ValidationType.PRE);
 		
 		if (merchantManager.checkMerchantByEmail(merchant.getEmailID())) {
 			response = merchantManager.getMerchantByEmail(merchant.getEmailID());
 			logger.info("Throw new exception that the merchant already exists");
 		}
 		
-		response = merchantManager.saveMerchant(merchant);
+		try {
+			merchant.validate(ValidationType.PRE);
+			
+			response = merchantManager.saveMerchant(merchant);
+		} catch (IllegalObjectStateException e) {
+			logger.info("The merchant object cannot be presisted");
+			e.printStackTrace();
+			throw new ServiceException(e.getErrorMessages()).addErrorCode("service.error", "Not able to take merchatn on-board");
+		}
 		
-		merchantValidator.validateMerchant(merchant, ValidationType.POST);
+		try {
+			merchant.validate(ValidationType.POST);
+		} catch (IllegalObjectStateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			throw new ServiceException(e.getErrorMessages()).addErrorCode("service.down", "Not able to access the services");
+		}
+		
 		
 		
 		return response;
@@ -103,13 +114,10 @@ public class MerchantServiceImpl implements MerchantService {
 
 	@Override
 	public boolean authenticate(Merchant merchant)
-			throws MerchantValidationException {
+			throws MerchantValidationException,IllegalObjectStateException {
 		Map<String, String> response = new HashMap<String, String>();
-		response = merchantValidator.validateMerchant(merchant, ValidationType.LOGIN);
-		if (response.size() != 0) {
-			throw new MerchantValidationException(response);
-		}
-
+		merchant.validate( ValidationType.LOGIN);
+		
 		Merchant validMerchant = merchantManager.getMerchantByID(merchant
 				.getMerchantUsername());
 

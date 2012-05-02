@@ -59,9 +59,10 @@ public interface MerchantRegistrationService {
 	 * Activates a given registration for a merchant
 	 * @param emailID
 	 * @param identifier
+	 * @return 
 	 * @throws ServiceException 
 	 */
-	public void activateRegistration(String emailID, String identifier) throws ServiceException;
+	public MerchantRegistration activateRegistration(String emailID, String identifier) throws ServiceException;
 	
 	
 }

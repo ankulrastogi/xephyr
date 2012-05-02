@@ -21,6 +21,7 @@ import com.own.merchant.model.ServiceResponse;
 import com.own.service.MerchantRegistrationService;
 import com.own.service.MerchantService;
 import com.own.service.exception.DuplicateValueException;
+import com.own.service.exception.IllegalObjectStateException;
 import com.own.service.exception.MerchantValidationException;
 import com.own.service.exception.ServiceException;
 
@@ -82,16 +83,52 @@ public class MerchantController {
 	{
 		if(null == emailID || null == identifier)
 			return ServiceUtils.composeServiceResponse(ServiceConstants.FAIL, "Invalid request",null);
+		MerchantRegistration rMerchant = null;
 		
 		try {
-			merchantRegistrationService.activateRegistration(emailID,identifier);
+			rMerchant = merchantRegistrationService.activateRegistration(emailID,identifier);
+		} catch (ServiceException e) {
+			
+			e.printStackTrace();
+			return ServiceUtils.composeServiceResponse(ServiceConstants.FAIL, e.getErrorMessages(),null);
+			
+		}
+		return ServiceUtils.composeServiceResponse(ServiceConstants.SUCCESS, new HashMap<String, String>(),rMerchant);
+	}
+
+	/**
+	 * On boards a merchant in the system. Entry moves from registration table to merchant table. 
+	 * Merchant will initially be in a PENDING state
+	 * @return
+	 */
+	@RequestMapping(value={"/onboard/{id}"},method=RequestMethod.GET)
+	public @ResponseBody ServiceResponse makeMerhchantOnBoard(@PathVariable("id") String emailID)
+	{
+		if(null == emailID)
+			return ServiceUtils.composeServiceResponse(ServiceConstants.FAIL, "Invalid EmailID.Cannot onboard",null);
+		
+		MerchantRegistration registered = merchantRegistrationService.getRegistrationByEmail(emailID);
+		if(null == registered)
+			return ServiceUtils.composeServiceResponse(ServiceConstants.FAIL, "No registration for the given email.Cannot onboard",null);
+		
+		Merchant merchant = mapRegistrationToMerchant(registered,new Merchant());
+		
+		try {
+			merchant = mService.createMerchant(merchant);
 		} catch (ServiceException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return ServiceUtils.composeServiceResponse(ServiceConstants.FAIL, "Error in Service", null);
 		}
-		return null;
+		
+		return ServiceUtils.composeServiceResponse(ServiceConstants.SUCCESS, new HashMap<String, String>(), merchant);
 	}
-
+	private Merchant mapRegistrationToMerchant(MerchantRegistration registered,
+			Merchant merchant) {
+		// TODO Auto-generated method stub
+		return merchant;
+		
+	}
 	/**
 	 * Configure a merchant within the system. This is when a shared key will
 	 * be generated After this only the merchant will be able to add the account
@@ -160,6 +197,9 @@ public class MerchantController {
 			
 		} catch (MerchantValidationException e) {
 			logger.info("The credentials/details provided by the merchant are not valid");
+			e.printStackTrace();
+		} catch (IllegalObjectStateException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

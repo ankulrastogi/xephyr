@@ -108,7 +108,7 @@ public class MerchantRegistrationServiceImpl implements
 	}
 
 	@Override
-	public void activateRegistration(String emailID, String identifier) throws ServiceException{
+	public MerchantRegistration activateRegistration(String emailID, String identifier) throws ServiceException{
 		
 		MerchantRegistration rMerchant = registrationManager.findByEmail(emailID);
 		
@@ -137,6 +137,7 @@ public class MerchantRegistrationServiceImpl implements
 			
 			throw new ServiceException(e.getErrorMessages()).addErrorCode("ERROR", "failed to activate merchant");
 		}
+		return rMerchant;
 		
 		
 	}
