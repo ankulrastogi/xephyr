@@ -40,10 +40,10 @@ public class MerchantController {
 
 	@Autowired
 	MerchantService mService;
-	
+
 	@Autowired
 	MerchantValidator validator;
-	
+
 	@Autowired
 	MerchantRegistrationService merchantRegistrationService;
 
@@ -58,15 +58,16 @@ public class MerchantController {
 	ServiceResponse registerMerchant(@RequestBody MerchantRegistration rMerchant) {
 		MerchantRegistration register = null;
 		ServiceResponse resp = null;
-		
 
 		try {
-			merchantRegistrationService.validate(rMerchant,ValidationType.SIGNUP);
-			
+			merchantRegistrationService.validate(rMerchant,
+					ValidationType.SIGNUP);
+
 			register = merchantRegistrationService.registerMerchant(rMerchant);
-			
+
 		} catch (ServiceException e) {
-			resp = ServiceUtils.composeServiceResponse(ServiceConstants.FAIL, e.getErrorMessages(),null);
+			resp = ServiceUtils.composeServiceResponse(ServiceConstants.FAIL,
+					e.getErrorMessages(), null);
 			return resp;
 		}
 
@@ -75,63 +76,79 @@ public class MerchantController {
 
 		return resp;
 	}
+
 	/**
-	 * Activates a new merchant. 
+	 * Activates a new merchant.
 	 */
-	@RequestMapping(value={"/activate/{id}/{activationURL}"},method=RequestMethod.GET)
-	public @ResponseBody ServiceResponse activateRegistration(@PathVariable("id") String emailID,@PathVariable("activationURL")String identifier)
-	{
-		if(null == emailID || null == identifier)
-			return ServiceUtils.composeServiceResponse(ServiceConstants.FAIL, "Invalid request",null);
+	@RequestMapping(value = { "/activate/{id}/{activationURL}" }, method = RequestMethod.GET)
+	public @ResponseBody
+	ServiceResponse activateRegistration(@PathVariable("id") String emailID,
+			@PathVariable("activationURL") String identifier) {
+		if (null == emailID || null == identifier)
+			return ServiceUtils.composeServiceResponse(ServiceConstants.FAIL,
+					"Invalid request", null);
 		MerchantRegistration rMerchant = null;
-		
+
 		try {
-			rMerchant = merchantRegistrationService.activateRegistration(emailID,identifier);
+			rMerchant = merchantRegistrationService.activateRegistration(
+					emailID, identifier);
 		} catch (ServiceException e) {
-			
+
 			e.printStackTrace();
-			return ServiceUtils.composeServiceResponse(ServiceConstants.FAIL, e.getErrorMessages(),null);
-			
+			return ServiceUtils.composeServiceResponse(ServiceConstants.FAIL,
+					e.getErrorMessages(), null);
+
 		}
-		return ServiceUtils.composeServiceResponse(ServiceConstants.SUCCESS, new HashMap<String, String>(),rMerchant);
+		return ServiceUtils.composeServiceResponse(ServiceConstants.SUCCESS,
+				new HashMap<String, String>(), rMerchant);
 	}
 
 	/**
-	 * On boards a merchant in the system. Entry moves from registration table to merchant table. 
-	 * Merchant will initially be in a PENDING state
+	 * On boards a merchant in the system. Entry moves from registration table
+	 * to merchant table. Merchant will initially be in a PENDING state
+	 * 
 	 * @return
 	 */
-	@RequestMapping(value={"/onboard/{id}"},method=RequestMethod.GET)
-	public @ResponseBody ServiceResponse makeMerhchantOnBoard(@PathVariable("id") String emailID)
-	{
-		if(null == emailID)
-			return ServiceUtils.composeServiceResponse(ServiceConstants.FAIL, "Invalid EmailID.Cannot onboard",null);
-		
-		MerchantRegistration registered = merchantRegistrationService.getRegistrationByEmail(emailID);
-		if(null == registered)
-			return ServiceUtils.composeServiceResponse(ServiceConstants.FAIL, "No registration for the given email.Cannot onboard",null);
-		
-		Merchant merchant = mapRegistrationToMerchant(registered,new Merchant());
-		
+	@RequestMapping(value = { "/onboard/{id}" }, method = RequestMethod.GET)
+	public @ResponseBody
+	ServiceResponse makeMerhchantOnBoard(@PathVariable("id") String emailID) {
+		if (null == emailID)
+			return ServiceUtils.composeServiceResponse(ServiceConstants.FAIL,
+					"Invalid EmailID.Cannot onboard", null);
+
+		MerchantRegistration registered = merchantRegistrationService
+				.getRegistrationByEmail(emailID);
+		if (null == registered)
+			return ServiceUtils.composeServiceResponse(ServiceConstants.FAIL,
+					"No registration for the given email.Cannot onboard", null);
+
+		Merchant merchant = mapRegistrationToMerchant(registered,
+				new Merchant());
+
 		try {
 			merchant = mService.createMerchant(merchant);
 		} catch (ServiceException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return ServiceUtils.composeServiceResponse(ServiceConstants.FAIL, "Error in Service", null);
+			return ServiceUtils.composeServiceResponse(ServiceConstants.FAIL,
+					"Error in Service", null);
 		}
-		
-		return ServiceUtils.composeServiceResponse(ServiceConstants.SUCCESS, new HashMap<String, String>(), merchant);
+
+		return ServiceUtils.composeServiceResponse(ServiceConstants.SUCCESS,
+				new HashMap<String, String>(), merchant);
 	}
+
 	private Merchant mapRegistrationToMerchant(MerchantRegistration registered,
 			Merchant merchant) {
-		// TODO Auto-generated method stub
+		merchant.setEmailID(registered.getEmail());
+		merchant.setName(registered.getName());
 		return merchant;
-		
+
 	}
+
 	/**
-	 * Configure a merchant within the system. This is when a shared key will
-	 * be generated After this only the merchant will be able to add the account
+	 * Configure a merchant within the system. This is when a shared key will be
+	 * generated After this only the merchant will be able to add the account
 	 * details.
 	 * 
 	 */
@@ -178,23 +195,19 @@ public class MerchantController {
 	}
 
 	/**
-	 * Validate merchant credentials and login the merchant if he is authenticated.
-	 * Not sure whether it should redirect to a view or something
+	 * Validate merchant credentials and login the merchant if he is
+	 * authenticated. Not sure whether it should redirect to a view or something
 	 */
-	public void loginMerchant(@RequestBody Merchant merchant)
-	{
+	public void loginMerchant(@RequestBody Merchant merchant) {
 		try {
-			if(mService.authenticate(merchant))
-			{
+			if (mService.authenticate(merchant)) {
 				logger.info("Merchant successfully authenticated");
-				
-			}
-			else
-			{
+
+			} else {
 				logger.info("Merchant cannot be authenticated");
-				
+
 			}
-			
+
 		} catch (MerchantValidationException e) {
 			logger.info("The credentials/details provided by the merchant are not valid");
 			e.printStackTrace();
@@ -202,7 +215,6 @@ public class MerchantController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
+
 	}
 }

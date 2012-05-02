@@ -38,33 +38,33 @@ public class MerchantServiceImpl implements MerchantService {
 		Merchant response = null;
 		
 		
+		response = merchantManager.getMerchantByEmail(merchant.getEmailID());
 		
-		if (merchantManager.checkMerchantByEmail(merchant.getEmailID())) {
-			response = merchantManager.getMerchantByEmail(merchant.getEmailID());
+		if (null != response) {
 			logger.info("Throw new exception that the merchant already exists");
+			throw new ServiceException("duplicate.value","merchant already exists");
 		}
 		
+		String username = createMerchantUserName(merchant);
+		
+		merchant.setMerchantUsername(username);
+		
 		try {
-			merchant.validate(ValidationType.PRE);
 			
 			response = merchantManager.saveMerchant(merchant);
+			
 		} catch (IllegalObjectStateException e) {
 			logger.info("The merchant object cannot be presisted");
 			e.printStackTrace();
 			throw new ServiceException(e.getErrorMessages()).addErrorCode("service.error", "Not able to take merchatn on-board");
 		}
 		
-		try {
-			merchant.validate(ValidationType.POST);
-		} catch (IllegalObjectStateException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			throw new ServiceException(e.getErrorMessages()).addErrorCode("service.down", "Not able to access the services");
-		}
-		
-		
-		
 		return response;
+	}
+
+	private String createMerchantUserName(Merchant response) {
+		
+		return "test";
 	}
 
 	public Merchant updateMerchant(Merchant merchant) throws AppException {
