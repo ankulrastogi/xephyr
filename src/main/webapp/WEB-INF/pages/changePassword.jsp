@@ -1,4 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
 <div class="app_callout password">
 	<div class="box">
 		<h1><fmt:message key="dlt.login.label.changepassword"/></h1>

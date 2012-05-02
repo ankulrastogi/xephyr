@@ -26,6 +26,7 @@
 		<property name="basenames">
 			<list>
 				<value>classpath:messages/messages</value>
+				<value>classpath:messages/errormessages</value>
 			</list>
 		</property>
 		<property name="cacheSeconds" value="0" />

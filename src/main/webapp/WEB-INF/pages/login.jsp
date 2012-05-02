@@ -6,7 +6,7 @@
 <div class="inner group" role="main">
 	<div class="app_callout">
 		<div class="box">
-			<h1>Test</h1>
+			<h1>Login</h1>
 			<form action="doLogin" method="POST">
 
 				<div class="form_input">
