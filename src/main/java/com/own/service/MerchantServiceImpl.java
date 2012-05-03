@@ -3,6 +3,10 @@ package com.own.service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.Validator;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.own.controller.utils.ServiceUtils;
 import com.own.merchant.MerchantManager;
-
 import com.own.merchant.model.Merchant;
 import com.own.merchant.model.Merchant.SearchTypes;
 import com.own.merchant.model.Merchant.ValidationType;
@@ -30,12 +33,15 @@ public class MerchantServiceImpl implements MerchantService {
 	@Autowired
 	MerchantManager merchantManager;
 
+	@Autowired
+	Validator validator;
 	
 	@Transactional
 	public Merchant createMerchant(Merchant merchant)
 			throws ServiceException {
 
 		Merchant response = null;
+		
 		
 		
 		response = merchantManager.getMerchantByEmail(merchant.getEmailID());
@@ -116,7 +122,9 @@ public class MerchantServiceImpl implements MerchantService {
 	public boolean authenticate(Merchant merchant)
 			throws MerchantValidationException,IllegalObjectStateException {
 		Map<String, String> response = new HashMap<String, String>();
-		merchant.validate( ValidationType.LOGIN);
+		logger.info(ValidationType.LOGIN.getClazz());
+		Set<ConstraintViolation<Merchant>> validate = validator.validate(merchant, ValidationType.LOGIN.getClazz());
+		logger.info("Validate:" + validate);
 		
 		Merchant validMerchant = merchantManager.getMerchantByID(merchant
 				.getMerchantUsername());

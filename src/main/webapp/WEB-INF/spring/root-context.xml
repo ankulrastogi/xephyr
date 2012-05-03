@@ -32,4 +32,8 @@
 		<property name="cacheSeconds" value="0" />
 	</bean>
 	
+	<!-- Validation -->
+	
+	<bean id="validator"
+      class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"/>
 </beans>

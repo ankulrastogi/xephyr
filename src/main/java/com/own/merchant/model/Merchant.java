@@ -14,6 +14,9 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.apache.commons.lang3.StringUtils;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import com.own.service.exception.IllegalObjectStateException;
 import com.own.service.exception.MerchantException;
@@ -41,16 +44,23 @@ public class Merchant implements Serializable {
 	private Integer id;
 
 	@Column(name = "merchantName")
+	@NotEmpty(groups={Pre.class})
 	private String name;
 
 	@Column(name = "merchantUsername")
+	@NotEmpty(groups={Pre.class})
 	private String merchantUsername;
 
 	@Transient
 	List<MerchantAccount> accounts;
 
 	@Column(name = "merchantEmail")
+	@Email(groups={Login.class})
 	private String emailID;
+	
+	@Transient	
+	@Email(groups={Login.class})
+	private String password;
 
 	public String getName() {
 		return name;
@@ -101,9 +111,32 @@ public class Merchant implements Serializable {
 		EMAIL, ID, NAME
 	}
 
-	public enum ValidationType {
-		PRE, POST,LOGIN
+	private interface Login{
+		
 	}
+	private interface Pre extends Login
+	{
+		
+	}
+	private interface Post extends Pre
+	{
+		
+	}
+	public enum ValidationType {
+		PRE(Pre.class), POST(Post.class),LOGIN(Login.class);
+		
+		private Class<?> clazz;
+		
+		private ValidationType(Class<?> clazz) {
+			this.clazz = clazz;
+		}
+		
+		public Class<?> getClazz()
+		{
+			return this.clazz;
+		}
+	}
+	
 
 	/**
 	 * This method checks if the merchant is valid or not. A Merchant is checked
@@ -138,6 +171,7 @@ public class Merchant implements Serializable {
 				if (StringUtils.isEmpty(emailID)) {
 					errorMap.put("empty.field", "email-id is empty");
 				}
+			
 
 			}
 
@@ -146,6 +180,14 @@ public class Merchant implements Serializable {
 			}
 		}
 
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 }

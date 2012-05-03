@@ -195,10 +195,12 @@ public class MerchantController {
 	}
 
 	/**
-	 * Validate merchant credentials and login the merchant if he is
+	 * Validate merchant credantials and login the merchant if he is
 	 * authenticated. Not sure whether it should redirect to a view or something
 	 */
+	@RequestMapping(value="/login",method=RequestMethod.POST)
 	public void loginMerchant(@RequestBody Merchant merchant) {
+		logger.info("Merchant INFO:" + merchant);
 		try {
 			if (mService.authenticate(merchant)) {
 				logger.info("Merchant successfully authenticated");
