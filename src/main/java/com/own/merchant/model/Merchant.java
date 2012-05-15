@@ -15,7 +15,6 @@ import javax.persistence.Transient;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import com.own.service.exception.IllegalObjectStateException;
@@ -58,8 +57,7 @@ public class Merchant implements Serializable {
 	@Email(groups={Login.class})
 	private String emailID;
 	
-	@Transient	
-	@Email(groups={Login.class})
+	@Column(name="merchantPassword")	
 	private String password;
 
 	public String getName() {

@@ -1,63 +1,55 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
-	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:tx="http://www.springframework.org/schema/tx"
-	xmlns:util="http://www.springframework.org/schema/util"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
-        http://www.springframework.org/schema/aop
-        http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
-        http://www.springframework.org/schema/context
-        http://www.springframework.org/schema/context/spring-context-3.1.xsd
-        http://www.springframework.org/schema/jee 
-        http://www.springframework.org/schema/jee/spring-jee-3.1.xsd
-		http://www.springframework.org/schema/tx 
-		http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
-		http://www.springframework.org/schema/jdbc
-		http://www.springframework.org/schema/jdbc/spring-jdbc-3.1.xsd
-		http://www.springframework.org/schema/util
-		http://www.springframework.org/schema/util/spring-util-3.1.xsd">
-
-	<!-- Imports -->
-
-	<!-- Properties file -->
+<?xml version="1.0" encoding="UTF-8"?>
+<beans 	xmlns="http://www.springframework.org/schema/beans" 
+       	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       	xmlns:p="http://www.springframework.org/schema/p" 
+       	xmlns:tx="http://www.springframework.org/schema/tx"
+       	xmlns:context="http://www.springframework.org/schema/context"
+       	xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+       	xsi:schemaLocation="
+			http://www.springframework.org/schema/beans 
+			http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+			http://www.springframework.org/schema/tx 
+			http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
+			http://www.springframework.org/schema/context
+			http://www.springframework.org/schema/context/spring-context-3.1.xsd
+			http://www.springframework.org/schema/data/jpa
+    http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 	<context:property-placeholder location="classpath:db-config.properties" />
 
-	<!-- Annotation driven -->
-	<context:annotation-config />
-	<context:component-scan base-package="org.lifeway.dlt.dao" />
-
-	<aop:aspectj-autoproxy />
-
-	<!-- beans -->
-
-	<!-- Data Source -->
+	<tx:annotation-driven transaction-manager="transactionManager" />
+	
+	<!-- JPA repository scanning -->
+	
+	<jpa:repositories base-package="com.own.database.repositories"></jpa:repositories>
+	
 	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
-		destroy-method="close" p:driverClass="${jdbc.driverClassName}"
-		p:jdbcUrl="${jdbc.url}" p:user="${jdbc.username}" p:password="${jdbc.password}" />
+				destroy-method="close"
+				p:driverClass="${jdbc.driverClassName}"
+				p:jdbcUrl="${jdbc.url}"
+				p:user="${jdbc.username}"
+				p:password="${jdbc.password}"
+				p:acquireIncrement="5"
+				p:idleConnectionTestPeriod="60"
+				p:maxPoolSize="100"
+				p:maxStatements="50"
+				p:minPoolSize="10" />
 
-	<bean id="entityManagerFactory"
-		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
-		p:dataSource-ref="dataSource">
+ 	<!-- Declare a JPA entityManagerFactory-->
+	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean" >
+		<property name="persistenceUnitName" value="lifewayDLTPU" />
+		<property name="dataSource" ref="dataSource"/>
+		<property name="packagesToScan" value="com.own.merchant.model"></property>
+	    <property name="jpaVendorAdapter">
+	        <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" >
+	            <property name="showSql" value="true"/>
+	        </bean>
+	    </property>
+    </bean>
 
-		<property name="jpaVendorAdapter">
-			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"
-				p:database="${jdbc.database}" p:showSql="${hibernate.show_sql}" />
-		</property>
-		<property name="persistenceXmlLocation" value="classpath:persistence.xml" />
-	</bean>
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager"
+		p:entityManagerFactory-ref="entityManagerFactory" p:jpaDialect-ref ="jpaDialect"  />
+	
+	<bean id="jpaDialect" class="org.springframework.orm.jpa.vendor.HibernateJpaDialect" />
 
-	<bean id="transactionManagerJPA" class="org.springframework.orm.jpa.JpaTransactionManager"
-		p:entityManagerFactory-ref="entityManagerFactory" />
-
-	<bean
-		class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
-
-
-	<!-- For LOB and ClOB operation -->
-	<bean id="defaultLobHandler" class="org.springframework.jdbc.support.lob.DefaultLobHandler" />
-
-	<!-- AspetJ -->
-	<tx:annotation-driven mode="aspectj"
-		transaction-manager="transactionManagerJPA" />
 </beans>     
+

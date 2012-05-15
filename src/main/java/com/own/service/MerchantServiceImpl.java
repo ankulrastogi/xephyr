@@ -122,7 +122,6 @@ public class MerchantServiceImpl implements MerchantService {
 	public boolean authenticate(Merchant merchant)
 			throws MerchantValidationException,IllegalObjectStateException {
 		Map<String, String> response = new HashMap<String, String>();
-		logger.info(ValidationType.LOGIN.getClazz());
 		Set<ConstraintViolation<Merchant>> validate = validator.validate(merchant, ValidationType.LOGIN.getClazz());
 		logger.info("Validate:" + validate);
 		
@@ -135,8 +134,8 @@ public class MerchantServiceImpl implements MerchantService {
 			response.put("ERROR", "no merchant found for the given username");
 
 		}
-		if (ServiceUtils.compareString(validMerchant.getMerchantUsername(),
-				merchant.getMerchantUsername())) {
+		if (ServiceUtils.compareString(validMerchant.getPassword(),
+				merchant.getPassword())) {
 			logger.info("Merchant successfully authenticated:");
 		} else {
 			logger.info("No matching merchant found");

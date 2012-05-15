@@ -3,7 +3,7 @@ package com.own.merchant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.own.database.dao.MerchantDAO;
+import com.own.database.repositories.MerchantRepository;
 import com.own.merchant.model.Merchant;
 import com.own.merchant.model.Merchant.ValidationType;
 import com.own.service.exception.IllegalObjectStateException;
@@ -14,12 +14,12 @@ import com.own.transaction.merchant.model.MerchantAccount;
 public class MerchantManagerImpl implements MerchantManager {
 
 	@Autowired
-	MerchantDAO merchantDao;
+	MerchantRepository merchantRepository;
 	
 	@Override
-	public Merchant getMerchantByID(String merchantID) {
+	public Merchant getMerchantByID(String username) {
 		// TODO Auto-generated method stub
-		return null;
+		return merchantRepository.finbyUserID(username);
 	}
 
 	@Override
@@ -31,7 +31,7 @@ public class MerchantManagerImpl implements MerchantManager {
 	@Override
 	public Merchant saveMerchant(Merchant merchant) throws IllegalObjectStateException{
 		merchant.validate(ValidationType.PRE);
-		Merchant result = merchantDao.save(merchant);
+		Merchant result = merchantRepository.save(merchant);
 		result.validate(ValidationType.POST);
 		return result;
 	}
