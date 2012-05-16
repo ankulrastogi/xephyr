@@ -97,7 +97,7 @@ public class MerchantRegistrationServiceImpl implements
 	@Override
 	public MerchantRegistration getRegistrationByEmail(String emailID) {
 		// TODO Auto-generated method stub
-		return null;
+		return registrationManager.findByEmail(emailID);
 	}
 
 	@Override

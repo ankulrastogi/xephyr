@@ -13,12 +13,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.own.controller.utils.ServiceConstants;
 import com.own.controller.utils.ServiceUtils;
 import com.own.merchant.MerchantManager;
 import com.own.merchant.model.Merchant;
 import com.own.merchant.model.Merchant.SearchTypes;
 import com.own.merchant.model.Merchant.ValidationType;
 import com.own.merchant.model.MerchantRegistration;
+import com.own.merchant.model.MerchantRegistration.RegistrationStatus;
 import com.own.service.exception.AppException;
 import com.own.service.exception.IllegalObjectStateException;
 import com.own.service.exception.MerchantValidationException;
@@ -32,11 +34,13 @@ public class MerchantServiceImpl implements MerchantService {
 
 	@Autowired
 	MerchantManager merchantManager;
+	
+	@Autowired
+	MerchantRegistrationService merchantRegistrationService;
 
 	@Autowired
 	Validator validator;
 	
-	@Transactional
 	public Merchant createMerchant(Merchant merchant)
 			throws ServiceException {
 
@@ -153,6 +157,26 @@ public class MerchantServiceImpl implements MerchantService {
 	public MerchantRegistration registerMerchant(MerchantRegistration rMerchant) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public Merchant moveMerchantOnBoard(String emailID) throws ServiceException {
+	
+		MerchantRegistration registrationByEmail = merchantRegistrationService.getRegistrationByEmail(emailID);
+		
+		if (null == registrationByEmail)
+			throw new ServiceException("11","No registration for the given email.Cannot onboard");
+					
+
+		if(registrationByEmail.getStatus() != RegistrationStatus.ACTIVE)
+			throw new ServiceException("12","The registration is yet not on active status. Cannot onboard");
+		
+		Merchant merchant = new Merchant();
+		merchant.setEmailID(registrationByEmail.getEmail());
+		merchant.setName(registrationByEmail.getName());
+		merchant.setPassword(registrationByEmail.getPassword());
+		
+		return createMerchant(merchant);
 	}
 
 }

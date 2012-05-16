@@ -76,9 +76,24 @@ public class MerchantController {
 
 		return resp;
 	}
+	
+	@RequestMapping(value = { "/register/email/{id}" }, method = RequestMethod.GET)
+	public @ResponseBody ServiceResponse getRegistrationStatusByMail(@PathVariable("id")String emailID)
+	{
+		if(null == emailID)
+			return ServiceUtils.composeServiceResponse(ServiceConstants.FAIL, "email ID cannot be null", null);
+		
+		MerchantRegistration registration = merchantRegistrationService.getRegistrationByEmail(emailID);
+		if(null == registration)
+			return ServiceUtils.composeServiceResponse(ServiceConstants.FAIL, "no registration found for this ID", null);
+		
+		return ServiceUtils.composeServiceResponse(ServiceConstants.SUCCESS, new HashMap<String, String>(), registration);
+	}
+	
 
 	/**
-	 * Activates a new merchant.
+	 * Activates a new merchant.ActivationURL is basically a 32 bit checksum generated to asceratain the 
+	 * user is correct.
 	 */
 	@RequestMapping(value = { "/activate/{id}/{activationURL}" }, method = RequestMethod.GET)
 	public @ResponseBody
@@ -105,7 +120,8 @@ public class MerchantController {
 
 	/**
 	 * On boards a merchant in the system. Entry moves from registration table
-	 * to merchant table. Merchant will initially be in a PENDING state
+	 * to merchant table. Merchant will initially be in a PENDING state.
+	 * Only registrations which are in ACTIVE state can be brought onboard
 	 * 
 	 * @return
 	 */
@@ -126,7 +142,7 @@ public class MerchantController {
 				new Merchant());
 
 		try {
-			merchant = mService.createMerchant(merchant);
+			merchant = mService.moveMerchantOnBoard(emailID);
 		} catch (ServiceException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

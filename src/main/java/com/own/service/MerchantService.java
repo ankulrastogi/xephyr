@@ -122,6 +122,15 @@ public interface MerchantService {
 	 * @return
 	 */
 	public MerchantRegistration registerMerchant(MerchantRegistration rMerchant);
+
+	/**
+	 * On boards a merchant in the system. Entry moves from registration table
+	 * to merchant table. Merchant will initially be in a PENDING state.
+	 * Only registrations which are in ACTIVE state can be brought onboard
+	 * 
+	 * @return
+	 */
+	public Merchant moveMerchantOnBoard(String emailID) throws ServiceException;
 	
 	
 

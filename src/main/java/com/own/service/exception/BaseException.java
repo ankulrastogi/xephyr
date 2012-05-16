@@ -1,12 +1,7 @@
 package com.own.service.exception;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
-
-import org.apache.commons.lang3.StringUtils;
 
 /**
  * Base exception for the class. Each exception condition will be marked by an
