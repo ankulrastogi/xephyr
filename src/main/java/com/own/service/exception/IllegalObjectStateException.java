@@ -10,18 +10,18 @@ public class IllegalObjectStateException extends BaseException{
 	private static final long serialVersionUID = 1L;
 	
 	
-	public IllegalObjectStateException() {
-		super();
+	public IllegalObjectStateException(Throwable e) {
+		super(e);
 	}
 	
-	public IllegalObjectStateException(String errorCode,String message)
+	public IllegalObjectStateException(String errorCode,String message,Throwable e)
 	{
-		super(errorCode,message);
+		super(errorCode,message,e);
 	}
 	
-	public IllegalObjectStateException(Map<String, String> errorMap)
+	public IllegalObjectStateException(Map<String, String> errorMap,Throwable e)
 	{
-		super(errorMap);
+		super(errorMap,e);
 	}
 
 	@Override

@@ -76,24 +76,40 @@ public class MerchantController {
 
 		return resp;
 	}
-	
+
 	@RequestMapping(value = { "/register/email/{id}" }, method = RequestMethod.GET)
-	public @ResponseBody ServiceResponse getRegistrationStatusByMail(@PathVariable("id")String emailID)
-	{
-		if(null == emailID)
-			return ServiceUtils.composeServiceResponse(ServiceConstants.FAIL, "email ID cannot be null", null);
-		
-		MerchantRegistration registration = merchantRegistrationService.getRegistrationByEmail(emailID);
-		if(null == registration)
-			return ServiceUtils.composeServiceResponse(ServiceConstants.FAIL, "no registration found for this ID", null);
-		
-		return ServiceUtils.composeServiceResponse(ServiceConstants.SUCCESS, new HashMap<String, String>(), registration);
+	public @ResponseBody
+	ServiceResponse getRegistrationStatusByMail(
+			@PathVariable("id") String emailID) {
+		boolean errorFlag = false;
+
+		if (null == emailID) {
+			errorFlag = true;
+
+		}
+
+		MerchantRegistration registration = null;
+		try {
+			registration = merchantRegistrationService
+					.getRegistrationByEmail(emailID);
+		} catch (ServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			errorFlag = true;
+		}
+		if (null == registration)
+			errorFlag = true;
+		if (errorFlag)
+			return ServiceUtils.composeServiceResponse(ServiceConstants.FAIL,
+					"Error in fetching information", null);
+
+		return ServiceUtils.composeServiceResponse(ServiceConstants.SUCCESS,
+				new HashMap<String, String>(), registration);
 	}
-	
 
 	/**
-	 * Activates a new merchant.ActivationURL is basically a 32 bit checksum generated to asceratain the 
-	 * user is correct.
+	 * Activates a new merchant.ActivationURL is basically a 32 bit checksum
+	 * generated to asceratain the user is correct.
 	 */
 	@RequestMapping(value = { "/activate/{id}/{activationURL}" }, method = RequestMethod.GET)
 	public @ResponseBody
@@ -120,8 +136,8 @@ public class MerchantController {
 
 	/**
 	 * On boards a merchant in the system. Entry moves from registration table
-	 * to merchant table. Merchant will initially be in a PENDING state.
-	 * Only registrations which are in ACTIVE state can be brought onboard
+	 * to merchant table. Merchant will initially be in a PENDING state. Only
+	 * registrations which are in ACTIVE state can be brought onboard
 	 * 
 	 * @return
 	 */
@@ -132,15 +148,7 @@ public class MerchantController {
 			return ServiceUtils.composeServiceResponse(ServiceConstants.FAIL,
 					"Invalid EmailID.Cannot onboard", null);
 
-		MerchantRegistration registered = merchantRegistrationService
-				.getRegistrationByEmail(emailID);
-		if (null == registered)
-			return ServiceUtils.composeServiceResponse(ServiceConstants.FAIL,
-					"No registration for the given email.Cannot onboard", null);
-
-		Merchant merchant = mapRegistrationToMerchant(registered,
-				new Merchant());
-
+		Merchant merchant = null;
 		try {
 			merchant = mService.moveMerchantOnBoard(emailID);
 		} catch (ServiceException e) {
@@ -153,15 +161,6 @@ public class MerchantController {
 		return ServiceUtils.composeServiceResponse(ServiceConstants.SUCCESS,
 				new HashMap<String, String>(), merchant);
 	}
-
-	private Merchant mapRegistrationToMerchant(MerchantRegistration registered,
-			Merchant merchant) {
-		merchant.setEmailID(registered.getEmail());
-		merchant.setName(registered.getName());
-		return merchant;
-
-	}
-
 	/**
 	 * Configure a merchant within the system. This is when a shared key will be
 	 * generated After this only the merchant will be able to add the account
@@ -214,7 +213,7 @@ public class MerchantController {
 	 * Validate merchant credantials and login the merchant if he is
 	 * authenticated. Not sure whether it should redirect to a view or something
 	 */
-	@RequestMapping(value="/login",method=RequestMethod.POST)
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public void loginMerchant(@RequestBody Merchant merchant) {
 		logger.info("Merchant INFO:" + merchant);
 		try {
@@ -230,6 +229,9 @@ public class MerchantController {
 			logger.info("The credentials/details provided by the merchant are not valid");
 			e.printStackTrace();
 		} catch (IllegalObjectStateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ServiceException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

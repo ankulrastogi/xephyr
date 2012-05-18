@@ -113,8 +113,9 @@ public interface MerchantService {
 	 * @param merchant
 	 * @return
 	 * @throws IllegalObjectStateException 
+	 * @throws ServiceException 
 	 */
-	public boolean authenticate(Merchant merchant) throws MerchantValidationException, IllegalObjectStateException;
+	public boolean authenticate(Merchant merchant) throws MerchantValidationException, IllegalObjectStateException, ServiceException;
 
 	/**
 	 * Registers a merchant in the system. Similar to signUp

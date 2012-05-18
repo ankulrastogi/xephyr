@@ -13,18 +13,18 @@ public class DuplicateValueException extends BaseException {
 
 	private Object dupValue;
 	
-	public DuplicateValueException() {
-		super();
+	public DuplicateValueException(Throwable e) {
+		super(e);
 	}
 	
-	public DuplicateValueException(String errorCode,String message)
+	public DuplicateValueException(String errorCode,String message,Throwable e)
 	{
-		super(errorCode,message);
+		super(errorCode,message,e);
 	}
 	
-	public DuplicateValueException(Map<String, String> errorMap)
+	public DuplicateValueException(Map<String, String> errorMap,Throwable e)
 	{
-		super(errorMap);
+		super(errorMap,e);
 	}
 	
 	@Override

@@ -21,17 +21,18 @@ public abstract class BaseException extends Exception {
 	protected Map<String, String> errorCodes = new HashMap<String,String>();
 
 
-	public BaseException() {
-		super();
+	public BaseException(Throwable e) {
+		super(e);
 	}
 
-	public BaseException(String errorCode, String message) {
-		super();
+	public BaseException(String errorCode, String message,Throwable e) {
+		super(e);
 		addErrorCode(errorCode, message);
 	}
 	
-	public BaseException(Map<String, String> errorMap)
+	public BaseException(Map<String, String> errorMap,Throwable e)
 	{
+		super(e);
 		this.errorCodes = errorMap;
 	}
 

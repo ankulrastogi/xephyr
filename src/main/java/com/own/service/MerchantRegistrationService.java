@@ -35,8 +35,9 @@ public interface MerchantRegistrationService {
 	 * Get the merchant registration for a email ID if it exists
 	 * @param emailID
 	 * @return
+	 * @throws ServiceException 
 	 */
-	public MerchantRegistration getRegistrationByEmail(String emailID);
+	public MerchantRegistration getRegistrationByEmail(String emailID) throws ServiceException;
 	
 	/**
 	 * Save merchant registration

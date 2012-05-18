@@ -19,6 +19,7 @@ import com.own.service.exception.IllegalObjectStateException;
 
 @Entity
 @Table(name="merchantSignUp")
+	
 public class MerchantRegistration {
 
 	@Id
@@ -29,13 +30,13 @@ public class MerchantRegistration {
 	@Column(name="merchantName")
 	private String name;
 	
-	@Column(name="merchantEmail")
+	@Column(name="merchantEmail",unique=true,nullable=false)
 	private String email;
 	
 	@Column(name="merchantPassword")
 	private String password;
 	
-	@Column(name="activationURLstring")
+	@Column(name="activationURLstring",unique=true,nullable=false)
 	private String activationLink;
 	
 	@Column(name="registrationStatus")
@@ -132,7 +133,7 @@ public class MerchantRegistration {
 		}
 		
 		if(!errorMap.isEmpty())
-			throw new IllegalObjectStateException(errorMap);
+			throw new IllegalObjectStateException(errorMap, new Throwable());
 	}
 	
 	public String getRePassword() {
@@ -155,4 +156,6 @@ public class MerchantRegistration {
 		// TODO Auto-generated method stub
 		return this.getStatus().equals(RegistrationStatus.ACTIVE);
 	}
+	
+	
 }

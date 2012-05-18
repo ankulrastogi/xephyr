@@ -14,18 +14,18 @@ public class MerchantException extends BaseException{
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public MerchantException() {
-		super();
+	public MerchantException(Throwable e) {
+		super(e);
 	}
 	
-	public MerchantException(String errorCode,String message)
+	public MerchantException(String errorCode,String message,Throwable e)
 	{
-		super(errorCode,message);
+		super(errorCode,message,e);
 	}
 	
-	public MerchantException(Map<String, String> errorMap)
+	public MerchantException(Map<String, String> errorMap,Throwable e)
 	{
-		super(errorMap);
+		super(errorMap,e);
 	}
 	
 	@Override

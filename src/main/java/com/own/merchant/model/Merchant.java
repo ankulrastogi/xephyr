@@ -174,7 +174,7 @@ public class Merchant implements Serializable {
 			}
 
 			if (errorMap.size() > 0) {
-				throw new IllegalObjectStateException(errorMap);
+				throw new IllegalObjectStateException(errorMap, new Throwable());
 			}
 		}
 

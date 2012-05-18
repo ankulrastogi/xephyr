@@ -1,11 +1,13 @@
 package com.own.merchant;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.own.database.repositories.MerchantRepository;
 import com.own.merchant.model.Merchant;
 import com.own.merchant.model.Merchant.ValidationType;
+import com.own.service.exception.DatabaseException;
 import com.own.service.exception.IllegalObjectStateException;
 import com.own.transaction.enums.MerchantStatus;
 import com.own.transaction.merchant.model.MerchantAccount;
@@ -13,6 +15,8 @@ import com.own.transaction.merchant.model.MerchantAccount;
 @Component
 public class MerchantManagerImpl implements MerchantManager {
 
+	private static Logger logger = Logger.getLogger(MerchantManagerImpl.class);
+	
 	@Autowired
 	MerchantRepository merchantRepository;
 	
@@ -79,9 +83,18 @@ public class MerchantManagerImpl implements MerchantManager {
 	}
 
 	@Override
-	public Merchant getMerchantByEmail(String emailID) {
-		// TODO Auto-generated method stub
-		return null;
+	public Merchant getMerchantByEmail(String emailID) throws DatabaseException{
+		Merchant merchant=null;
+		try
+		{
+			merchant = merchantRepository.findByEmailID(emailID);
+		}catch (Exception e) {
+			logger.info("Could not get merchant infor from the database:" + emailID + e.getMessage());
+			throw new DatabaseException("11","database exception",e);
+			
+		}
+		
+		return merchant;
 	}
 
 }

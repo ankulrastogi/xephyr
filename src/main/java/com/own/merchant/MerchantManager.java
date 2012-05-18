@@ -1,6 +1,7 @@
 package com.own.merchant;
 
 import com.own.merchant.model.Merchant;
+import com.own.service.exception.DatabaseException;
 import com.own.service.exception.IllegalObjectStateException;
 import com.own.transaction.enums.MerchantStatus;
 import com.own.transaction.merchant.model.MerchantAccount;
@@ -22,8 +23,9 @@ public interface MerchantManager {
 	 * 
 	 * @param emailID
 	 * @return
+	 * @throws DatabaseException 
 	 */
-	public Merchant getMerchantByEmail(String emailID);
+	public Merchant getMerchantByEmail(String emailID) throws DatabaseException;
 
 	public Merchant saveMerchant(Merchant merchant)
 			throws IllegalObjectStateException;
