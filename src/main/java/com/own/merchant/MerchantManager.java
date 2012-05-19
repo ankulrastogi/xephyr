@@ -8,7 +8,7 @@ import com.own.transaction.merchant.model.MerchantAccount;
 
 public interface MerchantManager {
 
-	public Merchant getMerchantByID(String merchantID);
+	public Merchant getMerchantByID(String merchantID) throws IllegalObjectStateException, DatabaseException;
 
 	/**
 	 * Checks if the merchant email ID is already present in the system.
@@ -28,7 +28,7 @@ public interface MerchantManager {
 	public Merchant getMerchantByEmail(String emailID) throws DatabaseException;
 
 	public Merchant saveMerchant(Merchant merchant)
-			throws IllegalObjectStateException;
+			throws IllegalObjectStateException, DatabaseException;
 
 	public void saveMerchantDetails(Merchant merchant);
 

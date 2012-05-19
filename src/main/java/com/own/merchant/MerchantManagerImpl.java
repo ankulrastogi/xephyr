@@ -21,9 +21,19 @@ public class MerchantManagerImpl implements MerchantManager {
 	MerchantRepository merchantRepository;
 	
 	@Override
-	public Merchant getMerchantByID(String username) {
+	public Merchant getMerchantByID(String merchantID) throws DatabaseException{
 		// TODO Auto-generated method stub
-		return merchantRepository.finbyUserID(username);
+		Merchant findOne = null;
+		try
+		{
+			 findOne = merchantRepository.findbyUserID(merchantID);
+		}catch(Exception e)
+		{
+			logger.info("cannot get info from the database");
+			throw new DatabaseException("12","database error",new Throwable());
+		}
+		
+		return findOne;
 	}
 
 	@Override
@@ -33,9 +43,18 @@ public class MerchantManagerImpl implements MerchantManager {
 	}
 
 	@Override
-	public Merchant saveMerchant(Merchant merchant) throws IllegalObjectStateException{
+	public Merchant saveMerchant(Merchant merchant) throws IllegalObjectStateException,DatabaseException{
 		merchant.validate(ValidationType.PRE);
-		Merchant result = merchantRepository.save(merchant);
+		Merchant result = null;
+		try
+		{
+			result = merchantRepository.save(merchant);
+		}catch(Exception e)
+		{
+			logger.info("Error in saving merchant data:" + merchant + e.getMessage());
+			throw new DatabaseException("11","database exception",e);
+		}
+		
 		result.validate(ValidationType.POST);
 		return result;
 	}

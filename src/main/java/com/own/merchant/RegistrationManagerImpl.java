@@ -25,13 +25,6 @@ public class RegistrationManagerImpl implements RegistrationManager {
 			throws IllegalObjectStateException, DatabaseException {
 		rMerchant.validate(ValidationType.PRE);
 
-		// check if the merchant is already present
-		MerchantRegistration response = findByEmail(rMerchant.getEmail());
-
-		if (null != response) {
-			rMerchant.setSignUpID(response.getSignUpID());
-		}
-
 		MerchantRegistration result = new MerchantRegistration();
 		try {
 			result = merchantRegistrationRepository.save(rMerchant);

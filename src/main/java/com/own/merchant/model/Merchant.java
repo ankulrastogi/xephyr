@@ -19,6 +19,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import com.own.service.exception.IllegalObjectStateException;
 import com.own.service.exception.MerchantException;
+import com.own.transaction.enums.MerchantStatus;
 import com.own.transaction.merchant.model.MerchantAccount;
 
 /**
@@ -39,27 +40,30 @@ public class Merchant implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "merchantID")
+	@Column(name = "tableID")
 	private Integer id;
 
 	@Column(name = "merchantName")
 	@NotEmpty(groups={Pre.class})
 	private String name;
 
-	@Column(name = "merchantUsername")
+	@Column(name = "merchantUserID",unique=true,nullable=false)
 	@NotEmpty(groups={Pre.class})
 	private String merchantUsername;
 
 	@Transient
 	List<MerchantAccount> accounts;
 
-	@Column(name = "merchantEmail")
+	@Column(name = "merchantEmail",unique=true,nullable=false)
 	@Email(groups={Login.class})
 	private String emailID;
 	
-	@Column(name="merchantPassword")	
+	@Column(name="password")	
 	private String password;
 
+	@Column(name="merchantStatus")
+	private MerchantStatus status;
+	
 	public String getName() {
 		return name;
 	}
@@ -186,6 +190,14 @@ public class Merchant implements Serializable {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public MerchantStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(MerchantStatus status) {
+		this.status = status;
 	}
 
 }

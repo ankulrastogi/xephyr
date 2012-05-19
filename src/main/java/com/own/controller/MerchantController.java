@@ -2,6 +2,8 @@ package com.own.controller;
 
 import java.util.HashMap;
 
+import javax.validation.Valid;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -77,6 +79,13 @@ public class MerchantController {
 		return resp;
 	}
 
+	/**
+	 * Gets the registration information based on email
+	 * 
+	 * @param emailID
+	 * @return
+	 */
+
 	@RequestMapping(value = { "/register/email/{id}" }, method = RequestMethod.GET)
 	public @ResponseBody
 	ServiceResponse getRegistrationStatusByMail(
@@ -93,7 +102,6 @@ public class MerchantController {
 			registration = merchantRegistrationService
 					.getRegistrationByEmail(emailID);
 		} catch (ServiceException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			errorFlag = true;
 		}
@@ -136,7 +144,7 @@ public class MerchantController {
 
 	/**
 	 * On boards a merchant in the system. Entry moves from registration table
-	 * to merchant table. Merchant will initially be in a PENDING state. Only
+	 * to merchant table. Merchant will initially be in a INACTIVE state. Only
 	 * registrations which are in ACTIVE state can be brought onboard
 	 * 
 	 * @return
@@ -161,24 +169,30 @@ public class MerchantController {
 		return ServiceUtils.composeServiceResponse(ServiceConstants.SUCCESS,
 				new HashMap<String, String>(), merchant);
 	}
-	/**
-	 * Configure a merchant within the system. This is when a shared key will be
-	 * generated After this only the merchant will be able to add the account
-	 * details.
-	 * 
-	 */
-	@RequestMapping(value = "/configure/{id}", method = RequestMethod.POST)
-	public String configureMerchant(@PathVariable("id") String merchantID) {
-		return null;
-	}
 
 	/**
 	 * De-activates a specified merchant from the system. A merchant is never
 	 * deleted from the system
 	 */
-	@RequestMapping(value = "/deactivate/{id}", method = RequestMethod.POST)
-	public String deActivateMerchant(@PathVariable("id") String merchantID) {
-		return null;
+	@RequestMapping(value = "/deactivate/{id}", method = RequestMethod.GET)
+	public @ResponseBody
+	ServiceResponse deActivateMerchant(@PathVariable("id") String merchantID) {
+		if (null == merchantID)
+			return ServiceUtils.composeServiceResponse(ServiceConstants.FAIL,
+					"Invalid merchantID.", null);
+
+		Merchant merchant = null;
+		try {
+			merchant = mService.deActivateMerchant(merchantID);
+		} catch (ServiceException e) {
+			e.printStackTrace();
+			return ServiceUtils.composeServiceResponse(ServiceConstants.FAIL,
+					"Error in Service", null);
+		}
+
+		return ServiceUtils.composeServiceResponse(ServiceConstants.SUCCESS,
+				new HashMap<String, String>(), merchant);
+
 	}
 
 	/**
@@ -186,8 +200,19 @@ public class MerchantController {
 	 * deleted from the system
 	 */
 	@RequestMapping(value = "/activate/{id}", method = RequestMethod.POST)
-	public String activateMerchant(@PathVariable("id") String merchantID) {
-		return null;
+	public @ResponseBody
+	ServiceResponse activateMerchant(@PathVariable("id") String merchantID) {
+		Merchant merchant = null;
+		try {
+			merchant = mService.activateMerchant(merchantID);
+		} catch (ServiceException e) {
+			e.printStackTrace();
+			return ServiceUtils.composeServiceResponse(ServiceConstants.FAIL,
+					"Error in Service", null);
+		}
+
+		return ServiceUtils.composeServiceResponse(ServiceConstants.SUCCESS,
+				new HashMap<String, String>(), merchant);
 	}
 
 	/**
@@ -196,9 +221,20 @@ public class MerchantController {
 	 * verification.
 	 * 
 	 */
-	@RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
-	public String updateMerchant(@PathVariable("id") String merchantID) {
-		return null;
+	@RequestMapping(value = "/update", method = RequestMethod.POST)
+	public @ResponseBody
+	ServiceResponse updateMerchant(@RequestBody Merchant merchant) {
+
+		Merchant result = null;
+		try {
+			result = mService.updateMerchant(merchant);
+		} catch (ServiceException e) {
+			return ServiceUtils.composeServiceResponse(ServiceConstants.FAIL,
+					e.getErrorMessages(), null);
+
+		}
+		return ServiceUtils.composeServiceResponse(ServiceConstants.SUCCESS,
+				new HashMap<String, String>(), result);
 	}
 
 	/**
@@ -214,10 +250,13 @@ public class MerchantController {
 	 * authenticated. Not sure whether it should redirect to a view or something
 	 */
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public void loginMerchant(@RequestBody Merchant merchant) {
+	public @ResponseBody
+	ServiceResponse loginMerchant(@RequestBody Merchant merchant) {
 		logger.info("Merchant INFO:" + merchant);
+		Merchant loginUser = null;
 		try {
-			if (mService.authenticate(merchant)) {
+			loginUser = mService.loginUser(merchant);
+			if (null != loginUser) {
 				logger.info("Merchant successfully authenticated");
 
 			} else {
@@ -228,13 +267,21 @@ public class MerchantController {
 		} catch (MerchantValidationException e) {
 			logger.info("The credentials/details provided by the merchant are not valid");
 			e.printStackTrace();
+			return ServiceUtils.composeServiceResponse(ServiceConstants.FAIL,
+					e.getErrorMap(), null);
 		} catch (IllegalObjectStateException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return ServiceUtils.composeServiceResponse(ServiceConstants.FAIL,
+					e.getErrorMessages(), null);
 		} catch (ServiceException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return ServiceUtils.composeServiceResponse(ServiceConstants.FAIL,
+					e.getErrorMessages(), null);
 		}
 
+		return ServiceUtils.composeServiceResponse(ServiceConstants.SUCCESS,
+				new HashMap<String, String>(), loginUser);
 	}
 }
