@@ -44,7 +44,7 @@ public class MerchantServiceImpl implements MerchantService {
 
 		Merchant response = null;
 
-		String username = createMerchantUserName(merchant);
+		String username = getMerhantID(merchant);
 
 		merchant.setMerchantUsername(username);
 
@@ -72,11 +72,6 @@ public class MerchantServiceImpl implements MerchantService {
 		}
 
 		return response;
-	}
-
-	private String createMerchantUserName(Merchant response) {
-
-		return "test";
 	}
 
 	@Transactional(rollbackFor={ServiceException.class})
@@ -221,7 +216,6 @@ public class MerchantServiceImpl implements MerchantService {
 		merchant.setName(registrationByEmail.getName());
 		merchant.setPassword(registrationByEmail.getPassword());
 		merchant.setStatus(MerchantStatus.ACTIVE);
-		merchant.setMerchantUsername(getMerhantID(merchant));
 		return createMerchant(merchant);
 	}
 

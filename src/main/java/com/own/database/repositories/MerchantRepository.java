@@ -14,7 +14,7 @@ public interface MerchantRepository extends CrudRepository<Merchant, Long>{
 	@Transactional(readOnly=true)
 	@Query("from Merchant m where m.merchantUsername = :username")
 	Merchant findbyUserID(@Param("username")String username);
-	
+		
 	Merchant findByEmailID(String emailID);
 
 }
