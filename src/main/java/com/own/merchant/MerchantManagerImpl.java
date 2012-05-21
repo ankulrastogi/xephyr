@@ -4,11 +4,13 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.own.common.constants.ErrorConstants;
 import com.own.database.repositories.MerchantRepository;
 import com.own.merchant.model.Merchant;
 import com.own.merchant.model.Merchant.ValidationType;
 import com.own.service.exception.DatabaseException;
 import com.own.service.exception.IllegalObjectStateException;
+import com.own.service.exception.BaseException.ExceptionType;
 import com.own.transaction.enums.MerchantStatus;
 import com.own.transaction.merchant.model.MerchantAccount;
 
@@ -29,8 +31,8 @@ public class MerchantManagerImpl implements MerchantManager {
 			 findOne = merchantRepository.findbyUserID(merchantID);
 		}catch(Exception e)
 		{
-			logger.info("cannot get info from the database");
-			throw new DatabaseException("12","database error",new Throwable());
+			logger.info("cannot get info from the database:" + e.getMessage());
+			throw new DatabaseException(ExceptionType.LOG,ErrorConstants.DATABASE_ERROR,e);
 		}
 		
 		return findOne;
@@ -52,7 +54,7 @@ public class MerchantManagerImpl implements MerchantManager {
 		}catch(Exception e)
 		{
 			logger.info("Error in saving merchant data:" + merchant + e.getMessage());
-			throw new DatabaseException("11","database exception",e);
+			throw new DatabaseException(ExceptionType.LOG,ErrorConstants.DATABASE_ERROR,e);
 		}
 		
 		result.validate(ValidationType.POST);
@@ -109,7 +111,7 @@ public class MerchantManagerImpl implements MerchantManager {
 			merchant = merchantRepository.findByEmailID(emailID);
 		}catch (Exception e) {
 			logger.info("Could not get merchant infor from the database:" + emailID + e.getMessage());
-			throw new DatabaseException("11","database exception",e);
+			throw new DatabaseException(ExceptionType.LOG,ErrorConstants.DATABASE_ERROR,e);
 			
 		}
 		

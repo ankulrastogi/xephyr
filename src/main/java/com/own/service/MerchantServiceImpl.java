@@ -13,13 +13,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.own.common.constants.ErrorConstants;
 import com.own.merchant.MerchantManager;
 import com.own.merchant.model.Merchant;
 import com.own.merchant.model.Merchant.SearchTypes;
 import com.own.merchant.model.Merchant.ValidationType;
 import com.own.merchant.model.MerchantRegistration;
 import com.own.merchant.model.MerchantRegistration.RegistrationStatus;
-import com.own.service.exception.AppException;
+import com.own.service.exception.BaseException.ExceptionType;
 import com.own.service.exception.DatabaseException;
 import com.own.service.exception.IllegalObjectStateException;
 import com.own.service.exception.MerchantValidationException;
@@ -54,18 +55,16 @@ public class MerchantServiceImpl implements MerchantService {
 
 			if (null != response) {
 				logger.info("Throw new exception that the merchant already exists");
-				throw new ServiceException("duplicate.value",
-						"merchant already exists", new Throwable());
+				throw new ServiceException(ExceptionType.VIEW,ErrorConstants.DUPLICATE_MERCHANT,
+						 new Throwable());
 			}
-
 			response = merchantManager.saveMerchant(merchant);
 
 		} catch (IllegalObjectStateException e) {
 			logger.info("The merchant object cannot be presisted.Object state is not valid:"
 					+ e.getMessage());
 
-			throw new ServiceException(e.getErrorMessages(), e).addErrorCode(
-					"service.error", "Not able to take merchatn on-board");
+			throw new ServiceException(e.getErrorMessages(), e);
 		} catch (DatabaseException e) {
 			logger.info("The merchant object cannot be presisted");
 			throw new ServiceException(e.getErrorMessages(), e);
@@ -96,7 +95,7 @@ public class MerchantServiceImpl implements MerchantService {
 		}
 		if(null == result)
 		{
-			throw new ServiceException("11","Cannot get merchant by ID",new Throwable());
+			throw new ServiceException(ExceptionType.LOG,ErrorConstants.MERCHANT_NOT_FOUND_EMAIL,new Throwable());
 		}
 		
 		return result;
@@ -131,7 +130,7 @@ public class MerchantServiceImpl implements MerchantService {
 	}
 
 	public Merchant activateMerchantAccount(Merchant merchant,
-			List<String> accountID, boolean activateAll) throws AppException {
+			List<String> accountID, boolean activateAll) throws ServiceException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -151,7 +150,7 @@ public class MerchantServiceImpl implements MerchantService {
 	@Override
 	public Merchant loginUser(Merchant merchant)
 			throws MerchantValidationException, ServiceException {
-		Map<String, String> response = new HashMap<String, String>();
+		Map<Integer, Object> response = new HashMap<Integer, Object>();
 		Set<ConstraintViolation<Merchant>> validate = validator.validate(
 				merchant, ValidationType.LOGIN.getClazz());
 		logger.info("Validate:" + validate);
@@ -170,19 +169,19 @@ public class MerchantServiceImpl implements MerchantService {
 		if (null == validMerchant) {
 			logger.info("no merchant found for the given username");
 
-			throw new ServiceException("ERROR",
-					"no merchant found for the given username", new Throwable());
+			throw new ServiceException(ExceptionType.VIEW,ErrorConstants.MERCHANT_NOT_FOUND_EMAIL_USERNAME,
+					 new Throwable());
 
 		}
 		if (validMerchant.getPassword().equals(merchant.getPassword())) {
 			logger.info("Merchant successfully authenticated:");
 		} else {
 			logger.info("No matching merchant found");
-			response.put("ERROR", "Merchant password do not match");
+			response.put(ErrorConstants.PASSWORD, "");
 		}
 
 		if (response.size() != 0) {
-			throw new ServiceException(response, new Throwable());
+			throw new ServiceException(ExceptionType.VIEW,response, new Throwable());
 		}
 
 		return validMerchant;
@@ -201,14 +200,14 @@ public class MerchantServiceImpl implements MerchantService {
 				.getRegistrationByEmail(emailID);
 
 		if (null == registrationByEmail)
-			throw new ServiceException("11",
-					"No registration for the given email.Cannot onboard",
+			throw new ServiceException(ExceptionType.VIEW,
+					ErrorConstants.MERCHANT_NOT_FOUND_EMAIL,
 					new Throwable());
 
 		if (registrationByEmail.getStatus() != RegistrationStatus.ACTIVE)
 			throw new ServiceException(
-					"12",
-					"The registration is yet not on active status. Cannot onboard",
+					ExceptionType.VIEW,
+					ErrorConstants.REGISTRATION_NOT_ACTIVE,
 					new Throwable());
 
 		Merchant merchant = new Merchant();

@@ -6,7 +6,6 @@ import java.util.Map;
 import com.own.merchant.model.Merchant;
 import com.own.merchant.model.Merchant.SearchTypes;
 import com.own.merchant.model.MerchantRegistration;
-import com.own.service.exception.AppException;
 import com.own.service.exception.DuplicateValueException;
 import com.own.service.exception.IllegalObjectStateException;
 import com.own.service.exception.MerchantValidationException;
@@ -67,7 +66,7 @@ public interface MerchantService {
 	 * @throws AppException
 	 */
 	public Merchant activateMerchantAccount(Merchant merchant,
-			List<String> accountID, boolean activateAll) throws AppException;
+			List<String> accountID, boolean activateAll) throws ServiceException;
 
 	/**
 	 * Gets the merchant object based on the params provided. Basically searches

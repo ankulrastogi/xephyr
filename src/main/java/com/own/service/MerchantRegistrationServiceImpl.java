@@ -7,10 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.own.common.constants.ErrorConstants;
 import com.own.merchant.RegistrationManager;
 import com.own.merchant.model.MerchantRegistration;
 import com.own.merchant.model.MerchantRegistration.RegistrationStatus;
 import com.own.merchant.model.MerchantRegistration.ValidationType;
+import com.own.service.exception.BaseException.ExceptionType;
 import com.own.service.exception.DatabaseException;
 import com.own.service.exception.IllegalObjectStateException;
 import com.own.service.exception.ServiceException;
@@ -30,15 +32,14 @@ public class MerchantRegistrationServiceImpl implements
 	public MerchantRegistration registerMerchant(MerchantRegistration rMerchant)
 			throws ServiceException {
 
-		MerchantRegistration response=null;
-		
+		MerchantRegistration response = null;
+
 		try {
-			response = registrationManager
-					.findByEmail(rMerchant.getEmail());
-			if(null != response)
-			{
-				throw new ServiceException("11","User already exists",new Throwable());
-				
+			response = registrationManager.findByEmail(rMerchant.getEmail());
+			if (null != response) {
+				throw new ServiceException(ExceptionType.VIEW,
+						ErrorConstants.USER_ALREADY_EXISTS, new Throwable());
+
 			}
 			String activationLink = generateActivationLink(rMerchant);
 			rMerchant.setActivationLink(activationLink);
@@ -54,12 +55,14 @@ public class MerchantRegistrationServiceImpl implements
 					+ e.getErrorMessages());
 
 			throw new ServiceException(e.getErrorMessages(), e).addErrorCode(
-					"validation.failed", "validation Failed for registration");
+					ExceptionType.LOG, ErrorConstants.LOG,
+					"verification Exception");
 		} catch (DatabaseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			throw new ServiceException(e.getErrorMessages(), e).addErrorCode(
-					"database.exception", "database exception");
+			throw new ServiceException(e.getErrorMessages(), e)
+					.addErrorCode(ExceptionType.LOG, ErrorConstants.LOG,
+							"database exception");
 		}
 
 		logger.info(response);
@@ -103,14 +106,16 @@ public class MerchantRegistrationServiceImpl implements
 	}
 
 	@Override
-	public MerchantRegistration getRegistrationByEmail(String emailID) throws ServiceException{
+	public MerchantRegistration getRegistrationByEmail(String emailID)
+			throws ServiceException {
 		// TODO Auto-generated method stub
 		MerchantRegistration findByEmail = null;
 		try {
 			findByEmail = registrationManager.findByEmail(emailID);
 		} catch (DatabaseException e) {
-			logger.info("Failed to get merchant registration information:" + emailID + e.getMessage());
-			throw new ServiceException(e.getErrorMessages(),e);
+			logger.info("Failed to get merchant registration information:"
+					+ emailID + e.getMessage());
+			throw new ServiceException(e.getErrorMessages(), e);
 		}
 		return findByEmail;
 	}
@@ -136,21 +141,20 @@ public class MerchantRegistrationServiceImpl implements
 		}
 
 		if (null == rMerchant) {
-			throw new ServiceException("merchant.not.found",
-					"no merchant pending activation by this email ID",
-					new Throwable());
+			throw new ServiceException(ExceptionType.VIEW,
+					ErrorConstants.MERCHANT_NOT_FOUND_EMAIL, new Throwable());
 		}
 		if (rMerchant.activationExpired()) {
-			throw new ServiceException("activation.expired",
-					"activationExpired", new Throwable());
+			throw new ServiceException(ExceptionType.VIEW,
+					ErrorConstants.ACTIVATION_EXPIRED, new Throwable());
 		}
 		if (rMerchant.consumed()) {
-			throw new ServiceException("activation.used",
-					"activation already used", new Throwable());
+			throw new ServiceException(ExceptionType.VIEW,
+					ErrorConstants.ACTIVATION_USED, new Throwable());
 		}
 		if (!rMerchant.getActivationLink().equals(identifier)) {
-			throw new ServiceException("invalid.identifier",
-					"invalid identifier", new Throwable());
+			throw new ServiceException(ExceptionType.VIEW,
+					ErrorConstants.INVALID_ACTIVATION_LINK, new Throwable());
 		}
 
 		rMerchant.setStatus(RegistrationStatus.ACTIVE);
@@ -160,11 +164,10 @@ public class MerchantRegistrationServiceImpl implements
 		} catch (IllegalObjectStateException e) {
 
 			throw new ServiceException(e.getErrorMessages(), e).addErrorCode(
-					"ERROR", "failed to activate merchant");
+					ExceptionType.LOG, ErrorConstants.ERROR, e);
 		} catch (DatabaseException e) {
-
 			throw new ServiceException(e.getErrorMessages(), e).addErrorCode(
-					"ERROR", "failed to activate merchant");
+					ExceptionType.LOG, ErrorConstants.ERROR, e);
 		}
 		return rMerchant;
 
