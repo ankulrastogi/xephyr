@@ -42,4 +42,13 @@
 	<beans:bean id="validator"
       class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"/>
 	
+	<!-- message sources -->
+	<beans:bean id="exceptionMessageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<beans:property name="basenames">
+			<beans:list>
+				<beans:value>classpath:messages/errormessages</beans:value>
+			</beans:list>
+		</beans:property>
+		<beans:property name="cacheSeconds" value="0" />
+	</beans:bean>
 </beans:beans>

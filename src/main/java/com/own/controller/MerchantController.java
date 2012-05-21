@@ -1,6 +1,8 @@
 package com.own.controller;
 
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.validation.Valid;
 
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.own.controller.factory.MessageConvertorFactory;
 import com.own.controller.utils.ServiceConstants;
 import com.own.controller.utils.ServiceUtils;
 import com.own.merchant.manager.MerchantValidator;
@@ -48,6 +51,9 @@ public class MerchantController {
 
 	@Autowired
 	MerchantRegistrationService merchantRegistrationService;
+	
+	@Autowired
+	MessageConvertorFactory convertorfactory;
 
 	/**
 	 * Add the specified merchant to the system
@@ -68,8 +74,9 @@ public class MerchantController {
 			register = merchantRegistrationService.registerMerchant(rMerchant);
 
 		} catch (ServiceException e) {
+			Map<String, List<String>> messages = convertorfactory.convertExceptionMessages(e.getAllErrorMessages());
 			resp = ServiceUtils.composeServiceResponse(ServiceConstants.FAIL,
-					e.getErrorMessages(), null);
+					messages, null);
 			return resp;
 		}
 
@@ -78,6 +85,8 @@ public class MerchantController {
 
 		return resp;
 	}
+
+	
 
 	/**
 	 * Gets the registration information based on email

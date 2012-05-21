@@ -1,16 +1,11 @@
 package com.own.service.exception;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.logging.ErrorManager;
-
-import javassist.bytecode.ExceptionsAttribute;
 
 /**
  * Base exception for the class. Each exception condition will be marked by an
- * error code.
+ * error code.Basic classes coming in as Object (List,String, String[])
  * 
  * @author ankul
  * 
@@ -60,10 +55,11 @@ public abstract class BaseException extends Exception {
 		this.errorMap = errorMap;
 	}
 
-	public BaseException(ExceptionType view, Map<Integer, Object> response,
+	@SuppressWarnings("unchecked")
+	public BaseException(ExceptionType view, @SuppressWarnings("rawtypes") Map response,
 			Throwable throwable) {
 		super(throwable);
-		this.errorMap.put(view, response);
+		this.errorMap.put(view, ((Map<Integer, Object>)response));
 	}
 
 	public abstract BaseException addErrorCode(ExceptionType type, Integer errorCode,

@@ -1,5 +1,6 @@
 package com.own.service.exception;
 
+import java.util.List;
 import java.util.Map;
 
 public class IllegalObjectStateException extends BaseException {
@@ -26,6 +27,10 @@ public class IllegalObjectStateException extends BaseException {
 	public IllegalObjectStateException(
 			Map<ExceptionType, Map<Integer, Object>> errorMap, Throwable e) {
 		super(errorMap, e);
+	}
+	public IllegalObjectStateException(ExceptionType type,Map<Integer, List<Object>> errorMap,Throwable e)
+	{
+		super(type,errorMap,e);
 	}
 
 	@Override

@@ -1,6 +1,7 @@
 package com.own.merchant.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +18,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import com.own.common.constants.ErrorConstants;
+import com.own.service.exception.BaseException.ExceptionType;
 import com.own.service.exception.IllegalObjectStateException;
 import com.own.service.exception.MerchantException;
 import com.own.transaction.enums.MerchantStatus;
@@ -157,31 +160,40 @@ public class Merchant implements Serializable {
 	public void validate(ValidationType type)
 			throws IllegalObjectStateException {
 		{
-			Map<String, String> errorMap = new HashMap<String, String>();
+			Map<Integer, List<Object>> errorMap = new HashMap<Integer, List<Object>>();
 			switch (type) {
 			case POST:
 				if (id <= 0) {
-					errorMap.put("invalid.id", "invalid merchant ID");
+					errorMap = addToMap(errorMap,ErrorConstants.INVALID_ID, new String[]{"merchant"});
 				}
 			case PRE:
 				if (StringUtils.isEmpty(name)) {
-					errorMap.put("empty.field", "merchant name is empty");
+					errorMap = addToMap(errorMap,ErrorConstants.FIELD_EMPTY, new String[]{"merchant name"});
 				}
 				if (StringUtils.isEmpty(merchantUsername)) {
-					errorMap.put("empty.field", "merchant username is empty");
+					errorMap = addToMap(errorMap,ErrorConstants.FIELD_EMPTY,new String[]{"merchant username"});
 				}
 				if (StringUtils.isEmpty(emailID)) {
-					errorMap.put("empty.field", "email-id is empty");
+					errorMap = addToMap(errorMap,ErrorConstants.FIELD_EMPTY, new String[]{"email-id"});
 				}
 			
 
 			}
 
 			if (errorMap.size() > 0) {
-				throw new IllegalObjectStateException(errorMap, new Throwable());
+				throw new IllegalObjectStateException(ExceptionType.VIEW,errorMap, new Throwable());
 			}
 		}
 
+	}
+	public Map<Integer, List<Object>> addToMap(Map<Integer, List<Object>> errorMap,Integer key,Object value) 
+	{
+		List<Object> list = errorMap.get(key);
+		if(null == list)
+			list = new ArrayList<Object>();
+		list.add(value);
+		errorMap.put(key, list);
+		return errorMap;
 	}
 
 	public String getPassword() {
