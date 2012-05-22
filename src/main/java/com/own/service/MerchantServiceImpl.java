@@ -1,5 +1,6 @@
 package com.own.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -150,17 +151,19 @@ public class MerchantServiceImpl implements MerchantService {
 	@Override
 	public Merchant loginUser(Merchant merchant)
 			throws MerchantValidationException, ServiceException {
-		Map<Integer, Object> response = new HashMap<Integer, Object>();
-		Set<ConstraintViolation<Merchant>> validate = validator.validate(
-				merchant, ValidationType.LOGIN.getClazz());
-		logger.info("Validate:" + validate);
-
+		Map<Integer, List<Object>> response = new HashMap<Integer, List<Object>>();
+		
+	
 		Merchant validMerchant = null;
 		try {
-
+			merchant.validate(ValidationType.LOGIN);
 			validMerchant = merchantManager.getMerchantByEmail(merchant
 					.getEmailID());
 		} catch (DatabaseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			throw new ServiceException(e.getErrorMessages(), e);
+		} catch (IllegalObjectStateException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			throw new ServiceException(e.getErrorMessages(), e);
@@ -176,8 +179,8 @@ public class MerchantServiceImpl implements MerchantService {
 		if (validMerchant.getPassword().equals(merchant.getPassword())) {
 			logger.info("Merchant successfully authenticated:");
 		} else {
-			logger.info("No matching merchant found");
-			response.put(ErrorConstants.PASSWORD, "");
+			logger.info("Merchant Authentication failed");
+			response.put(ErrorConstants.PASSWORD, new ArrayList<Object>());
 		}
 
 		if (response.size() != 0) {

@@ -8,6 +8,8 @@ import java.util.Map;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -15,8 +17,6 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.apache.commons.lang3.StringUtils;
-import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotEmpty;
 
 import com.own.common.constants.ErrorConstants;
 import com.own.service.exception.BaseException.ExceptionType;
@@ -47,24 +47,22 @@ public class Merchant implements Serializable {
 	private Integer id;
 
 	@Column(name = "merchantName")
-	@NotEmpty(groups={Pre.class})
 	private String name;
 
 	@Column(name = "merchantUserID",unique=true,nullable=false)
-	@NotEmpty(groups={Pre.class})
 	private String merchantUsername;
 
 	@Transient
 	List<MerchantAccount> accounts;
 
 	@Column(name = "merchantEmail",unique=true,nullable=false)
-	@Email(groups={Login.class})
 	private String emailID;
 	
 	@Column(name="password")	
 	private String password;
 
 	@Column(name="merchantStatus")
+	@Enumerated(EnumType.ORDINAL)
 	private MerchantStatus status;
 	
 	public String getName() {
@@ -116,30 +114,9 @@ public class Merchant implements Serializable {
 		EMAIL, ID, NAME
 	}
 
-	private interface Login{
-		
-	}
-	private interface Pre extends Login
-	{
-		
-	}
-	private interface Post extends Pre
-	{
-		
-	}
+	
 	public enum ValidationType {
-		PRE(Pre.class), POST(Post.class),LOGIN(Login.class);
-		
-		private Class<?> clazz;
-		
-		private ValidationType(Class<?> clazz) {
-			this.clazz = clazz;
-		}
-		
-		public Class<?> getClazz()
-		{
-			return this.clazz;
-		}
+		PRE, POST,LOGIN;
 	}
 	
 
@@ -170,13 +147,15 @@ public class Merchant implements Serializable {
 				if (StringUtils.isEmpty(name)) {
 					errorMap = addToMap(errorMap,ErrorConstants.FIELD_EMPTY, new String[]{"merchant name"});
 				}
-				if (StringUtils.isEmpty(merchantUsername)) {
-					errorMap = addToMap(errorMap,ErrorConstants.FIELD_EMPTY,new String[]{"merchant username"});
-				}
+				
+			case LOGIN:	
+				
 				if (StringUtils.isEmpty(emailID)) {
 					errorMap = addToMap(errorMap,ErrorConstants.FIELD_EMPTY, new String[]{"email-id"});
 				}
-			
+				if (StringUtils.isEmpty(password)) {
+					errorMap = addToMap(errorMap,ErrorConstants.FIELD_EMPTY,new String[]{"password"});
+				}
 
 			}
 

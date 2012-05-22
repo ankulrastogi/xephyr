@@ -1,6 +1,8 @@
 package com.own.controller.utils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.own.merchant.model.ServiceResponse;
@@ -9,11 +11,11 @@ public class ServiceUtils {
 
 
 	public static ServiceResponse composeServiceResponse(String respCode,
-			Map<String, String> errorMessage, Object response) {
+			Map<String, List<String>> messages, Object response) {
 
 		ServiceResponse sResponse = new ServiceResponse();
 		sResponse.setResponseCode(respCode);
-		sResponse.setErrorMap(errorMessage);
+		sResponse.setErrorMap(messages);
 		sResponse.setResponse(response);
 		return sResponse;
 
@@ -21,8 +23,10 @@ public class ServiceUtils {
 	
 	public static ServiceResponse composeServiceResponse(String respCode,
 			String errorMessage, Object response) {
-		Map<String, String> errorMap = new HashMap<String, String>();
-		errorMap.put("ERROR", errorMessage);
+		Map<String, List<String>> errorMap = new HashMap<String, List<String>>();
+		List<String> errorList = new ArrayList<String>();
+		errorList.add(errorMessage);
+		errorMap.put("ERROR", errorList);
 		ServiceResponse sResponse = new ServiceResponse();
 		sResponse.setResponseCode(respCode);
 		sResponse.setErrorMap(errorMap);

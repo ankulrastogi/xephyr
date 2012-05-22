@@ -1,5 +1,6 @@
 package com.own.service.exception;
 
+import java.util.List;
 import java.util.Map;
 
 
@@ -30,7 +31,7 @@ public class DuplicateValueException extends BaseException {
 		super(type,errorCode,message,e);
 	}
 	
-	public DuplicateValueException(Map<ExceptionType, Map<Integer, Object>> errorMap,Throwable e)
+	public DuplicateValueException(Map<ExceptionType, Map<Integer, List<Object>>> errorMap,Throwable e)
 	{
 		super(errorMap,e);
 	}

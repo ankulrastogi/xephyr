@@ -7,6 +7,8 @@ import java.util.Map;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -23,7 +25,6 @@ import com.own.service.exception.IllegalObjectStateException;
 
 @Entity
 @Table(name="merchantSignUp")
-	
 public class MerchantRegistration {
 
 	@Id
@@ -37,13 +38,14 @@ public class MerchantRegistration {
 	@Column(name="merchantEmail",unique=true,nullable=false)
 	private String email;
 	
-	@Column(name="merchantPassword")
+	@Column(name="merchnantPassword")
 	private String password;
 	
 	@Column(name="activationURLstring",unique=true,nullable=false)
 	private String activationLink;
 	
 	@Column(name="registrationStatus")
+	@Enumerated(EnumType.ORDINAL)
 	private RegistrationStatus status;
 	
 	@Transient

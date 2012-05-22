@@ -1,5 +1,6 @@
 package com.own.service.exception;
 
+import java.util.List;
 import java.util.Map;
 
 import com.own.service.exception.BaseException.ExceptionType;
@@ -31,11 +32,15 @@ public class MerchantException extends BaseException {
 		super(type, errorCode, placeHolder, e);
 	}
 
-	public MerchantException(Map<ExceptionType, Map<Integer, Object>> errorMap,
+	public MerchantException(Map<ExceptionType, Map<Integer, List<Object>>> errorMap,
 			Throwable e) {
 		super(errorMap, e);
 	}
 
+	public MerchantException(ExceptionType view, Map<Integer, List<Object>> response,
+			Throwable throwable) {
+		super(view,response,throwable);
+	}
 	@Override
 	public MerchantException addErrorCode(ExceptionType type, Integer errorCode,
 			Object element) {

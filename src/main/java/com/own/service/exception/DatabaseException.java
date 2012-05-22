@@ -1,5 +1,6 @@
 package com.own.service.exception;
 
+import java.util.List;
 import java.util.Map;
 
 public class DatabaseException extends BaseException {
@@ -20,7 +21,7 @@ private static final long serialVersionUID = 1L;
 		super(type,errorCode,placeHolder,e);
 	}
 	
-	public DatabaseException(Map<ExceptionType,Map<Integer, Object>> errorMap,Throwable e)
+	public DatabaseException(Map<ExceptionType,Map<Integer, List<Object>>> errorMap,Throwable e)
 	{
 		super(errorMap,e);
 	}

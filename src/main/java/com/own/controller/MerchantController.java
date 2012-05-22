@@ -4,8 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.validation.Valid;
-
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,6 +27,7 @@ import com.own.service.exception.DuplicateValueException;
 import com.own.service.exception.IllegalObjectStateException;
 import com.own.service.exception.MerchantValidationException;
 import com.own.service.exception.ServiceException;
+import com.own.service.exception.BaseException.ExceptionType;
 
 /**
  * REST based controller to handle all the merchant related requests.
@@ -51,7 +50,7 @@ public class MerchantController {
 
 	@Autowired
 	MerchantRegistrationService merchantRegistrationService;
-	
+
 	@Autowired
 	MessageConvertorFactory convertorfactory;
 
@@ -74,19 +73,18 @@ public class MerchantController {
 			register = merchantRegistrationService.registerMerchant(rMerchant);
 
 		} catch (ServiceException e) {
-			Map<String, List<String>> messages = convertorfactory.convertExceptionMessages(e.getAllErrorMessages());
+			Map<String, List<String>> messages = convertorfactory
+					.convertExceptionMessages(e.getAllErrorMessages(ExceptionType.VIEW));
 			resp = ServiceUtils.composeServiceResponse(ServiceConstants.FAIL,
 					messages, null);
 			return resp;
 		}
 
 		resp = ServiceUtils.composeServiceResponse(ServiceConstants.SUCCESS,
-				new HashMap<String, String>(), register);
+				new HashMap<String, List<String>>(), register);
 
 		return resp;
 	}
-
-	
 
 	/**
 	 * Gets the registration information based on email
@@ -121,7 +119,7 @@ public class MerchantController {
 					"Error in fetching information", null);
 
 		return ServiceUtils.composeServiceResponse(ServiceConstants.SUCCESS,
-				new HashMap<String, String>(), registration);
+				new HashMap<String, List<String>>(), registration);
 	}
 
 	/**
@@ -143,12 +141,14 @@ public class MerchantController {
 		} catch (ServiceException e) {
 
 			e.printStackTrace();
+			Map<String, List<String>> messages = convertorfactory
+					.convertExceptionMessages(e.getAllErrorMessages(ExceptionType.VIEW));
 			return ServiceUtils.composeServiceResponse(ServiceConstants.FAIL,
-					e.getErrorMessages(), null);
+					messages, null);
 
 		}
 		return ServiceUtils.composeServiceResponse(ServiceConstants.SUCCESS,
-				new HashMap<String, String>(), rMerchant);
+				new HashMap<String, List<String>>(), rMerchant);
 	}
 
 	/**
@@ -176,7 +176,7 @@ public class MerchantController {
 		}
 
 		return ServiceUtils.composeServiceResponse(ServiceConstants.SUCCESS,
-				new HashMap<String, String>(), merchant);
+				new HashMap<String, List<String>>(), merchant);
 	}
 
 	/**
@@ -200,7 +200,7 @@ public class MerchantController {
 		}
 
 		return ServiceUtils.composeServiceResponse(ServiceConstants.SUCCESS,
-				new HashMap<String, String>(), merchant);
+				new HashMap<String, List<String>>(), merchant);
 
 	}
 
@@ -217,11 +217,11 @@ public class MerchantController {
 		} catch (ServiceException e) {
 			e.printStackTrace();
 			return ServiceUtils.composeServiceResponse(ServiceConstants.FAIL,
-					"Error in Service", null);
+					convertorfactory.convertExceptionMessages(e.getAllErrorMessages(ExceptionType.VIEW)), null);
 		}
 
 		return ServiceUtils.composeServiceResponse(ServiceConstants.SUCCESS,
-				new HashMap<String, String>(), merchant);
+				new HashMap<String, List<String>>(), merchant);
 	}
 
 	/**
@@ -238,12 +238,14 @@ public class MerchantController {
 		try {
 			result = mService.updateMerchant(merchant);
 		} catch (ServiceException e) {
+			Map<String, List<String>> messages = convertorfactory
+					.convertExceptionMessages(e.getAllErrorMessages(ExceptionType.VIEW));
 			return ServiceUtils.composeServiceResponse(ServiceConstants.FAIL,
-					e.getErrorMessages(), null);
+					messages, null);
 
 		}
 		return ServiceUtils.composeServiceResponse(ServiceConstants.SUCCESS,
-				new HashMap<String, String>(), result);
+				new HashMap<String, List<String>>(), result);
 	}
 
 	/**
@@ -276,21 +278,25 @@ public class MerchantController {
 		} catch (MerchantValidationException e) {
 			logger.info("The credentials/details provided by the merchant are not valid");
 			e.printStackTrace();
-			return ServiceUtils.composeServiceResponse(ServiceConstants.FAIL,
-					e.getErrorMap(), null);
+//			return ServiceUtils.composeServiceResponse(ServiceConstants.FAIL,
+//					convertorfactory.convertExceptionMessages(e.getAllErrorMessages(), null);
 		} catch (IllegalObjectStateException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			Map<String, List<String>> messages = convertorfactory
+					.convertExceptionMessages(e.getAllErrorMessages(ExceptionType.VIEW));
 			return ServiceUtils.composeServiceResponse(ServiceConstants.FAIL,
-					e.getErrorMessages(), null);
+					messages, null);
 		} catch (ServiceException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			Map<String, List<String>> messages = convertorfactory
+					.convertExceptionMessages(e.getAllErrorMessages(ExceptionType.VIEW));
 			return ServiceUtils.composeServiceResponse(ServiceConstants.FAIL,
-					e.getErrorMessages(), null);
+					messages, null);
 		}
 
 		return ServiceUtils.composeServiceResponse(ServiceConstants.SUCCESS,
-				new HashMap<String, String>(), loginUser);
+				new HashMap<String, List<String>>(), loginUser);
 	}
 }

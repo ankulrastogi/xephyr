@@ -33,7 +33,7 @@ public class RegistrationManagerImpl implements RegistrationManager {
 		} catch (Exception e) {
 			logger.info("Cannot persist user object in data:" + rMerchant
 					+ e.getMessage());
-			throw new DatabaseException(ExceptionType.LOG,ErrorConstants.DATABASE_ERROR,e);
+			throw new DatabaseException(ExceptionType.VIEW,ErrorConstants.DATABASE_ERROR,e);
 		}
 		logger.info("saved");
 		result.validate(ValidationType.POST);
@@ -51,7 +51,7 @@ public class RegistrationManagerImpl implements RegistrationManager {
 
 			logger.info("ERROR in getting info for email:" + emailID
 					+ e.getMessage());
-			throw new DatabaseException(ExceptionType.LOG,ErrorConstants.DATABASE_ERROR,e);
+			throw new DatabaseException(ExceptionType.VIEW,ErrorConstants.DATABASE_ERROR,e);
 		}
 		return rMerchant;
 	}

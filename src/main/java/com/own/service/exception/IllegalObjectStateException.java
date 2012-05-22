@@ -25,7 +25,7 @@ public class IllegalObjectStateException extends BaseException {
 	}
 
 	public IllegalObjectStateException(
-			Map<ExceptionType, Map<Integer, Object>> errorMap, Throwable e) {
+			Map<ExceptionType, Map<Integer, List<Object>>> errorMap, Throwable e) {
 		super(errorMap, e);
 	}
 	public IllegalObjectStateException(ExceptionType type,Map<Integer, List<Object>> errorMap,Throwable e)

@@ -137,7 +137,7 @@ public class MerchantRegistrationServiceImpl implements
 		} catch (DatabaseException e1) {
 			// TODO Auto-generated catch block
 			logger.info("Exception:" + e1.getMessage());
-			throw new ServiceException(e1);
+			throw new ServiceException(e1.getErrorMessages(),e1);
 		}
 
 		if (null == rMerchant) {
