@@ -4,9 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
-import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
 import org.apache.log4j.Logger;
@@ -24,7 +22,6 @@ import com.own.merchant.model.MerchantRegistration.RegistrationStatus;
 import com.own.service.exception.BaseException.ExceptionType;
 import com.own.service.exception.DatabaseException;
 import com.own.service.exception.IllegalObjectStateException;
-import com.own.service.exception.MerchantValidationException;
 import com.own.service.exception.ServiceException;
 import com.own.transaction.enums.MerchantStatus;
 
@@ -150,7 +147,7 @@ public class MerchantServiceImpl implements MerchantService {
 
 	@Override
 	public Merchant loginUser(Merchant merchant)
-			throws MerchantValidationException, ServiceException {
+			throws  ServiceException {
 		Map<Integer, List<Object>> response = new HashMap<Integer, List<Object>>();
 		
 	

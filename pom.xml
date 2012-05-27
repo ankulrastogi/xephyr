@@ -257,15 +257,15 @@
 					<target>${java-version}</target>
 				</configuration>
 			</plugin>
-			<plugin>
-				<groupId>org.apache.tomcat.maven</groupId>
-				<artifactId>tomcat7-maven-plugin</artifactId>
-				<version>2.0-beta-1</version>
-				<configuration>
-					<contextReloadable>true</contextReloadable>
-
-				</configuration>
-			</plugin>
+<!-- 			<plugin> -->
+<!-- 				<groupId>org.apache.tomcat.maven</groupId> -->
+<!-- 				<artifactId>tomcat7-maven-plugin</artifactId> -->
+<!-- 				<version>2.0-beta-1</version> -->
+<!-- 				<configuration> -->
+<!-- 					<contextReloadable>true</contextReloadable> -->
+<!-- 					<warFile>${project.build.directory}/test.war</warFile> -->
+<!-- 				</configuration> -->
+<!-- 			</plugin> -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-dependency-plugin</artifactId>
@@ -294,24 +294,24 @@
 					<warName>test</warName>
 				</configuration>
 			</plugin>
-			<plugin>
-				<groupId>org.jboss.as.plugins</groupId>
-				<artifactId>jboss-as-maven-plugin</artifactId>
-				<version>7.1.1.Final</version>
-				<configuration>
-					<hostname>localhost</hostname>
-					<port>9999</port>
-					<filename>test.war</filename>
-				</configuration>
-				<executions>
-					<execution>
-						<phase>package</phase>
-						<goals>
-							<goal>deploy</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
+<!-- 			<plugin> -->
+<!-- 				<groupId>org.jboss.as.plugins</groupId> -->
+<!-- 				<artifactId>jboss-as-maven-plugin</artifactId> -->
+<!-- 				<version>7.1.1.Final</version> -->
+<!-- 				<configuration> -->
+<!-- 					<hostname>localhost</hostname> -->
+<!-- 					<port>9999</port> -->
+<!-- 					<filename>test.war</filename> -->
+<!-- 				</configuration> -->
+<!-- 				<executions> -->
+<!-- 					<execution> -->
+<!-- 						<phase>package</phase> -->
+<!-- 						<goals> -->
+<!-- 							<goal>deploy</goal> -->
+<!-- 						</goals> -->
+<!-- 					</execution> -->
+<!-- 				</executions> -->
+<!-- 			</plugin> -->
 
 		</plugins>
 

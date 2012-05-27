@@ -8,7 +8,6 @@ import com.own.merchant.model.Merchant.SearchTypes;
 import com.own.merchant.model.MerchantRegistration;
 import com.own.service.exception.DuplicateValueException;
 import com.own.service.exception.IllegalObjectStateException;
-import com.own.service.exception.MerchantValidationException;
 import com.own.service.exception.ServiceException;
 
 /**
@@ -94,7 +93,7 @@ public interface MerchantService {
 	 * @throws ServiceException
 	 */
 	public Merchant loginUser(Merchant merchant)
-			throws MerchantValidationException, IllegalObjectStateException,
+			throws IllegalObjectStateException,
 			ServiceException;
 
 	/**

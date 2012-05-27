@@ -1,6 +1,7 @@
 package com.own.controller.factory;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Component;
 public class MessageConvertorFactory {
 
 	private static Logger logger = Logger.getLogger(MessageConvertorFactory.class);
+	
 	@Autowired
 	MessageSource exceptionMessageSource;
 
@@ -56,6 +58,16 @@ public class MessageConvertorFactory {
 		}
 		logger.info(errorList);
 		return errorList;
+	}
+
+	public Collection<? extends String> convertToList(
+			Map<String, List<String>> convertExceptionMessages) {
+		List<String> resultList = new ArrayList<String>();
+		for(String key:convertExceptionMessages.keySet())
+		{
+			resultList.addAll(convertExceptionMessages.get(key));
+		}
+		return resultList;
 	}
 	
 	

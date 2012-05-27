@@ -23,11 +23,10 @@ import com.own.merchant.model.MerchantRegistration.ValidationType;
 import com.own.merchant.model.ServiceResponse;
 import com.own.service.MerchantRegistrationService;
 import com.own.service.MerchantService;
+import com.own.service.exception.BaseException.ExceptionType;
 import com.own.service.exception.DuplicateValueException;
 import com.own.service.exception.IllegalObjectStateException;
-import com.own.service.exception.MerchantValidationException;
 import com.own.service.exception.ServiceException;
-import com.own.service.exception.BaseException.ExceptionType;
 
 /**
  * REST based controller to handle all the merchant related requests.
@@ -275,14 +274,10 @@ public class MerchantController {
 
 			}
 
-		} catch (MerchantValidationException e) {
-			logger.info("The credentials/details provided by the merchant are not valid");
-			e.printStackTrace();
-//			return ServiceUtils.composeServiceResponse(ServiceConstants.FAIL,
-//					convertorfactory.convertExceptionMessages(e.getAllErrorMessages(), null);
-		} catch (IllegalObjectStateException e) {
+		} 
+		catch (IllegalObjectStateException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			e.printStackTrace();	
 			Map<String, List<String>> messages = convertorfactory
 					.convertExceptionMessages(e.getAllErrorMessages(ExceptionType.VIEW));
 			return ServiceUtils.composeServiceResponse(ServiceConstants.FAIL,

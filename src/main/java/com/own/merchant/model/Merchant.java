@@ -151,7 +151,7 @@ public class Merchant implements Serializable {
 			case LOGIN:	
 				
 				if (StringUtils.isEmpty(emailID)) {
-					errorMap = addToMap(errorMap,ErrorConstants.FIELD_EMPTY, new String[]{"email-id"});
+					errorMap = addToMap(errorMap,ErrorConstants.FIELD_EMPTY, new String[]{"username"});
 				}
 				if (StringUtils.isEmpty(password)) {
 					errorMap = addToMap(errorMap,ErrorConstants.FIELD_EMPTY,new String[]{"password"});

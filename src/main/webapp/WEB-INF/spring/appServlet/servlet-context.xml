@@ -23,7 +23,7 @@
 	<context:component-scan base-package="com.own.merchant" />
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving 
 		up static resources in the ${webappRoot}/resources directory -->
-	<resources mapping="/resources/**" location="WEB-INF/resources/" />
+	<resources mapping="/resources/**" location="/resources/" />
 
 
 	<!-- Logging -->
@@ -45,7 +45,7 @@
 		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
 		<beans:property name="basenames">
 			<beans:list>
-				<beans:value>classpath:messages/errormessages</beans:value>
+				<beans:value>classpath:messages/error-messages</beans:value>
 			</beans:list>
 		</beans:property>
 		<beans:property name="cacheSeconds" value="0" />
@@ -55,4 +55,30 @@
 		class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
 		<beans:property name="defaultLocale" value="en" />
 	</beans:bean>
+	
+		<beans:bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<beans:property name="basenames">
+			<beans:list>
+				<beans:value>classpath:messages/messages</beans:value>
+				<beans:value>classpath:messages/error-messages</beans:value>
+			</beans:list>
+		</beans:property>
+		<beans:property name="cacheSeconds" value="0" />
+	</beans:bean>
+	
+	<beans:bean id="tilesConfigurer"
+		class="org.springframework.web.servlet.view.tiles2.TilesConfigurer">
+		<beans:property name="definitions">
+			<beans:list>
+				<beans:value>/WEB-INF/tiles.xml</beans:value>
+			</beans:list>
+		</beans:property>
+	</beans:bean>
+
+	<beans:bean id="viewResolver"
+		class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+		<beans:property name="viewClass"
+			value="org.springframework.web.servlet.view.tiles2.TilesView" />
+	</beans:bean>
+		
 </beans:beans>
