@@ -14,7 +14,7 @@
 	<context:property-placeholder location="classpath:db-config.properties" />
 
 	<!-- Enables the Spring MVC @Controller programming model -->
-	<annotation-driven />
+	<annotation-driven  validator="validator"/>
 	<context:annotation-config />
 	<context:component-scan base-package="com.own.service" />
 	<context:component-scan base-package="com.own.controller" />
@@ -38,7 +38,10 @@
 	</beans:bean>
 
 	<beans:bean id="validator"
-		class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
+		class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" >
+		<beans:property name="validationMessageSource" ref="messageSource" />
+		
+		</beans:bean>
 
 	<!-- message sources -->
 	<beans:bean id="exceptionMessageSource"
@@ -61,9 +64,19 @@
 			<beans:list>
 				<beans:value>classpath:messages/messages</beans:value>
 				<beans:value>classpath:messages/error-messages</beans:value>
+				<beans:value>classpath:ValidationMessages/</beans:value>
 			</beans:list>
 		</beans:property>
-		<beans:property name="cacheSeconds" value="0" />
+		
+	</beans:bean>
+	
+	<beans:bean id="validationMessages" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<beans:property name="basenames">
+			<beans:list>
+				<beans:value>classpath:messages</beans:value>
+			</beans:list>
+		</beans:property>
+		
 	</beans:bean>
 	
 	<beans:bean id="tilesConfigurer"

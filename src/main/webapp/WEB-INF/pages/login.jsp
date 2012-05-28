@@ -7,10 +7,11 @@
 			</h1>
 			
 			<form:form method="POST" modelAttribute="loginModel">
+
 			<div class="form_input">
-				<label for="email"><fmt:message key="dlt.login.label.email" /></label>
-				<form:input path="userName"/>
-				<form:errors path="userName" />
+				<label for="userName"><fmt:message key="dlt.login.label.email" /></label>
+				<form:input path="userName" id="userName"/>
+				<form:errors path="userName"/>
 			</div>
 			<div class="form_input">
 			<label for="password"><fmt:message

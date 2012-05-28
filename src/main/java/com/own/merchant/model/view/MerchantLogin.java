@@ -5,7 +5,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 public class MerchantLogin {
 
 	
-	@NotEmpty
+	@NotEmpty(message="This is not done")
 	private String userName;
 	
 	@NotEmpty

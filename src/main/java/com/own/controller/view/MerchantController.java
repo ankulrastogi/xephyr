@@ -44,13 +44,13 @@ public class MerchantController extends BaseController {
 	}
 
 	@RequestMapping(value = { "/login" }, method = RequestMethod.POST)
-	public ModelAndView doLogin(@Valid @ModelAttribute("loginModel") MerchantLogin loginModel,BindingResult result,
+	public String doLogin(@Valid @ModelAttribute("loginModel") MerchantLogin loginModel,BindingResult result,
 			Model model) {
 		if(result.hasErrors())
 		{
 			logger.info("ERROR:" + result.toString());
 			
-			return new ModelAndView(getInternalRedirect("login","error=true"));
+			return "login";
 		}
 		Merchant merchant = new Merchant();
 		merchant.setEmailID(loginModel.getUserName());
@@ -84,11 +84,10 @@ public class MerchantController extends BaseController {
 					.convertToList(convertExceptionMessages));
 		}
 		if (errorList.size() == 0) {
-			return new ModelAndView(getInternalRedirect("login"), model.asMap());
+			return "login";
 		}
 
-		return new ModelAndView(getInternalRedirect("login", "error=true"),
-				model.asMap());
+		return "login";
 	}
 
 }
