@@ -31,12 +31,12 @@
 	</pluginRepositories>
 
 	<dependencies>
-	<dependency>
-	<groupId>c3p0</groupId>
-	<artifactId>c3p0</artifactId>
-	<version>0.9.0.4</version>
-</dependency>
-            
+		<dependency>
+			<groupId>c3p0</groupId>
+			<artifactId>c3p0</artifactId>
+			<version>0.9.0.4</version>
+		</dependency>
+
 		<!-- Spring -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -75,12 +75,12 @@
 			<artifactId>spring-core</artifactId>
 			<version>${org.springframework-version}</version>
 		</dependency>
-<dependency>
-    <groupId>org.hibernate</groupId>
-    <artifactId>hibernate-validator</artifactId>
-    <version>4.3.0.CR1</version>
-</dependency>
-            
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<version>4.3.0.CR1</version>
+		</dependency>
+
 
 		<!-- AspectJ -->
 		<dependency>
@@ -197,16 +197,16 @@
 			<artifactId>mysql-connector-java</artifactId>
 			<version>5.1.19</version>
 		</dependency>
-		 <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-tx</artifactId>
-            <version>${org.springframework-version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.data</groupId>
-            <artifactId>spring-data-jpa</artifactId>
-            <version>1.1.0.RELEASE</version>
-        </dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-tx</artifactId>
+			<version>${org.springframework-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-jpa</artifactId>
+			<version>1.1.0.RELEASE</version>
+		</dependency>
 
 		<!-- Test -->
 		<dependency>
@@ -257,15 +257,15 @@
 					<target>${java-version}</target>
 				</configuration>
 			</plugin>
-<!-- 			<plugin> -->
-<!-- 				<groupId>org.apache.tomcat.maven</groupId> -->
-<!-- 				<artifactId>tomcat7-maven-plugin</artifactId> -->
-<!-- 				<version>2.0-beta-1</version> -->
-<!-- 				<configuration> -->
-<!-- 					<contextReloadable>true</contextReloadable> -->
-<!-- 					<warFile>${project.build.directory}/test.war</warFile> -->
-<!-- 				</configuration> -->
-<!-- 			</plugin> -->
+			<!-- <plugin> -->
+			<!-- <groupId>org.apache.tomcat.maven</groupId> -->
+			<!-- <artifactId>tomcat7-maven-plugin</artifactId> -->
+			<!-- <version>2.0-beta-1</version> -->
+			<!-- <configuration> -->
+			<!-- <contextReloadable>true</contextReloadable> -->
+			<!-- <warFile>${project.build.directory}/test.war</warFile> -->
+			<!-- </configuration> -->
+			<!-- </plugin> -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-dependency-plugin</artifactId>
@@ -294,27 +294,27 @@
 					<warName>test</warName>
 				</configuration>
 			</plugin>
-<!-- 			<plugin> -->
-<!-- 				<groupId>org.jboss.as.plugins</groupId> -->
-<!-- 				<artifactId>jboss-as-maven-plugin</artifactId> -->
-<!-- 				<version>7.1.1.Final</version> -->
-<!-- 				<configuration> -->
-<!-- 					<hostname>localhost</hostname> -->
-<!-- 					<port>9999</port> -->
-<!-- 					<filename>test.war</filename> -->
-<!-- 				</configuration> -->
-<!-- 				<executions> -->
-<!-- 					<execution> -->
-<!-- 						<phase>package</phase> -->
-<!-- 						<goals> -->
-<!-- 							<goal>deploy</goal> -->
-<!-- 						</goals> -->
-<!-- 					</execution> -->
-<!-- 				</executions> -->
-<!-- 			</plugin> -->
+			<plugin>
+				<groupId>org.jboss.as.plugins</groupId>
+				<artifactId>jboss-as-maven-plugin</artifactId>
+				<version>7.1.1.Final</version>
+				<configuration>
+					<hostname>localhost</hostname>
+					<port>9999</port>
+					<filename>test.war</filename>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>deploy</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 
 		</plugins>
 
 	</build>
-	<description>					</description>
+
 </project>

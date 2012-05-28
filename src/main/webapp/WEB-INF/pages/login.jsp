@@ -6,7 +6,7 @@
 				<fmt:message key="dlt.login.label.signin" />
 			</h1>
 			
-			<form:form action="<c:url value='${contextRoot}'/>/view/merchant/login" method="POST" modelAttribute="merchantLogin">
+			<form:form method="POST" modelAttribute="loginModel">
 			<div class="form_input">
 				<label for="email"><fmt:message key="dlt.login.label.email" /></label>
 				<form:input path="userName"/>
