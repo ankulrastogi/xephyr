@@ -14,11 +14,11 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.own.controller.factory.MessageConvertorFactory;
+import com.own.controller.view.form.NewRegistrationFormModel;
 import com.own.merchant.model.Merchant;
-import com.own.merchant.model.view.MerchantLogin;
+import com.own.merchant.model.view.form.MerchantLoginForm;
 import com.own.service.MerchantService;
 import com.own.service.exception.BaseException.ExceptionType;
 import com.own.service.exception.IllegalObjectStateException;
@@ -39,12 +39,12 @@ public class MerchantController extends BaseController {
 	@RequestMapping(value = { "/login" }, method = RequestMethod.GET)
 	public String loginPage(Model model) {
 		logger.info("Adding login Model");
-		model.addAttribute("loginModel",new MerchantLogin());
+		model.addAttribute("loginModel",new MerchantLoginForm());
 		return "login";
 	}
 
 	@RequestMapping(value = { "/login" }, method = RequestMethod.POST)
-	public String doLogin(@Valid @ModelAttribute("loginModel") MerchantLogin loginModel,BindingResult result,
+	public String doLogin(@Valid @ModelAttribute("loginModel") MerchantLoginForm loginModel,BindingResult result,
 			Model model) {
 		if(result.hasErrors())
 		{
@@ -90,4 +90,17 @@ public class MerchantController extends BaseController {
 		return "login";
 	}
 
+	@RequestMapping(value={"/createaccount"},method=RequestMethod.GET)
+	public String createUserAccountGET(Model model)
+	{
+		model.addAttribute("registrationFormModel",new NewRegistrationFormModel());
+		return "createaccount";
+	}
+	
+	@RequestMapping(value={"/createaccount"},method=RequestMethod.POST)
+	public String createUserAccountGET(@ModelAttribute("registrationFormModel")  NewRegistrationFormModel formModel, Model model)
+	{
+		
+		return "createaccount";
+	}
 }

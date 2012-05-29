@@ -1,11 +1,11 @@
-package com.own.merchant.model.view;
+package com.own.merchant.model.view.form;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-public class MerchantLogin {
+public class MerchantLoginForm {
 
 	
-	@NotEmpty(message="This is not done")
+	@NotEmpty
 	private String userName;
 	
 	@NotEmpty
