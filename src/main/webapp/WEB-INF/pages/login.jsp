@@ -5,28 +5,32 @@
 			<h1>
 				<fmt:message key="dlt.login.label.signin" />
 			</h1>
-			<form:form name="loginForm" method="POST" modelAttribute="loginModel">
+			<form:form name="loginForm" method="POST" modelAttribute="loginModel" action="login.html">
 
 				<div class="form_input">
 					<label for="userName"><fmt:message
 							key="dlt.login.label.email" /></label>
 					<form:input path="userName" id="userName" />
-<%-- 					<spring:hasBindErrors  name="loginForm.userName" > --%>
+					<spring:bind  path="loginModel.userName" >
+					<c:if test="${status.error}">
 						<p class="error">
 							<form:errors path="userName" />
 						</p>
-<%-- 					</spring:hasBindErrors> --%>
+					</c:if>
+					</spring:bind>
 
 				</div>
 				<div class="form_input">
 					<label for="password"><fmt:message
 							key="dlt.login.label.password" /></label>
 					<form:input path="password" id="password" />
-					<spring:hasBindErrors name="password">
+					<spring:bind path="loginModel.password">
+					<c:if test="${status.error}">
 						<p class="error">
 							<form:errors path="password" />
 						</p>
-					</spring:hasBindErrors>
+					</c:if>
+					</spring:bind>
 				</div>
 				<button class="primary" type="submit">
 					<fmt:message key="dlt.login.label.signin" />

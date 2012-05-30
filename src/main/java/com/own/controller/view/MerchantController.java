@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.own.controller.factory.MessageConvertorFactory;
-import com.own.controller.view.form.NewRegistrationFormModel;
 import com.own.merchant.model.Merchant;
 import com.own.merchant.model.view.form.MerchantLoginForm;
+import com.own.merchant.model.view.form.NewRegistrationFormModel;
 import com.own.service.MerchantService;
 import com.own.service.exception.BaseException.ExceptionType;
 import com.own.service.exception.IllegalObjectStateException;
