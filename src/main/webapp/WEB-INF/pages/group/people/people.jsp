@@ -1,5 +1,5 @@
 
-
+<%@ include file="/WEB-INF/pages/include/include.jsp"%>
 <div class="shell">
 
 	<%@ include file="/WEB-INF/pages/include/groupheader.jsp"%>
@@ -7,279 +7,149 @@
 	<div class="section">
 
 		<div class="content">
-
+			<input type="hidden" value="${userModal}" id="modalPopup">
+			<c:if test="${param.hasAlertMessages}">
+	  			<div class="notices">
+	            	<div class="success">
+	                	<p>
+	                		<span class="label"><fmt:message key="dlt.edit.profile.successmsg" /></span>
+							<spring:message code="${param.alertMessageKey}"></spring:message>
+						</p>
+	                </div>
+	            </div>
+            </c:if>
 			<div class="add-user form">
-				<a href="" class="button">Add New User</a>
+				<a href="" class="button"><fmt:message
+						key="dlt.people.title.addnewuser" /></a>
 
 				<div class="wrap">
-					<form>
+
+					<form:form id="peopleForm" name="peopleForm" method="post"
+						modelAttribute="user" action="people.html">
 						<div class="input-2 text-2">
-							<label class="label-1" for="email">Email:</label>
+							<form:hidden path="groupID" id="groupID" value="${param.groupId}" />
+							<label class="label-1" for="emailAddresses"><fmt:message
+									key="dlt.people.label.email" /></label>
 							<div class="wrap">
-								<input type="text" id="email" name="email">
-								<p class="hint">Use comma seperated addresses to add
-									multiple users at once</p>
-							</div>
-						</div>
-						<div class="input-2">
-							<label class="label-1" for="role">Role:</label>
-							<div class="wrap">
-								<select name="role" id="role">
-									<option value="">Choose</option>
-									<option value="admin">Admin</option>
-									<option value="teacher">Teacher</option>
-								</select>
-							</div>
-						</div>
-						<div class="input-2">
-							<label class="label-1">Add to class: <span>(optional)</span></label>
-							<div class="wrap">
-								<div class="checklist-1 scroll-box-1">
-									<ul>
-										<li><input name="class-1" id="class-1" type="checkbox"><label
-											for="class-1" title="First Class Name Class Name">First
-												Class Name Class Name</label></li>
-										<li><input name="class-2" id="class-2" type="checkbox"><label
-											for="class-2"
-											title="Second Class Name Class Name Class Name Class Name Class Name Class Name">Second
-												Class Name Class Name Class Name Class Name Class Name Class
-												Name</label></li>
-										<li><input name="class-3" id="class-3" type="checkbox"><label
-											for="class-3" title="Third Class Name Class Name">Third
-												Class Name Class Name</label></li>
-										<li><input name="class-4" id="class-4" type="checkbox"><label
-											for="class-4" title="Fourth Class Name Class Name">Fourth
-												Class Name Class Name</label></li>
-										<li><input name="class-5" id="class-5" type="checkbox"><label
-											for="class-5" title="Fifth Class Name Class Name">Fifth
-												Class Name Class Name</label></li>
-									</ul>
-								</div>
+								<form:input id="emailAddresses" path="emailAddresses" />
 								<p class="hint">
-									Classes can be created and managed on the <span>Classes</span>
-									tab
+									<fmt:message key="dlt.people.note.email.errmsg" />
+								</p>
+								<spring:bind path="user.emailAddresses">
+									<c:if test="${status.error}">
+										<div class="error">
+											<p>
+												<span class="label"><fmt:message key="dlt.error" /></span>
+												<form:errors path="emailAddresses" />
+											</p>
+										</div>
+									</c:if>
+								</spring:bind>
+							</div>
+						</div>
+						<div class="input-2">
+							<label class="label-1" for="userRole"><fmt:message
+									key="dlt.people.label.role" /></label>
+							<div class="wrap">
+								<form:select path="userRole" items="${roleList}"
+									itemLabel="value" itemValue="id">
+								</form:select>
+							</div>
+						</div>
+						<div class="input-2">
+							<label class="label-1"><fmt:message
+									key="dlt.people.lablel.addtoclass" /></label>
+							<div class="wrap">
+								<div class="checklist-1 scroll-box-1"></div>
+								<p class="hint">
+									<fmt:message key="dlt.people.note.classes" />
 								</p>
 							</div>
 						</div>
+
+						<div class="input-3 checklist-1"></div>
 						<div class="input-3 checklist-1">
-							<ul>
-								<li><input name="invite" id="invite" type="checkbox"
-									checked="checked"><label for="invite">Send
-										invite email</label></li>
-							</ul>
+							<form:checkbox path="inviteToBeSent" id="inviteToBeSent"
+								checked="checked" />
+							<form:label path="inviteToBeSent">
+								<fmt:message key="dlt.people.invite.notification" />
+							</form:label>
 						</div>
 						<div class="input-3">
-							<button type="submit">Add</button>
+							<form:button type="submit">
+								<fmt:message key="dlt.people.button.add" />
+							</form:button>
 							<!-- <button type="button">Cancel</button> -->
 						</div>
 
-					</form>
+					</form:form>
 				</div>
 
 			</div>
 
+			<display:table name="peopleList" requestURI="/people.html"
+				defaultsort="1" export="false" id="tableList" uid="peopleList" pagesize="3" >
+				<display:column property="name" title="Name" headerClass="name" class="name"
+					sortable="true" sortProperty="name" defaultorder="ascending" />
+				<display:column property="role.value" title="Role"
+					headerClass="role " class="role" sortable="true" sortProperty="role"/>
+				<display:column property="status" title="Status"
+					headerClass="status" class="status" sortable="true" sortProperty="status"/>
+				<display:column class="action" sortable="false">
+					<c:url var="inviteUrl" value="/people/invite.html">
+						<c:param name="groupId">
+							<c:out value="${tableList.groupID}" />
+						</c:param>
+						<c:param name="peopleId">
+							<c:out value="${tableList.groupInviteeID}" />
+						</c:param>
+					</c:url>
+					<c:if test="${tableList.status.value != 'Active'}">
+						<a href="${inviteUrl}" class="invite">Send Invite</a>
+					</c:if>
 
-			<div class="paging">
-				<p class="showing">Showing 21&ndash;40 of 55</p>
-				<ul class="pages">
-					<li class="label">Pages:</li>
-					<li class="previous"><a href="#">Previous</a></li>
-					<li><a href="#">1</a></li>
-					<li>2</li>
-					<li><a href="#">3</a></li>
-					<li class="next"><a href="#">Next</a></li>
-				</ul>
-			</div>
-
-			<div class="paging">
-				<p class="showing">Showing 1&ndash;15 of 15</p>
-				<ul class="pages">
-					<li class="label">Pages:</li>
-					<li class="previous"><a href="#" class="inactive">Previous</a></li>
-					<li>1</li>
-					<li class="next"><a href="#" class="inactive">Next</a></li>
-				</ul>
-			</div>
-
-			<div class="paging">
-				<p class="showing">Showing 41&ndash;55 of 55</p>
-				<ul class="pages">
-					<li class="label">Pages:</li>
-					<li class="previous"><a href="#">Previous</a></li>
-					<li><a href="#">1</a></li>
-					<li><a href="#">2</a></li>
-					<li>3</li>
-					<li class="next"><a href="#" class="inactive">Next</a></li>
-				</ul>
-			</div>
-
-			<table class="users">
-				<thead>
-					<tr>
-						<th class="name"><a href="" class="sort-asc">Name</a></th>
-						<th class="role"><a href="" class="sort-desc">Role</a></th>
-						<th class="status"><a href="">Status</a></th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td class="name">Firstname Lastname</td>
-						<td class="role">Admin</td>
-						<td class="status">Active</td>
-						<td class="action"><a href="" class="edit">Edit</a><a href=""
-							class="remove">Remove</a></td>
-					</tr>
-					<tr>
-						<td class="name"><div>emailaddress@domain.com</div></td>
-						<td class="role">Teacher</td>
-						<td class="status">No invite sent</td>
-						<td class="action"><a href="" class="invite">Send Invite</a><a
-							href="" class="edit">Edit</a><a href="" class="remove">Remove</a></td>
-					</tr>
-					<tr>
-						<td class="name"><div>emailaddress@domain.com.asdfasdfasdfasdf</div></td>
-						<td class="role">Admin</td>
-						<td class="status">Invite Sent</td>
-						<td class="action"><a href="" class="invite">Send Invite</a><a
-							href="" class="edit">Edit</a><a href="" class="remove">Remove</a></td>
-					</tr>
-					<tr>
-						<td class="name"><div>Firstname Lastname</div></td>
-						<td class="role">Admin</td>
-						<td class="status">Active</td>
-						<td class="action"><a href="" class="edit">Edit</a><a href=""
-							class="remove">Remove</a></td>
-					</tr>
-					<tr>
-						<td class="name">Firstname Lastname</td>
-						<td class="role">Admin</td>
-						<td class="status">Active</td>
-						<td class="action"><a href="" class="edit">Edit</a><a href=""
-							class="remove">Remove</a></td>
-					</tr>
-					<tr>
-						<td class="name">Firstname Lastname</td>
-						<td class="role">Teacher</td>
-						<td class="status">Active</td>
-						<td class="action"><a href="" class="edit">Edit</a><a href=""
-							class="remove">Remove</a></td>
-					</tr>
-					<tr>
-						<td class="name">Firstname Lastname</td>
-						<td class="role">Teacher</td>
-						<td class="status">Active</td>
-						<td class="action"><a href="" class="edit">Edit</a><a href=""
-							class="remove">Remove</a></td>
-					</tr>
-					<tr>
-						<td class="name">Firstname Lastname</td>
-						<td class="role">Teacher</td>
-						<td class="status">Active</td>
-						<td class="action"><a href="" class="edit">Edit</a><a href=""
-							class="remove">Remove</a></td>
-					</tr>
-					<tr>
-						<td class="name">Firstname Lastname</td>
-						<td class="role">Teacher</td>
-						<td class="status">Active</td>
-						<td class="action"><a href="" class="edit">Edit</a><a href=""
-							class="remove">Remove</a></td>
-					</tr>
-					<tr>
-						<td class="name">Firstname Lastname</td>
-						<td class="role">Teacher</td>
-						<td class="status">Active</td>
-						<td class="action"><a href="" class="edit">Edit</a><a href=""
-							class="remove">Remove</a></td>
-					</tr>
-					<tr>
-						<td class="name">Firstname Lastname</td>
-						<td class="role">Teacher</td>
-						<td class="status">Active</td>
-						<td class="action"><a href="" class="edit">Edit</a><a href=""
-							class="remove">Remove</a></td>
-					</tr>
-					<tr>
-						<td class="name">Firstname Lastname</td>
-						<td class="role">Teacher</td>
-						<td class="status">Active</td>
-						<td class="action"><a href="" class="edit">Edit</a><a href=""
-							class="remove">Remove</a></td>
-					</tr>
-					<tr>
-						<td class="name">Firstname Lastname</td>
-						<td class="role">Teacher</td>
-						<td class="status">Active</td>
-						<td class="action"><a href="" class="edit">Edit</a><a href=""
-							class="remove">Remove</a></td>
-					</tr>
-					<tr>
-						<td class="name">Firstname Lastname</td>
-						<td class="role">Teacher</td>
-						<td class="status">Active</td>
-						<td class="action"><a href="" class="edit">Edit</a><a href=""
-							class="remove">Remove</a></td>
-					</tr>
-					<tr>
-						<td class="name">Firstname Lastname</td>
-						<td class="role">Teacher</td>
-						<td class="status">Active</td>
-						<td class="action"><a href="" class="edit">Edit</a><a href=""
-							class="remove">Remove</a></td>
-					</tr>
-					<tr>
-						<td class="name">Firstname Lastname</td>
-						<td class="role">Teacher</td>
-						<td class="status">Active</td>
-						<td class="action"><a href="" class="edit">Edit</a><a href=""
-							class="remove">Remove</a></td>
-					</tr>
-					<tr>
-						<td class="name">Firstname Lastname</td>
-						<td class="role">Teacher</td>
-						<td class="status">Active</td>
-						<td class="action"><a href="" class="edit">Edit</a><a href=""
-							class="remove">Remove</a></td>
-					</tr>
-					<tr>
-						<td class="name">Firstname Lastname</td>
-						<td class="role">Teacher</td>
-						<td class="status">Active</td>
-						<td class="action"><a href="" class="edit">Edit</a><a href=""
-							class="remove">Remove</a></td>
-					</tr>
-					<tr>
-						<td class="name">Firstname Lastname</td>
-						<td class="role">Teacher</td>
-						<td class="status">Active</td>
-						<td class="action"><a href="" class="edit">Edit</a><a href=""
-							class="remove">Remove</a></td>
-					</tr>
-					<tr>
-						<td class="name">Firstname Lastname</td>
-						<td class="role">Teacher</td>
-						<td class="status">Active</td>
-						<td class="action"><a href="" class="edit">Edit</a><a href=""
-							class="remove">Remove</a></td>
-					</tr>
-				</tbody>
-			</table>
-
-			<div class="paging">
-				<p class="showing">Showing 21&ndash;40 of 52</p>
-				<ul class="pages">
-					<li class="label">Pages:</li>
-					<li class="previous"><a href="#">Previous</a></li>
-					<li><a href="#">1</a></li>
-					<li>2</li>
-					<li><a href="#">3</a></li>
-					<li class="next"><a href="#">Next</a></li>
-				</ul>
-			</div>
-
-
-
-
+					<c:choose>
+						<c:when test="${tableList.status.value=='Active'}">
+							<c:set var="queryString" value="ssoId=${tableList.ssoID}"></c:set>
+						</c:when>
+						<c:otherwise>
+							<c:set var="queryString"
+								value="peopleId=${tableList.groupInviteeID}"></c:set>
+						</c:otherwise>
+					</c:choose>
+					<a
+						href="${contextRoot}/people/edit.html?groupId=${param.groupId}&${queryString}"
+						class="edit">Edit</a>
+					<a
+						href="${contextRoot}/people/remove.html?groupId=${param.groupId}&${queryString}"
+						class="remove">Remove</a>
+				</display:column>
+			</display:table>
+			<!-- 
+				<div id="remove-modal" class="modal confirm">
+    
+                        <div class="content">
+                            <h2>	<fmt:message key="dlt.people.model.label.removeuser"/></h2>
+                            <p><fmt:message key="dlt.people.model.label.confirmmsg"/></p>
+                            <p class="name"></p>
+                        </div>
+                        
+                        <p class="close"><a class="button confirm" href=""><fmt:message key="dlt.people.model.label.confirm"/></a> <a class="button simplemodal-close" href=""><fmt:message key="dlt.people.model.label.cancel"/></a></p>
+                        
+                    </div>
+                     -->
+                    
+                    <div id="invite-modal" class="modal confirm">
+    
+                        <div class="content">
+                            <h2><fmt:message key="dlt.people.model.label.inviteemailmsg"/></h2>
+                            <p><fmt:message key="dlt.people.model.label.inviteemailconfirm"/></p>
+                            <p class="name"></p>
+                        </div>
+                        
+                        <p class="close"><a class="button confirm" href=""><fmt:message key="dlt.people.model.label.send"/></a> <a class="button simplemodal-close" href=""><fmt:message key="dlt.people.model.label.cancel"/></a></p>
+                        
+                    </div>
 
 		</div>
 		<!-- /.content -->

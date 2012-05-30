@@ -1,5 +1,14 @@
 package com.own.controller.view;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.commons.lang.StringUtils;
+import org.springframework.ui.Model;
+
+import com.own.common.constants.AppConstant;
+import com.own.service.exception.ServiceException;
+
 public class BaseController {
 
 	private final String REDIRECT = "redirect:";
@@ -14,5 +23,126 @@ public class BaseController {
 	{
 		
 		return REDIRECT + controllerName + "?" + queryString;
+	}
+	
+	/**
+	 * The Enum MESSAGES.
+	 */
+	public static enum MESSAGES {
+
+		/** The UIMESSAGE. */
+		UIMESSAGE,
+		/** The ALERT. */
+		ALERT,
+		/** The ERROR. */
+		ERROR
+	}
+	/*
+	 * This map should contain the messages that are to be displayed in UI for a
+	 * page
+	 */
+	private final Map<String, String> viewMessageMap = new HashMap<String, String>();
+
+	private void addAlertMessage(final Model model, final String key) {
+		model.addAttribute(AppConstant.HAS_ALERT_MESSAGES_KEY, true);
+		model.addAttribute(AppConstant.ALERT_MESSAGE_KEY, key);
+	}
+
+	private void addErrorMessage(final Model model, final String key) {
+		model.addAttribute(AppConstant.HAS_ERROR_MESSAGES_KEY, true);
+		model.addAttribute(AppConstant.ERROR_MESSAGES_KEY, key);
+	}
+
+	//TODO: check this 
+	private void addErrorMessageFromException(final Throwable e,
+			final Model model, final String key) {
+		if (key != null) {
+			addErrorMessage(model, key);
+			return;
+		}
+		if (e instanceof ServiceException) {
+			ServiceException sx = (ServiceException) e;
+//			String ekey = sx.getMessageKey();
+//			if (ekey == null || StringUtils.isEmpty(key)) {
+//				ekey = MessageKeyConstant.SERVICE_DOWN;
+			}
+			addErrorMessage(model, key);
+//		} else {
+//			addErrorMessage(model, MessageKeyConstant.SERVICE_DOWN);
+//		}
+
+	}
+
+	/**
+	 * Adds the message.
+	 * 
+	 * @param messages
+	 *            the messages
+	 * @param model
+	 *            the model
+	 * @param key
+	 *            the key
+	 */
+	protected void addMessage(final MESSAGES messages, final Model model,
+			final String key) {
+		addMessage(messages, model, key, null);
+	}
+
+	/**
+	 * Adds the message.
+	 * 
+	 * @param messages
+	 *            the messages
+	 * @param model
+	 *            the model
+	 * @param key
+	 *            the key
+	 * @param e
+	 *            the e
+	 */
+	private void addMessage(final MESSAGES messages, final Model model,
+			final String key, final Throwable e) {
+		switch (messages) {
+		case UIMESSAGE:
+			addUIMessage(model, key);
+			break;
+		case ALERT:
+			addAlertMessage(model, key);
+			break;
+		case ERROR:
+			addErrorMessageFromException(e, model, key);
+			break;
+		default:
+			addUIMessage(model, key);
+		}
+
+	}
+
+	/**
+	 * Adds the message.
+	 * 
+	 * @param messages
+	 *            the messages
+	 * @param model
+	 *            the model
+	 * @param e
+	 *            the e
+	 */
+	protected void addMessage(final MESSAGES messages, final Model model,
+			final Throwable e) {
+		addMessage(messages, model, null, e);
+	}
+
+	/**
+	 * Adds the ui message.
+	 * 
+	 * @param model
+	 *            the model
+	 * @param key
+	 *            the key
+	 */
+	private void addUIMessage(final Model model, final String key) {
+		model.addAttribute(AppConstant.HASMESSAGES_KEY, true);
+		model.addAttribute(AppConstant.MESSAGE_KEY, key);
 	}
 }
