@@ -5,10 +5,6 @@ import java.util.regex.Pattern;
 
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-import org.springframework.validation.Errors;
-
-import com.lifeway.dlt.constant.MessageKeyConstant;
-import com.lifeway.dlt.model.view.User;
 
 /**
  * Implementation class for Change Password Service.
@@ -101,24 +97,5 @@ public class ValidatorUtil {
 		return isValid;
 	}
 
-	/**
-	 * Validate recover password.
-	 * 
-	 * @param user
-	 *            the user
-	 * @param errors
-	 *            the errors
-	 */
-	public void validateRecoverPassword(final User user, final Errors errors) {
-
-		String emailAddress = user.getEmailAddress();
-
-		if (!(StringUtils.hasLength(user.getEmailAddress()) && validateEmail(emailAddress))) {
-			errors.rejectValue("emailAddress",
-					MessageKeyConstant.EMAIL_MALFORMED_KEY);
-			errors.rejectValue("emailAddress", MessageKeyConstant.USER_NOTVALID);
-		}
-
-	}
 
 }

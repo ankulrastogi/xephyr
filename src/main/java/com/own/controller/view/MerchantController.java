@@ -39,17 +39,17 @@ public class MerchantController extends BaseController {
 	@RequestMapping(value = { "/login" }, method = RequestMethod.GET)
 	public String loginPage(Model model) {
 		logger.info("Adding login Model");
-		model.addAttribute("loginModel",new MerchantLoginForm());
+		model.addAttribute("loginModel", new MerchantLoginForm());
 		return "login";
 	}
 
 	@RequestMapping(value = { "/login" }, method = RequestMethod.POST)
-	public String doLogin(@Valid @ModelAttribute("loginModel") MerchantLoginForm loginModel,BindingResult result,
-			Model model) {
-		if(result.hasErrors())
-		{
+	public String doLogin(
+			@Valid @ModelAttribute("loginModel") MerchantLoginForm loginModel,
+			BindingResult result, Model model) {
+		if (result.hasErrors()) {
 			logger.info("ERROR:" + result.toString());
-			
+
 			return "login";
 		}
 		Merchant merchant = new Merchant();
@@ -90,17 +90,19 @@ public class MerchantController extends BaseController {
 		return "login";
 	}
 
-	@RequestMapping(value={"/createaccount"},method=RequestMethod.GET)
-	public String createUserAccountGET(Model model)
-	{
-		model.addAttribute("registrationFormModel",new NewRegistrationFormModel());
+	@RequestMapping(value = { "/createaccount" }, method = RequestMethod.GET)
+	public String createUserAccountGET(Model model) {
+		model.addAttribute("registrationFormModel",
+				new NewRegistrationFormModel());
 		return "createaccount";
 	}
-	
-	@RequestMapping(value={"/createaccount"},method=RequestMethod.POST)
-	public String createUserAccountGET(@ModelAttribute("registrationFormModel")  NewRegistrationFormModel formModel, Model model)
-	{
-		
+
+	@RequestMapping(value = { "/createaccount" }, method = RequestMethod.POST)
+	public String createUserAccountGET(
+			@Valid @ModelAttribute("registrationFormModel") NewRegistrationFormModel formModel,
+			BindingResult result, Model model) {
+		if (result.hasErrors())
+			return "createaccount";
 		return "createaccount";
 	}
 }
