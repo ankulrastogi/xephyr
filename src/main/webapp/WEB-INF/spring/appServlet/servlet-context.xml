@@ -40,6 +40,7 @@
 	<beans:bean id="validator"
 		class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" >
 		<beans:property name="validationMessageSource" ref="messageSource" />
+		<beans:property name=""></beans:property>		
 		
 		</beans:bean>
 
