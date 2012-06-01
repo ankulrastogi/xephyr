@@ -6,10 +6,10 @@ import java.util.regex.Pattern;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+
 /**
- * Implementation class for Change Password Service.
- * 
- * @author Ankita.Madan
+ * @author ankul
+ *
  */
 @Service
 public class ValidatorUtil {

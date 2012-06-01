@@ -7,6 +7,7 @@ import org.springframework.validation.Errors;
 import com.own.merchant.model.view.form.annotations.MatchValues;
 
 @MatchValues(field="email",verifyField="verifyEmail")
+
 public class NewRegistrationFormModel {
 
 	@NotEmpty
