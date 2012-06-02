@@ -64,6 +64,13 @@ public interface MerchantRegistrationService {
 	 * @throws ServiceException 
 	 */
 	public MerchantRegistration activateRegistration(String emailID, String identifier) throws ServiceException;
+
+
+	/**
+	 * Method to create a unique identifier and that to be sent to the members email for activation
+	 * @param rMerchant
+	 */
+	public void sendActivationLink(MerchantRegistration rMerchant);
 	
 	
 }

@@ -1,6 +1,7 @@
 package com.own.merchant.model;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,21 +33,28 @@ public class MerchantRegistration {
 	@Column(name="signUpID")
 	private Integer signUpID;
 	
-	@Column(name="merchantName")
-	private String name;
+	@Column(name="firstName")
+	private String firstName;
+	
+
+	@Column(name="lastName")
+	private String lastName;
 	
 	@Column(name="merchantEmail",unique=true,nullable=false)
 	private String email;
 	
-	@Column(name="merchnantPassword")
+	@Column(name="merchantPassword")
 	private String password;
 	
 	@Column(name="activationURLstring",unique=true,nullable=false)
 	private String activationLink;
 	
 	@Column(name="registrationStatus")
-	@Enumerated(EnumType.ORDINAL)
+	@Enumerated(EnumType.STRING)
 	private RegistrationStatus status;
+	
+	@Column(name="creation_date")
+	private Date creationDate;
 	
 	@Transient
 	private String rePassword;
@@ -57,14 +65,6 @@ public class MerchantRegistration {
 
 	public void setSignUpID(Integer signUpID) {
 		this.signUpID = signUpID;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 	public String getEmail() {
@@ -101,7 +101,7 @@ public class MerchantRegistration {
 
 	@Override
 	public String toString() {
-		return "MerchantRegistration [signUpID=" + signUpID + ", name=" + name
+		return "MerchantRegistration [signUpID=" + signUpID
 				+ ", email=" + email + ", password=" + password
 				+ ", activationLink=" + activationLink + ", status=" + status
 				+ "]";
@@ -170,6 +170,30 @@ public class MerchantRegistration {
 	public boolean consumed() {
 		// TODO Auto-generated method stub
 		return this.getStatus().equals(RegistrationStatus.ACTIVE);
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public Date getCreationDate() {
+		return creationDate;
+	}
+
+	public void setCreationDate(Date creationDate) {
+		this.creationDate = creationDate;
 	}
 	
 	

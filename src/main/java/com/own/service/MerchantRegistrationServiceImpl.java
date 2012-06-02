@@ -1,5 +1,7 @@
 package com.own.service;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
@@ -41,13 +43,12 @@ public class MerchantRegistrationServiceImpl implements
 						ErrorConstants.USER_ALREADY_EXISTS, new Throwable());
 
 			}
-			String activationLink = generateActivationLink(rMerchant);
-			rMerchant.setActivationLink(activationLink);
+
+			rMerchant.setActivationLink("");
 			rMerchant.setStatus(RegistrationStatus.PENDING);
+			rMerchant.setCreationDate(Calendar.getInstance().getTime());
 
 			response = registrationManager.save(rMerchant);
-
-			sendActivationLinkOnMail(rMerchant);
 
 		} catch (IllegalObjectStateException e) {
 
@@ -137,7 +138,7 @@ public class MerchantRegistrationServiceImpl implements
 		} catch (DatabaseException e1) {
 			// TODO Auto-generated catch block
 			logger.info("Exception:" + e1.getMessage());
-			throw new ServiceException(e1.getErrorMessages(),e1);
+			throw new ServiceException(e1.getErrorMessages(), e1);
 		}
 
 		if (null == rMerchant) {
@@ -171,6 +172,32 @@ public class MerchantRegistrationServiceImpl implements
 		}
 		return rMerchant;
 
+	}
+
+	@Override
+	public void sendActivationLink(MerchantRegistration rMerchant) {
+		
+		sendActivationLink(rMerchant.getEmail());
+		
+	}
+	
+	public void sendActivationLink(String emailID)
+	{
+
+		MerchantRegistration findByEmail = null;
+		try {
+			 findByEmail = registrationManager.findByEmail(emailID);
+			 if(findByEmail.getStatus().equals(RegistrationStatus.ACTIVE))
+			 {
+				 logger.info("The user is alreay in active state. cannot send activation mail");
+				 return;
+			 }
+			 Date timeStamp = findByEmail.getCreationDate();
+			 
+		} catch (DatabaseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

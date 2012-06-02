@@ -212,7 +212,7 @@ public class MerchantServiceImpl implements MerchantService {
 
 		Merchant merchant = new Merchant();
 		merchant.setEmailID(registrationByEmail.getEmail());
-		merchant.setName(registrationByEmail.getName());
+		merchant.setName(registrationByEmail.getFirstName()+registrationByEmail.getLastName());
 		merchant.setPassword(registrationByEmail.getPassword());
 		merchant.setStatus(MerchantStatus.ACTIVE);
 		return createMerchant(merchant);

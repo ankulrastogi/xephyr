@@ -76,8 +76,10 @@ public class RegistrationManagerImpl implements RegistrationManager {
 		MerchantRegistration result = merchantRegistrationRepository
 				.findOne(rMerchant.getSignUpID());
 		result.setEmail(rMerchant.getEmail());
-		result.setName(rMerchant.getName());
+		result.setFirstName(rMerchant.getFirstName());
+		result.setLastName(rMerchant.getLastName());
 		result.setStatus(rMerchant.getStatus());
+		
 		result.validate(ValidationType.POST);
 		return result;
 	}

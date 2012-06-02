@@ -1,3 +1,5 @@
+<div class="notices">
+
 <c:if test="${hasErrorMessages}">
 	<div class="error">
 		<p>
@@ -33,3 +35,4 @@
 		</p>
 	</div>
 </c:if>
+</div>

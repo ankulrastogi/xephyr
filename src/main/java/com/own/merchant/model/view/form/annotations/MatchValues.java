@@ -8,13 +8,15 @@ import java.lang.annotation.Target;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
+import javax.validation.ReportAsSingleViolation;
 
 import com.own.merchant.model.view.form.annotations.validator.MatchValueValidator;
 
 @Target({ElementType.TYPE,ElementType.ANNOTATION_TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Constraint(validatedBy=MatchValueValidator.class)
+@Constraint(validatedBy={MatchValueValidator.class})
+@ReportAsSingleViolation
 public @interface MatchValues {
 
 	Class<? extends Payload>[] payload() default {};
@@ -26,4 +28,12 @@ public @interface MatchValues {
 	String field () default "";
 	
 	String verifyField() default "";
+	
+	@Target({ElementType.TYPE,ElementType.ANNOTATION_TYPE})
+	@Retention(RetentionPolicy.RUNTIME)
+	@Documented
+	@interface List
+	{
+		MatchValues[] value();
+	}
 }

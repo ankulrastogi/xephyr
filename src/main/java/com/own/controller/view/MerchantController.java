@@ -17,8 +17,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.own.controller.factory.MessageConvertorFactory;
 import com.own.merchant.model.Merchant;
+import com.own.merchant.model.MerchantRegistration;
 import com.own.merchant.model.view.form.MerchantLoginForm;
 import com.own.merchant.model.view.form.NewRegistrationFormModel;
+import com.own.service.MerchantRegistrationService;
 import com.own.service.MerchantService;
 import com.own.service.exception.BaseException.ExceptionType;
 import com.own.service.exception.IllegalObjectStateException;
@@ -33,6 +35,9 @@ public class MerchantController extends BaseController {
 
 	@Autowired
 	MessageConvertorFactory convertorFactory;
+	
+	@Autowired
+	MerchantRegistrationService registrationService;
 
 	private static Logger logger = Logger.getLogger(MerchantController.class);
 
@@ -103,6 +108,31 @@ public class MerchantController extends BaseController {
 			BindingResult result, Model model) {
 		if (result.hasErrors())
 			return "createaccount";
+		MerchantRegistration rMerchant = formModel.convertToRegistration();
+		try {
+			rMerchant = registrationService.registerMerchant(rMerchant);
+		
+			if(rMerchant.getSignUpID() == null)
+			{
+				logger.info("There was some problem in saving the registration details.Please try again later");
+				return "createaccount";
+			}
+			
+			registrationService.sendActivationLink(rMerchant);
+		} catch (ServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+	
+		}
+		
+		
+		//send an activation link to the merchant
+		
+		
+		
+		
+		
+		
 		return "createaccount";
 	}
 }

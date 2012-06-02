@@ -43,8 +43,7 @@
 		<beans:property name="providerClass" value="org.hibernate.validator.HibernateValidator" />
 		<beans:property name="validationPropertyMap">
 			<beans:map>
-				<beans:entry key="hibernate.validator.fail_fast" value="true"/>
-				
+				<beans:entry key="hibernate.validator.fail_fast" value="false"/>
 			</beans:map>
 		</beans:property>
 		</beans:bean>

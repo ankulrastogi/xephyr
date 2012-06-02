@@ -14,31 +14,33 @@ public class MatchValueValidator implements
 
 	private String field;
 	private String verifyField;
-	
+
 	@Override
 	public void initialize(MatchValues match) {
 		this.field = match.field();
 		this.verifyField = match.verifyField();
-	
+
 	}
 
 	@Override
 	public boolean isValid(Object element, ConstraintValidatorContext context) {
-		
+
 		boolean valid = false;
-		
+
 		try {
 			Object fieldValue = BeanUtils.getProperty(element, field);
 			Object matchValue = BeanUtils.getProperty(element, verifyField);
-			
-			if(!fieldValue.equals(matchValue))
-					{
-						context.disableDefaultConstraintViolation();
-						context.buildConstraintViolationWithTemplate("{email.verify.mismatch}").addNode(verifyField).addConstraintViolation();
-					}
-			else
-			{
-				valid=true;
+		
+			if (null == field && null == verifyField)
+				return true;
+
+			if (!fieldValue.equals(matchValue)) {
+				context.disableDefaultConstraintViolation();
+				context.buildConstraintViolationWithTemplate(
+						context.getDefaultConstraintMessageTemplate())
+						.addNode(verifyField).addConstraintViolation();
+			} else {
+				valid = true;
 			}
 		} catch (IllegalAccessException e) {
 			// TODO Auto-generated catch block
@@ -50,7 +52,7 @@ public class MatchValueValidator implements
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		return valid;
 	}
 }

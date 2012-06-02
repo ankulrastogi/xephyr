@@ -1,21 +1,23 @@
 package com.own.merchant.model.view.form;
 
-import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.validation.Errors;
 
+import com.own.merchant.model.MerchantRegistration;
 import com.own.merchant.model.view.form.annotations.MatchValues;
+import com.own.merchant.model.view.form.annotations.ValidEmail;
 
-@MatchValues(field="email",verifyField="verifyEmail")
-
+@MatchValues.List(
+{
+	@MatchValues(field="email",verifyField="verifyEmail",message="{email.verify.mismatch}"),
+	@MatchValues(field="password",verifyField="verifyPassword",message="{password.verify.mismatch}")
+})
 public class NewRegistrationFormModel {
 
-	@NotEmpty
-	@Email(regexp="^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")
+	@ValidEmail
 	private String email;
 	
-	@NotEmpty
-	@Email(regexp="^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")	
+	@ValidEmail
 	private String verifyEmail;
 	
 	@NotEmpty
@@ -86,6 +88,15 @@ public class NewRegistrationFormModel {
 			
 			return errors;
 		}
+	}
+
+	public MerchantRegistration convertToRegistration() {
+		MerchantRegistration register = new MerchantRegistration();
+		register.setFirstName(this.firstName);
+		register.setLastName(this.lastName);
+		register.setPassword(this.password);
+		register.setEmail(this.email);
+		return register;
 	}
 	
 }
