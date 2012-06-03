@@ -54,14 +54,13 @@ public class MerchantController extends BaseController {
 			BindingResult result, Model model) {
 		if (result.hasErrors()) {
 			logger.info("ERROR:" + result.toString());
-
 			return "login";
 		}
 		Merchant merchant = new Merchant();
 		merchant.setEmailID(loginModel.getUserName());
 		merchant.setPassword(loginModel.getPassword());
 		List<String> errorList = new ArrayList<String>();
-
+		
 		try {
 			Merchant loginUser = mService.loginUser(merchant);
 			if (null == loginUser) {
@@ -88,8 +87,13 @@ public class MerchantController extends BaseController {
 			errorList.addAll(convertorFactory
 					.convertToList(convertExceptionMessages));
 		}
-		if (errorList.size() == 0) {
+		if (errorList.size() != 0) {
+			logger.info("Business errors in performing login");
 			return "login";
+		}
+		else
+		{
+			logger.info("The user has been logged in successfully");
 		}
 
 		return "login";
@@ -106,33 +110,31 @@ public class MerchantController extends BaseController {
 	public String createUserAccountGET(
 			@Valid @ModelAttribute("registrationFormModel") NewRegistrationFormModel formModel,
 			BindingResult result, Model model) {
+		String viewName = "createaccount";
 		if (result.hasErrors())
-			return "createaccount";
+			return viewName;
 		MerchantRegistration rMerchant = formModel.convertToRegistration();
 		try {
 			rMerchant = registrationService.registerMerchant(rMerchant);
 		
+			model.addAttribute("DUMMY","test");
 			if(rMerchant.getSignUpID() == null)
 			{
 				logger.info("There was some problem in saving the registration details.Please try again later");
-				return "createaccount";
+				return viewName;
 			}
 			
-			registrationService.sendActivationLink(rMerchant);
+			registrationService.activateRegistration(rMerchant);
+			
+			mService.moveMerchantOnBoard(rMerchant.getEmail());
+			viewName =  "redirect:login.html";
+			//TODO: this will be handled later
+			//registrationService.sendActivationLink(rMerchant);
 		} catch (ServiceException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 	
 		}
-		
-		
-		//send an activation link to the merchant
-		
-		
-		
-		
-		
-		
-		return "createaccount";
+		return viewName;
 	}
 }

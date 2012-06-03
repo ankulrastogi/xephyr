@@ -1,0 +1,27 @@
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+    xmlns:beans="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+
+    
+    <http pattern="/resources/**" security="none" />
+    <http pattern="/pages/**" security="none" />
+	<http pattern="/view/merchant/login*" security="none"/>
+	<http pattern="/view/merchant/logout*" security="none"/>
+	<http pattern="/view/merchant/createaccount*" security="none"/>
+	
+	<http use-expressions="true" >
+	    <form-login login-page="/view/merchant/login.html" login-processing-url="/view/merchant/login.html" 
+	        password-parameter="password" username-parameter="userName" 
+	        authentication-failure-url="/view/merchant/login.html" default-target-url="/view/merchant/groupList.html"/>
+	    <intercept-url pattern="/**" access="isAuthenticated()"/>
+	</http>
+	<authentication-manager>
+        <authentication-provider>
+            <user-service>
+                <user name="rod" password="rod" authorities="ROLE_ADMIN" />
+            </user-service>
+        </authentication-provider>
+    </authentication-manager>
+</beans:beans>                        

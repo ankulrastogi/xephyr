@@ -1,7 +1,6 @@
 package com.own.service;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
@@ -47,6 +46,7 @@ public class MerchantRegistrationServiceImpl implements
 			rMerchant.setActivationLink("");
 			rMerchant.setStatus(RegistrationStatus.PENDING);
 			rMerchant.setCreationDate(Calendar.getInstance().getTime());
+			rMerchant.setUpdationDate(Calendar.getInstance().getTime());
 
 			response = registrationManager.save(rMerchant);
 
@@ -70,28 +70,6 @@ public class MerchantRegistrationServiceImpl implements
 
 		return response;
 
-	}
-
-	/**
-	 * Sends the activation link by mail for the user to activate his account
-	 * 
-	 * @param rMerchant
-	 */
-	private void sendActivationLinkOnMail(MerchantRegistration rMerchant) {
-		// TODO Auto-generated method stub
-
-	}
-
-	/**
-	 * Generates activation Link for the merchant registration process.
-	 * Temporary parked here
-	 * 
-	 * @param rMerchant
-	 * @return
-	 */
-	private String generateActivationLink(MerchantRegistration rMerchant) {
-		// TODO Auto-generated method stub
-		return "activationLink";
 	}
 
 	@Override
@@ -128,6 +106,13 @@ public class MerchantRegistrationServiceImpl implements
 		return null;
 	}
 
+	
+	@Override
+	public MerchantRegistration activateRegistration(MerchantRegistration newMerchant) throws ServiceException
+	{
+		return activateRegistration(newMerchant.getEmail(),newMerchant.getActivationLink());
+				
+	}
 	@Override
 	public MerchantRegistration activateRegistration(String emailID,
 			String identifier) throws ServiceException {
@@ -159,6 +144,7 @@ public class MerchantRegistrationServiceImpl implements
 		}
 
 		rMerchant.setStatus(RegistrationStatus.ACTIVE);
+		rMerchant.setUpdationDate(Calendar.getInstance().getTime());
 
 		try {
 			registrationManager.save(rMerchant);
@@ -176,28 +162,8 @@ public class MerchantRegistrationServiceImpl implements
 
 	@Override
 	public void sendActivationLink(MerchantRegistration rMerchant) {
+			
 		
-		sendActivationLink(rMerchant.getEmail());
-		
-	}
-	
-	public void sendActivationLink(String emailID)
-	{
-
-		MerchantRegistration findByEmail = null;
-		try {
-			 findByEmail = registrationManager.findByEmail(emailID);
-			 if(findByEmail.getStatus().equals(RegistrationStatus.ACTIVE))
-			 {
-				 logger.info("The user is alreay in active state. cannot send activation mail");
-				 return;
-			 }
-			 Date timeStamp = findByEmail.getCreationDate();
-			 
-		} catch (DatabaseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 
 }

@@ -38,11 +38,7 @@ public class BaseController {
 		/** The ERROR. */
 		ERROR
 	}
-	/*
-	 * This map should contain the messages that are to be displayed in UI for a
-	 * page
-	 */
-	private final Map<String, String> viewMessageMap = new HashMap<String, String>();
+
 
 	private void addAlertMessage(final Model model, final String key) {
 		model.addAttribute(AppConstant.HAS_ALERT_MESSAGES_KEY, true);

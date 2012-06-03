@@ -62,7 +62,7 @@ public class Merchant implements Serializable {
 	private String password;
 
 	@Column(name="merchantStatus")
-	@Enumerated(EnumType.ORDINAL)
+	@Enumerated(EnumType.STRING)
 	private MerchantStatus status;
 	
 	public String getName() {

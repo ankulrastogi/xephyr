@@ -35,7 +35,8 @@ public class RegistrationManagerImpl implements RegistrationManager {
 					+ e.getMessage());
 			throw new DatabaseException(ExceptionType.VIEW,ErrorConstants.DATABASE_ERROR,e);
 		}
-		logger.info("saved");
+		logger.info("saved:" + result);
+		
 		result.validate(ValidationType.POST);
 		return result;
 	}

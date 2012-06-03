@@ -53,6 +53,9 @@ public class MerchantRegistration {
 	@Enumerated(EnumType.STRING)
 	private RegistrationStatus status;
 	
+	@Column(name="updation_date")
+	private Date updationDate;
+	
 	@Column(name="creation_date")
 	private Date creationDate;
 	
@@ -130,7 +133,7 @@ public class MerchantRegistration {
 					if(this.status == null)
 						errorMap = addToMap(errorMap, ErrorConstants.FIELD_EMPTY, new String[]{"status "});
 		case SIGNUP://conditions for signup
-					if(StringUtils.isEmpty(this.activationLink))
+					if(null == this.activationLink)
 						errorMap = addToMap(errorMap,ErrorConstants.FIELD_EMPTY,new String[]{"activation link "});
 					if(StringUtils.isEmpty(this.email))
 						errorMap = addToMap(errorMap,ErrorConstants.FIELD_EMPTY,new String[]{"email"});
@@ -194,6 +197,14 @@ public class MerchantRegistration {
 
 	public void setCreationDate(Date creationDate) {
 		this.creationDate = creationDate;
+	}
+
+	public Date getUpdationDate() {
+		return updationDate;
+	}
+
+	public void setUpdationDate(Date updationDate) {
+		this.updationDate = updationDate;
 	}
 	
 	

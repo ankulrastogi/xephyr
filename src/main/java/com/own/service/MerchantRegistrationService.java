@@ -71,6 +71,10 @@ public interface MerchantRegistrationService {
 	 * @param rMerchant
 	 */
 	public void sendActivationLink(MerchantRegistration rMerchant);
+
+
+	MerchantRegistration activateRegistration(MerchantRegistration newMerchant)
+			throws ServiceException;
 	
 	
 }

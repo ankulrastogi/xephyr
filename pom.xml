@@ -76,6 +76,23 @@
 			<version>${org.springframework-version}</version>
 		</dependency>
 		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
+			<version>${org.springframework-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId>
+			<version>3.1.0.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-web</artifactId>
+			<version>3.1.0.RELEASE</version>
+		</dependency>
+
+
+		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-validator</artifactId>
 			<version>4.3.0.CR1</version>
@@ -314,24 +331,24 @@
 					<warName>test</warName>
 				</configuration>
 			</plugin>
-<!-- 			<plugin> -->
-<!-- 				<groupId>org.jboss.as.plugins</groupId> -->
-<!-- 				<artifactId>jboss-as-maven-plugin</artifactId> -->
-<!-- 				<version>7.1.1.Final</version> -->
-<!-- 				<configuration> -->
-<!-- 					<hostname>localhost</hostname> -->
-<!-- 					<port>9999</port> -->
-<!-- 					<filename>test.war</filename> -->
-<!-- 				</configuration> -->
-<!-- 				<executions> -->
-<!-- 					<execution> -->
-<!-- 						<phase>package</phase> -->
-<!-- 						<goals> -->
-<!-- 							<goal>deploy</goal> -->
-<!-- 						</goals> -->
-<!-- 					</execution> -->
-<!-- 				</executions> -->
-<!-- 			</plugin> -->
+			<!-- <plugin> -->
+			<!-- <groupId>org.jboss.as.plugins</groupId> -->
+			<!-- <artifactId>jboss-as-maven-plugin</artifactId> -->
+			<!-- <version>7.1.1.Final</version> -->
+			<!-- <configuration> -->
+			<!-- <hostname>localhost</hostname> -->
+			<!-- <port>9999</port> -->
+			<!-- <filename>test.war</filename> -->
+			<!-- </configuration> -->
+			<!-- <executions> -->
+			<!-- <execution> -->
+			<!-- <phase>package</phase> -->
+			<!-- <goals> -->
+			<!-- <goal>deploy</goal> -->
+			<!-- </goals> -->
+			<!-- </execution> -->
+			<!-- </executions> -->
+			<!-- </plugin> -->
 
 		</plugins>
 
