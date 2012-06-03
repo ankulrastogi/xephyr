@@ -2,12 +2,15 @@ package com.own.controller.view;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.validation.Valid;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,14 +19,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.own.controller.factory.MessageConvertorFactory;
-import com.own.merchant.model.Merchant;
 import com.own.merchant.model.MerchantRegistration;
 import com.own.merchant.model.view.form.MerchantLoginForm;
 import com.own.merchant.model.view.form.NewRegistrationFormModel;
 import com.own.service.MerchantRegistrationService;
 import com.own.service.MerchantService;
-import com.own.service.exception.BaseException.ExceptionType;
-import com.own.service.exception.IllegalObjectStateException;
 import com.own.service.exception.ServiceException;
 
 @Controller(value = "merchantViewController")
@@ -35,7 +35,7 @@ public class MerchantController extends BaseController {
 
 	@Autowired
 	MessageConvertorFactory convertorFactory;
-	
+
 	@Autowired
 	MerchantRegistrationService registrationService;
 
@@ -48,52 +48,36 @@ public class MerchantController extends BaseController {
 		return "login";
 	}
 
+	@Autowired
+	@Qualifier(value="authManager")
+	AuthenticationManager authManager;
+
+
 	@RequestMapping(value = { "/login" }, method = RequestMethod.POST)
 	public String doLogin(
 			@Valid @ModelAttribute("loginModel") MerchantLoginForm loginModel,
 			BindingResult result, Model model) {
+		
+		
 		if (result.hasErrors()) {
 			logger.info("ERROR:" + result.toString());
 			return "login";
 		}
-		Merchant merchant = new Merchant();
-		merchant.setEmailID(loginModel.getUserName());
-		merchant.setPassword(loginModel.getPassword());
-		List<String> errorList = new ArrayList<String>();
 		
-		try {
-			Merchant loginUser = mService.loginUser(merchant);
-			if (null == loginUser) {
-				logger.info("authentication Failed");
-				errorList.add("merchant.authentication.exception");
-
-			}
-		} catch (IllegalObjectStateException e) {
-
-			logger.info("Object validation failed:"
-					+ e.getAllErrorMessages(ExceptionType.ALL));
-			Map<String, List<String>> convertExceptionMessages = convertorFactory
-					.convertExceptionMessages(e
-							.getAllErrorMessages(ExceptionType.VIEW));
-			errorList.addAll(convertorFactory
-					.convertToList(convertExceptionMessages));
-		} catch (ServiceException e) {
-			// TODO Auto-generated catch block
-			logger.info("Service Exception:"
-					+ e.getAllErrorMessages(ExceptionType.ALL));
-			Map<String, List<String>> convertExceptionMessages = convertorFactory
-					.convertExceptionMessages(e
-							.getAllErrorMessages(ExceptionType.VIEW));
-			errorList.addAll(convertorFactory
-					.convertToList(convertExceptionMessages));
-		}
-		if (errorList.size() != 0) {
-			logger.info("Business errors in performing login");
-			return "login";
+		List<String> errorList = new ArrayList<String>();
+		UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
+				loginModel.getUserName(), loginModel.getPassword());
+		
+		token = (UsernamePasswordAuthenticationToken) authManager.authenticate(token);
+		if(!token.isAuthenticated())
+		{
+			logger.info("authentication Failed");
+			errorList.add("merchant.authentication.exception");
 		}
 		else
 		{
-			logger.info("The user has been logged in successfully");
+			SecurityContextHolder.getContext().setAuthentication(token);
+			return "redirect:groupList.html";
 		}
 
 		return "login";
@@ -116,25 +100,29 @@ public class MerchantController extends BaseController {
 		MerchantRegistration rMerchant = formModel.convertToRegistration();
 		try {
 			rMerchant = registrationService.registerMerchant(rMerchant);
-		
-			model.addAttribute("DUMMY","test");
-			if(rMerchant.getSignUpID() == null)
-			{
+
+			if (rMerchant.getSignUpID() == null) {
 				logger.info("There was some problem in saving the registration details.Please try again later");
 				return viewName;
 			}
-			
+
 			registrationService.activateRegistration(rMerchant);
-			
+
 			mService.moveMerchantOnBoard(rMerchant.getEmail());
-			viewName =  "redirect:login.html";
-			//TODO: this will be handled later
-			//registrationService.sendActivationLink(rMerchant);
+			viewName = "redirect:login.html";
+			// TODO: this will be handled later
+			// registrationService.sendActivationLink(rMerchant);
 		} catch (ServiceException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-	
+
 		}
 		return viewName;
+	}
+	
+	@RequestMapping(value={"groupList"},method=RequestMethod.GET)
+	public String postLoginPage(Model model)
+	{
+		return "groupList";
 	}
 }

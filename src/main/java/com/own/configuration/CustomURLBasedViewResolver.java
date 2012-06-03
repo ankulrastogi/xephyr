@@ -1,8 +1,6 @@
 package com.own.configuration;
 
-import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
 
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.view.RedirectView;
@@ -19,7 +17,6 @@ public class CustomURLBasedViewResolver extends UrlBasedViewResolver{
 			 RedirectView redirectView = (RedirectView)element;
 			 
 			redirectView.setExposeModelAttributes(false);
-			Map<String, Object> attributesMap = new HashMap<String, Object>();
 		 }
 			 
 		 return element;

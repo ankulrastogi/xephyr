@@ -7,7 +7,6 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -260,6 +259,7 @@ public class MerchantController {
 	 * Validate merchant credantials and login the merchant if he is
 	 * authenticated. Not sure whether it should redirect to a view or something
 	 */
+	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public @ResponseBody
 	ServiceResponse loginMerchant(@RequestBody Merchant merchant) {
@@ -297,9 +297,5 @@ public class MerchantController {
 
 	}
 	
-	@RequestMapping(value={"groupList"},method=RequestMethod.GET)
-	public String postLoginPage(Model model)
-	{
-		return "groupList";
-	}
+	
 }

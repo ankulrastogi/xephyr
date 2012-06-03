@@ -4,5 +4,26 @@
 	xmlns:context="http://www.springframework.org/schema/context" 
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+    	<!-- DispatcherServlet Context: defines this servlet's request-processing 
+		infrastructure -->
+		
+	<import resource="classpath:database-context.xml" />
+
 <import resource="classpath:security-context.xml" />
+
+	
+			<bean id="validator"
+		class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" >
+		<property name="validationMessageSource" ref="messageSource" />
+		<property name="providerClass" value="org.hibernate.validator.HibernateValidator" />
+		<property name="validationPropertyMap">
+			<map>
+				<entry key="hibernate.validator.fail_fast" value="false"/>
+			</map>
+		</property>
+		</bean>
+		
+		
+	
 </beans>

@@ -114,7 +114,7 @@ public class MerchantServiceImpl implements MerchantService {
 		Merchant merchant = getMerchantByID(merchantID);
 		try
 		{
-			merchant.setStatus(status);
+	merchant.setStatus(status);
 			merchant = merchantManager.saveMerchant(merchant);
 		}catch (DatabaseException e) {
 		
