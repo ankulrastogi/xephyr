@@ -1,14 +1,11 @@
 package com.own.common.authentication;
 
-import java.util.Arrays;
-
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import com.own.merchant.model.Merchant;
@@ -16,7 +13,7 @@ import com.own.service.MerchantService;
 import com.own.service.exception.IllegalObjectStateException;
 import com.own.service.exception.ServiceException;
 
-@Component(value="dummyProvider")
+@Component("dummyProvider")
 public class CustomAuthenticationProvider implements AuthenticationProvider{
 
 	private static Logger logger = Logger.getLogger(CustomAuthenticationProvider.class);
@@ -45,21 +42,12 @@ public class CustomAuthenticationProvider implements AuthenticationProvider{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			UsernamePasswordAuthenticationToken token = null;
 			if(null != loginUser)
 			{
-			token = new UsernamePasswordAuthenticationToken(
-					username,
-					password,
-					Arrays.asList(new SimpleGrantedAuthority[] { new SimpleGrantedAuthority(
-							"ROLE_ADMIN") }));
-			}
-			else
-			{
-				token = new UsernamePasswordAuthenticationToken(username, password);
+				authToken.setAuthenticated(true);
 			}
 		
-		return token;
+		return authToken;
 	}
 
 	@Override

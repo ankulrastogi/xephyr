@@ -15,13 +15,7 @@ public class PropertyUtil {
 		SERVICE, ERROR, MESSAGE, CREDENTIAL
 	}
 
-	@Autowired
-	@Qualifier(value = "environmentProperties")
-	private Properties serviceProperties;
 	
-	@Autowired
-	@Qualifier(value = "dltProperties")
-	private Properties credentialProperties;
 
 	@Autowired
 	@Qualifier(value = "exceptionMessageSource")
@@ -46,32 +40,17 @@ public class PropertyUtil {
 		}
 		String value = null;
 		switch (type) {
-		case SERVICE:
-			value = getServiceProperty(key);
-			break;
+	
 		case ERROR:
 			value = getErrorProperty(key);
 			break;
 		case MESSAGE:
 			value = getMessageProperty(key);
 			break;
-		case CREDENTIAL:
-			value = getCredentialProperty(key);
-			break;
 		default:
 			break;
 		}
 		return value;
-	}
-
-	private String getServiceProperty(final String propertyKey) {
-
-		return serviceProperties.getProperty(propertyKey);
-	}
-	
-	private String getCredentialProperty(final String propertyKey) {
-
-		return credentialProperties.getProperty(propertyKey);
 	}
 
 }
