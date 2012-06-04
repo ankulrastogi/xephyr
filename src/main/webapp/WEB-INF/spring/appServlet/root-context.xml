@@ -10,6 +10,7 @@
     
 
 	
+	
  	<beans:bean id="validationMessages" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
 		<beans:property name="basenames">
 			<beans:list>
@@ -38,12 +39,8 @@
 
 	<!-- Enables the Spring MVC @Controller programming model -->
 	<annotation-driven  validator="validator"/>
-	<context:annotation-config />
-	<context:component-scan base-package="com.own.merchant.model" />
-	<context:component-scan base-package="com.own.merchant.*" />
-	<context:component-scan base-package="com.own.merchant" />
-	<context:component-scan base-package="com.own.merchant.controller.*" />
-		
+	<context:component-scan base-package="com.own.controller" />
+	
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving 
 		up static resources in the ${webappRoot}/resources directory -->
 	<resources mapping="/resources/**" location="/resources/" />
