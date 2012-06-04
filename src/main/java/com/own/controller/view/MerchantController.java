@@ -3,6 +3,7 @@ package com.own.controller.view;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.apache.log4j.Logger;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -56,7 +58,7 @@ public class MerchantController extends BaseController {
 	@RequestMapping(value = { "/login" }, method = RequestMethod.POST)
 	public String doLogin(
 			@Valid @ModelAttribute("loginModel") MerchantLoginForm loginModel,
-			BindingResult result, Model model) {
+			BindingResult result, Model model,HttpSession session) {
 		
 		
 		if (result.hasErrors()) {
@@ -77,6 +79,7 @@ public class MerchantController extends BaseController {
 		else
 		{
 			SecurityContextHolder.getContext().setAuthentication(token);
+			session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, SecurityContextHolder.getContext());
 			return "redirect:groupList.html";
 		}
 
