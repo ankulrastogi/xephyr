@@ -949,6 +949,9 @@ small {
 #topbar .menu li.first {
     border-left: 0 none;
 }
+#topbar .menu li.last {
+    border-right: 0 none;
+}
 
 #topbar .menu li {
     border-left: 0.0625em solid #EBE7E2;

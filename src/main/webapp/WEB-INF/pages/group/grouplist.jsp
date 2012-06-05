@@ -21,7 +21,7 @@
 			</c:if>
 		</div>
 		<h2>
-			<fmt:message key="dlt.group.label.selectgroup" />
+			Welcome <c:out value="${username}"></c:out>
 		</h2>
 		<ul id="grouplist">
 			<c:forEach var="groups" items="${groupList}" >

@@ -5,27 +5,53 @@
 			<h1>
 				<fmt:message key="dlt.login.label.signin" />
 			</h1>
+			  <c:if test="${not empty param.login_error}">
+      <font color="red">
+        Your login attempt was not successful, try again.<br/><br/>
+        Reason: <c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}"/>.
+      </font>
+    </c:if>
+    <!-- 
+			<form name="loginForm" method="POST" action="${contextRoot}/j_spring_security_check">
+
+				<div class="form_input">
+					<label for="userName"><fmt:message
+							key="dlt.login.label.email" /></label> 
+					<input type="text" name="j_username" />
+					
+				</div>
+				<div class="form_input">
+					<label for="password"><fmt:message
+ 							key="dlt.login.label.password" /></label>
+					<input type="password" name="j_password" />
+					
+				</div>
+				<button class="primary" type="submit">
+					<fmt:message key="dlt.login.label.signin" />
+				</button>
+			</form>
+			 -->	
 			<form:form name="loginForm" method="POST" modelAttribute="loginModel" action="login.html">
 
 				<div class="form_input">
 					<label for="userName"><fmt:message
-							key="dlt.login.label.email" /></label>
-					<form:input path="userName" id="userName" />
-					<spring:bind  path="loginModel.userName" >
-					<c:if test="${status.error}">
+							key="dlt.login.label.email" /></label> 
+ 					<form:input path="userName" id="userName" />
+ 					<spring:bind  path="loginModel.userName" >
+ 					<c:if test="${status.error}">
 						<p class="error">
 							<form:errors path="userName" />
 						</p>
-					</c:if>
-					</spring:bind>
+ 					</c:if> 
+ 					</spring:bind> 
 
 				</div>
 				<div class="form_input">
 					<label for="password"><fmt:message
-							key="dlt.login.label.password" /></label>
-					<form:input path="password" id="password" />
-					<spring:bind path="loginModel.password">
-					<c:if test="${status.error}">
+ 							key="dlt.login.label.password" /></label> 
+ 					<form:input path="password" id="password" /> 
+ 					<spring:bind path="loginModel.password"> 
+ 					<c:if test="${status.error}">
 						<p class="error">
 							<form:errors path="password" />
 						</p>

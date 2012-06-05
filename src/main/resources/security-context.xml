@@ -20,8 +20,9 @@
 	        />
 	    <intercept-url pattern="/**" access="isAuthenticated()"/>
 	    <logout delete-cookies="true" invalidate-session="true" 
-	        logout-url="/view/merchant/logout.html" logout-success-url="/view/merchant/login.html"/>
-	    <session-management invalid-session-url="/view/merchant/login.html" />
+	        logout-url="/view/merchant/logout" logout-success-url="/view/merchant/login"/>
+	    <session-management invalid-session-url="/view/merchant/login" />
+	    
 	</http>
 	<authentication-manager alias="authManager" >
         <authentication-provider ref="customAuthProvider">

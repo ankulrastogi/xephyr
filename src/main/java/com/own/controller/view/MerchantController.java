@@ -1,5 +1,6 @@
 package com.own.controller.view;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -80,7 +81,7 @@ public class MerchantController extends BaseController {
 		{
 			SecurityContextHolder.getContext().setAuthentication(token);
 			session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, SecurityContextHolder.getContext());
-			return "redirect:groupList.html";
+			return "redirect:groupList";
 		}
 
 		return "login";
@@ -124,8 +125,20 @@ public class MerchantController extends BaseController {
 	}
 	
 	@RequestMapping(value={"groupList"},method=RequestMethod.GET)
-	public String postLoginPage(Model model)
+	public String postLoginPage(Model model,Principal principal)
+	
 	{
+		model.addAttribute("username",principal.getName());
 		return "groupList";
 	}
+	
+	@RequestMapping(value={"logout"},method=RequestMethod.GET)
+	public String logoutPage(Model model,Principal principal,HttpSession session)
+	
+	{
+//		SecurityContextHolder.clearContext();
+//		session.invalidate();
+		return "redirect:login";
+	}
+	
 }

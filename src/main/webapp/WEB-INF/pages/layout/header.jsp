@@ -17,7 +17,7 @@
 			<li class="first"><a href="">Help</a></li>
 			<li><a href="">About</a></li>
 			<li><a href="/dlt/profile/edit.html">Profile</a></li>
-			<li class="last"><a href="/dlt/logout.html">Logout</a></li>
+			<li class="last"><a href="/j_spring_security_logout">Logout</a></li>
 		</ul>
 			
 		</c:if> 
