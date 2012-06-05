@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.ui.Model;
 
 import com.own.common.constants.AppConstant;
-import com.own.service.exception.ServiceException;
 
 public class BaseController {
 
@@ -57,16 +56,7 @@ public class BaseController {
 			addErrorMessage(model, key);
 			return;
 		}
-		if (e instanceof ServiceException) {
-			ServiceException sx = (ServiceException) e;
-//			String ekey = sx.getMessageKey();
-//			if (ekey == null || StringUtils.isEmpty(key)) {
-//				ekey = MessageKeyConstant.SERVICE_DOWN;
-			}
-			addErrorMessage(model, key);
-//		} else {
-//			addErrorMessage(model, MessageKeyConstant.SERVICE_DOWN);
-//		}
+	
 
 	}
 

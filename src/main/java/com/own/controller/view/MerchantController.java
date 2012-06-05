@@ -1,19 +1,12 @@
 package com.own.controller.view;
 
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -23,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.own.controller.factory.MessageConvertorFactory;
 import com.own.merchant.model.MerchantRegistration;
-import com.own.merchant.model.view.form.MerchantLoginForm;
 import com.own.merchant.model.view.form.NewRegistrationFormModel;
 import com.own.service.MerchantRegistrationService;
 import com.own.service.MerchantService;
@@ -46,47 +38,9 @@ public class MerchantController extends BaseController {
 
 	@RequestMapping(value = { "/login" }, method = RequestMethod.GET)
 	public String loginPage(Model model) {
-		logger.info("Adding login Model");
-		model.addAttribute("loginModel", new MerchantLoginForm());
 		return "login";
 	}
-
-	@Autowired
-	@Qualifier(value="authManager")
-	AuthenticationManager authManager;
-
-
-	@RequestMapping(value = { "/login" }, method = RequestMethod.POST)
-	public String doLogin(
-			@Valid @ModelAttribute("loginModel") MerchantLoginForm loginModel,
-			BindingResult result, Model model,HttpSession session) {
-		
-		
-		if (result.hasErrors()) {
-			logger.info("ERROR:" + result.toString());
-			return "login";
-		}
-		
-		List<String> errorList = new ArrayList<String>();
-		UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
-				loginModel.getUserName(), loginModel.getPassword());
-		
-		token = (UsernamePasswordAuthenticationToken) authManager.authenticate(token);
-		if(!token.isAuthenticated())
-		{
-			logger.info("authentication Failed");
-			errorList.add("merchant.authentication.exception");
-		}
-		else
-		{
-			SecurityContextHolder.getContext().setAuthentication(token);
-			session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, SecurityContextHolder.getContext());
-			return "redirect:groupList";
-		}
-
-		return "login";
-	}
-
+	
 	@RequestMapping(value = { "/createaccount" }, method = RequestMethod.GET)
 	public String createUserAccountGET(Model model) {
 		model.addAttribute("registrationFormModel",

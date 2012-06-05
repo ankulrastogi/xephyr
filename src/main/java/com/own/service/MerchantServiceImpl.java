@@ -177,7 +177,7 @@ public class MerchantServiceImpl implements MerchantService {
 			logger.info("Merchant successfully authenticated:");
 		} else {
 			logger.info("Merchant Authentication failed");
-			response.put(ErrorConstants.PASSWORD, new ArrayList<Object>());
+			response.put(ErrorConstants.AUTHENTICATION_FAILED, new ArrayList<Object>());
 		}
 
 		if (response.size() != 0) {

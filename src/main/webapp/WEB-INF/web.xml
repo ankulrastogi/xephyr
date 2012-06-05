@@ -25,7 +25,12 @@
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 		
-	
+
+	    <filter-mapping>
+      <filter-name>springSecurityFilterChain</filter-name>
+      <url-pattern>/*</url-pattern>
+    </filter-mapping>
+		
 	<servlet-mapping>
 		<servlet-name>appServlet</servlet-name>
 		<url-pattern>/</url-pattern>
@@ -33,10 +38,6 @@
 		
     
 	
-    <filter-mapping>
-      <filter-name>springSecurityFilterChain</filter-name>
-      <url-pattern>/*</url-pattern>
-    </filter-mapping>
 
 	<welcome-file-list>
 	    <welcome-file>index.html</welcome-file>

@@ -31,6 +31,14 @@ public class MessageConvertorFactory {
 			decodeList= errorList.get(String.valueOf(key));
 			if(null== decodeList)
 			decodeList = new ArrayList<String>();
+			if(null == dataList || dataList.isEmpty())
+			{
+				decodeList.add(exceptionMessageSource.getMessage(String.valueOf(key), null,Locale.US));
+				errorList.put(String.valueOf(key), decodeList);
+				logger.info(errorList);
+				return errorList;
+			}
+			
 			for(Object data:dataList)
 			{
 				 

@@ -19,7 +19,7 @@
 							key="dlt.group.groupHeader.label.about" /></a></li>
 				<li><a href="<%=request.getContextPath()%>/profile/edit.html"><fmt:message
 							key="dlt.group.groupHeader.label.profile" /></a></li>
-				<li><a href="${contextRoot}/view/merchant/logout"><fmt:message
+				<li><a href="${contextRoot}/j_spring_security_logout"><fmt:message
 							key="dlt.group.groupHeader.label.logout" /></a></li>
 			</ul>
 

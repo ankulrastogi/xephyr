@@ -16,11 +16,11 @@
 	<http use-expressions="true" >
 	    <form-login login-page="/view/merchant/login" 
 	        password-parameter="password" username-parameter="userName" 
-	        authentication-failure-url="/view/merchant/login" default-target-url="/view/merchant/groupList"
+	        authentication-failure-url="/view/merchant/login?error=1" default-target-url="/view/merchant/groupList"
 	        />
 	    <intercept-url pattern="/**" access="isAuthenticated()"/>
 	    <logout delete-cookies="true" invalidate-session="true" 
-	        logout-url="/view/merchant/logout" logout-success-url="/view/merchant/login"/>
+	       logout-success-url="/view/merchant/login"/>
 	    <session-management invalid-session-url="/view/merchant/login" />
 	    
 	</http>

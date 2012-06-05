@@ -3,8 +3,6 @@ package com.own.service.exception;
 import java.util.List;
 import java.util.Map;
 
-import com.own.service.exception.BaseException.ExceptionType;
-
 public class ServiceException extends BaseException {
 
 	/**
