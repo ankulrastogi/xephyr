@@ -42,13 +42,7 @@
 		</div>
 
 		<div class="app_help">
-			<p>
-				<fmt:message key="dlt.login.label.donthavelifewayid" />
-
-				<a class="button primary"
-					href="${contextRoot}/view/merchant/createaccount"> <fmt:message
-						key="dlt.login.label.createonennow" /></a>
-			</p>
+			
 			<p>
 				<fmt:message key="dlt.login.label.needhelp" />
 				<a href="https://support.lifeway.com/app/answers/list"

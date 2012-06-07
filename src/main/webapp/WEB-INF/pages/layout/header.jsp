@@ -1,6 +1,7 @@
 <%@page
 	import="org.springframework.security.web.context.HttpSessionSecurityContextRepository"%>
 <%@ include file="/WEB-INF/pages/include/include.jsp"%>
+<div id="bg">
 <div class="header wrapper">
 	<div class="header inner group" id="topbar">
 		<h1 class="app">
@@ -22,5 +23,12 @@
 			</ul>
 
 		</c:if>
+		<p>
+				<fmt:message key="dlt.login.label.donthavelifewayid" />
+
+				<a class="button primary"
+					href="${contextRoot}/view/merchant/createaccount"> <fmt:message
+						key="dlt.login.label.createonennow" /></a>
+			</p>
 	</div>
 </div>

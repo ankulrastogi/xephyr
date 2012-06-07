@@ -36,7 +36,7 @@ table {
 }
 
 body {
-	background: #DAE8F0;
+	background: #BDB9B6;
 	font: 16px/1.25 myriad-pro, myriadpro-regular, "Lucida Sans",
 		"Lucida Grande", "Lucida Sans Unicode", arial, sans-serif;
 	color: #333
@@ -58,8 +58,8 @@ pre,code,kbd,samp {
 }
 
 p {
-	margin: 20px 0;
-	text-align: left
+	margin: 10px 10px;
+	text-align: right
 }
 
 em {
@@ -607,9 +607,8 @@ span.required_indicator {
 }
 
 .header.wrapper {
-	background: #DAE8F0;
 	margin: 0 0 21px 0;
-	padding: 15px 10px 10px 10px
+	padding: 20px 10px 10px 10px
 }
 
 .header.inner {
@@ -652,7 +651,10 @@ h1.app span {
 	box-shadow: inset 1px 1px 0 rgba(255, 255, 255, 1), inset -1px -1px 0
 		rgba(255, 255, 255, 1);
 	padding: 0 22px;
-	text-shadow: 0 1px 0 #fff
+	text-shadow: 0 1px 0 #fff;
+	margin-left: auto;
+	margin-right: auto;
+	width: 30%;
 }
 
 .box h1 {
@@ -841,9 +843,10 @@ small {
 		margin: 10px 22px
 	}
 	.app_callout {
-		float: right;
-		margin-left: 22px;
-		width: 50%
+		
+		margin-left: auto;
+		margin-right: auto;
+		width: 100%
 	}
 	.app_callout.password {
 		margin-left: 0
@@ -893,8 +896,9 @@ small {
 		top: 0
 	}
 	.app_callout,.app_callout.password {
-		float: right;
-		width: 40%
+		margin-left: auto;
+		margin-right: auto;
+		width: 100%
 	}
 	.app_info.profile {
 		width: 50%
@@ -924,7 +928,9 @@ small {
 
 @media only screen and (min-width:992px) {
 	.app_callout {
-		width: 30%
+		width: 100%;
+		margin-left: auto;
+		margin-right: auto;
 	}
 	.form {
 		width: 60%
@@ -969,4 +975,8 @@ small {
     margin: 0;
     padding: 0.3em 0.7em;
     text-decoration: none;
+}
+
+#bg {
+	width: 100%;
 }
