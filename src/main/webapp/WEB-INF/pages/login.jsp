@@ -3,6 +3,13 @@
 <%@page import="org.springframework.security.web.WebAttributes"%>
 <%@ include file="/WEB-INF/pages/include/include.jsp"%>
 <div class="inner group">
+		<p>
+		<fmt:message key="dlt.login.label.donthavelifewayid" />
+
+		<a class="button primary"
+			href="${contextRoot}/view/merchant/createaccount"> <fmt:message
+				key="dlt.login.label.createonennow" /></a>
+	</p>
 	<div class="app_callout">
 		<div class="box">
 			<h1>
