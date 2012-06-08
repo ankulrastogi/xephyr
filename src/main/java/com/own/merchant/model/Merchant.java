@@ -17,6 +17,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.apache.commons.lang3.StringUtils;
+import org.hibernate.annotations.GenericGenerator;
 
 import com.own.common.constants.ErrorConstants;
 import com.own.service.exception.BaseException.ExceptionType;
@@ -40,8 +41,8 @@ public class Merchant implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
-	@Id
+	
+	
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "tableID")
 	private Integer id;
@@ -49,8 +50,11 @@ public class Merchant implements Serializable {
 	@Column(name = "merchantName")
 	private String name;
 
+	@Id
+	@GenericGenerator(name="userIDGen",strategy="com.own.merchant.model.sql.generator.MerchantUserIDGenerator")
+	@GeneratedValue(generator="userIDGen") 
 	@Column(name = "merchantUserID",unique=true,nullable=false)
-	private String merchantUsername;
+	private String merchantUserID;
 
 	@Transient
 	List<MerchantAccount> accounts;
@@ -89,18 +93,18 @@ public class Merchant implements Serializable {
 		this.emailID = emailID;
 	}
 
-	public String getMerchantUsername() {
-		return merchantUsername;
+	public String getMerchantUserID() {
+		return merchantUserID;
 	}
 
-	public void setMerchantUsername(String merchantUsername) {
-		this.merchantUsername = merchantUsername;
+	public void setMerchantUserID(String merchantUserID) {
+		this.merchantUserID = merchantUserID;
 	}
 
 	@Override
 	public String toString() {
 		return "Merchant [id=" + id + ", name=" + name + ", merchantUsername="
-				+ merchantUsername + ", accounts=" + accounts + ", emailID="
+				+ merchantUserID + ", accounts=" + accounts + ", emailID="
 				+ emailID + "]";
 	}
 
