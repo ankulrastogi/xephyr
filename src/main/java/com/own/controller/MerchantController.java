@@ -1,8 +1,11 @@
 package com.own.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.validation.Valid;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.own.common.constants.ErrorConstants;
 import com.own.controller.factory.MessageConvertorFactory;
 import com.own.controller.utils.ServiceConstants;
 import com.own.controller.utils.ServiceUtils;
@@ -27,6 +31,8 @@ import com.own.service.exception.BaseException.ExceptionType;
 import com.own.service.exception.DuplicateValueException;
 import com.own.service.exception.IllegalObjectStateException;
 import com.own.service.exception.ServiceException;
+import com.own.transaction.enums.MerchantStatus;
+import com.own.transaction.merchant.model.MerchantAccount;
 
 /**
  * REST based controller to handle all the merchant related requests.
@@ -73,7 +79,8 @@ public class MerchantController {
 
 		} catch (ServiceException e) {
 			Map<String, List<String>> messages = convertorfactory
-					.convertExceptionMessages(e.getAllErrorMessages(ExceptionType.VIEW));
+					.convertExceptionMessages(e
+							.getAllErrorMessages(ExceptionType.VIEW));
 			resp = ServiceUtils.composeServiceResponse(ServiceConstants.FAIL,
 					messages, null);
 			return resp;
@@ -141,7 +148,8 @@ public class MerchantController {
 
 			e.printStackTrace();
 			Map<String, List<String>> messages = convertorfactory
-					.convertExceptionMessages(e.getAllErrorMessages(ExceptionType.VIEW));
+					.convertExceptionMessages(e
+							.getAllErrorMessages(ExceptionType.VIEW));
 			return ServiceUtils.composeServiceResponse(ServiceConstants.FAIL,
 					messages, null);
 
@@ -216,7 +224,8 @@ public class MerchantController {
 		} catch (ServiceException e) {
 			e.printStackTrace();
 			return ServiceUtils.composeServiceResponse(ServiceConstants.FAIL,
-					convertorfactory.convertExceptionMessages(e.getAllErrorMessages(ExceptionType.VIEW)), null);
+					convertorfactory.convertExceptionMessages(e
+							.getAllErrorMessages(ExceptionType.VIEW)), null);
 		}
 
 		return ServiceUtils.composeServiceResponse(ServiceConstants.SUCCESS,
@@ -238,7 +247,8 @@ public class MerchantController {
 			result = mService.updateMerchant(merchant);
 		} catch (ServiceException e) {
 			Map<String, List<String>> messages = convertorfactory
-					.convertExceptionMessages(e.getAllErrorMessages(ExceptionType.VIEW));
+					.convertExceptionMessages(e
+							.getAllErrorMessages(ExceptionType.VIEW));
 			return ServiceUtils.composeServiceResponse(ServiceConstants.FAIL,
 					messages, null);
 
@@ -259,7 +269,7 @@ public class MerchantController {
 	 * Validate merchant credantials and login the merchant if he is
 	 * authenticated. Not sure whether it should redirect to a view or something
 	 */
-	
+
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public @ResponseBody
 	ServiceResponse loginMerchant(@RequestBody Merchant merchant) {
@@ -275,19 +285,20 @@ public class MerchantController {
 
 			}
 
-		} 
-		catch (IllegalObjectStateException e) {
+		} catch (IllegalObjectStateException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();	
+			e.printStackTrace();
 			Map<String, List<String>> messages = convertorfactory
-					.convertExceptionMessages(e.getAllErrorMessages(ExceptionType.VIEW));
+					.convertExceptionMessages(e
+							.getAllErrorMessages(ExceptionType.VIEW));
 			return ServiceUtils.composeServiceResponse(ServiceConstants.FAIL,
 					messages, null);
 		} catch (ServiceException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			Map<String, List<String>> messages = convertorfactory
-					.convertExceptionMessages(e.getAllErrorMessages(ExceptionType.VIEW));
+					.convertExceptionMessages(e
+							.getAllErrorMessages(ExceptionType.VIEW));
 			return ServiceUtils.composeServiceResponse(ServiceConstants.FAIL,
 					messages, null);
 		}
@@ -296,18 +307,39 @@ public class MerchantController {
 				new HashMap<String, List<String>>(), loginUser);
 
 	}
-	
+
 	/**
-	 * REST service to create a merchant account. Account can only be created for merchants 
-	 * which are in ACTIVE state. Merchant account will only be created in PENDING state, and should
-	 * only be activated by the system admin after he process is completed.
+	 * REST service to create a merchant account. Account can only be created
+	 * for merchants which are in ACTIVE state. Merchant account will only be
+	 * created in PENDING state, and should only be activated by the system
+	 * admin after he process is completed.
+	 * 
 	 * @return
 	 */
-	@RequestMapping(value ={"/{id}/account"},method=RequestMethod.POST)
-	public ServiceResponse createMerchantAccount()
-	{
+	@RequestMapping(value = { "/{id}/account" }, method = RequestMethod.POST)
+	public ServiceResponse createMerchantAccount(
+			@PathVariable("id") String userID,
+			@RequestBody MerchantAccount mAccount) {
+		Map<String, List<String>> messages = new HashMap<String, List<String>>();
+		try {
+			Merchant merchant = mService.getMerchantByMerchantUserID(userID);
+			if (!merchant.getStatus().equals(MerchantStatus.ACTIVE)) {
+				messages.put(
+						String.valueOf(ErrorConstants.MERCHANT_NOT_ACTIVE),
+						new ArrayList<String>());
+				return ServiceUtils.composeServiceResponse(
+						ServiceConstants.FAIL, messages, null);
+			}
+			
+		} catch (ServiceException e) {
+			messages = convertorfactory.convertExceptionMessages(e
+					.getAllErrorMessages(ExceptionType.VIEW));
+			e.printStackTrace();
+			return ServiceUtils.composeServiceResponse(ServiceConstants.FAIL,
+					messages, null);
+		}
 		return new ServiceResponse();
-		
+
 	}
-	
+
 }

@@ -18,6 +18,7 @@ public class ErrorConstants {
 	public static final Integer DATABASE_ERROR = 20;
 	public static final Integer INVALID_ID = 21;
 	public static final Integer FIELD_EMPTY = 22;
+	public static final Integer MERCHANT_NOT_ACTIVE = 23;
 
 
 }

@@ -122,4 +122,12 @@ public interface MerchantService {
 	 */
 	public Merchant deActivateMerchant(String merchantID)throws ServiceException;
 
+	/**
+	 * Gets the merchant info based on the merchant user ID. Throws an Service exception if the merchant is not found 
+	 *  
+	 * @param userID
+	 * @return
+	 */
+	public Merchant getMerchantByMerchantUserID(String userID) throws ServiceException;
+
 }

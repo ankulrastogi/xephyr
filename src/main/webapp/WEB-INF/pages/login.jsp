@@ -49,7 +49,6 @@
 		</div>
 
 		<div class="app_help">
-			
 			<p>
 				<fmt:message key="dlt.login.label.needhelp" />
 				<a href="https://support.lifeway.com/app/answers/list"
@@ -59,7 +58,4 @@
 		</div>
 	</div>
 
-	<div class="app_info">
-		<fmt:message key="dlt.login.label.aboutdlt" />
-	</div>
 </div>
