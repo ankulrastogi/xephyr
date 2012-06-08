@@ -12,8 +12,8 @@ import com.own.merchant.model.Merchant;
 public interface MerchantRepository extends CrudRepository<Merchant, Long>{
 
 	@Transactional(readOnly=true)
-	@Query("from Merchant m where m.merchantUsername = :username")
-	Merchant findbyUserID(@Param("username")String username);
+	@Query("from Merchant m where m.merchantUserID = :userID")
+	Merchant findbyUserID(@Param("userID")String userID);
 		
 	Merchant findByEmailID(String emailID);
 

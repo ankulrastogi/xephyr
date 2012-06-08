@@ -43,9 +43,9 @@ public class MerchantServiceImpl implements MerchantService {
 
 		Merchant response = null;
 
-		String username = getMerhantID(merchant);
-
-		merchant.setMerchantUsername(username);
+//		String username = getMerhantID(merchant);
+//
+//		merchant.setMerchantUserID(username);
 
 		try {
 			response = merchantManager

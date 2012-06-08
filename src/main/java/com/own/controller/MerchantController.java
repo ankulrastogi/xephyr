@@ -297,5 +297,17 @@ public class MerchantController {
 
 	}
 	
+	/**
+	 * REST service to create a merchant account. Account can only be created for merchants 
+	 * which are in ACTIVE state. Merchant account will only be created in PENDING state, and should
+	 * only be activated by the system admin after he process is completed.
+	 * @return
+	 */
+	@RequestMapping(value ={"/{id}/account"},method=RequestMethod.POST)
+	public ServiceResponse createMerchantAccount()
+	{
+		return new ServiceResponse();
+		
+	}
 	
 }
