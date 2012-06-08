@@ -44,4 +44,10 @@ public interface MerchantManager {
 
 	public void getLedgerForMerchant(Merchant merchant);
 
+	/**
+	 * Gets the total count of the merchant present
+	 * @return
+	 */
+	public long getCount();
+
 }

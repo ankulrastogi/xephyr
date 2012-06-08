@@ -43,9 +43,9 @@ public class MerchantServiceImpl implements MerchantService {
 
 		Merchant response = null;
 
-//		String username = getMerhantID(merchant);
-//
-//		merchant.setMerchantUserID(username);
+		String username = generateMerchantUserID(merchant);
+
+		merchant.setMerchantUserID(username);
 
 		try {
 			response = merchantManager
@@ -222,8 +222,8 @@ public class MerchantServiceImpl implements MerchantService {
 	 * Generates a unique key for the merchant which will be shared by the account for authentication and audit purpose
 	 * @param merchant
 	 */
-	private String getMerhantID(Merchant merchant) {
-		return "test_" + merchant.getEmailID();
+	private String generateMerchantUserID(Merchant merchant) {
+		return "test_" + merchantManager.getCount();
 		
 	}
 

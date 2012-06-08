@@ -977,3 +977,310 @@ small {
 #bg {
 	width: 100%;
 }
+
+.shell {
+	width: 100%;
+	position: relative;
+	
+	padding: 0 0 1em 0;
+	-webkit-border-radius: .7em .7em 0 0;
+	/*
+	border-radius: .7em .7em 0 0;
+	-moz-box-shadow: 0 .3125em .625em .0625em #84807e;
+	-webkit-box-shadow: 0 .3125em .625em .0625em #84807e;
+	box-shadow: 0 .3125em .625em .0625em #84807e;
+	-moz-border-radius: .7em .7em 0 0;
+	background-color: #333b48;
+	z-index: 1;
+	*/
+}
+
+.group-hdr {
+	width: 100%;
+	float: left;
+	padding: 0 0 .5em 0;
+	position: relative;
+	/*
+	background-color: #333b48;
+	background-repeat: repeat-x;
+	-moz-border-radius: .7em .7em 0 0;
+	-webkit-border-radius: .7em .7em 0 0;
+	border-radius: .7em .7em 0 0;
+	background-image: -khtml-gradient(linear, left top, left bottom, from(#3d4756),
+		to(#333b48) );
+	background-image: -moz-linear-gradient(#3d4756, #333b48);
+	background-image: -ms-linear-gradient(#3d4756, #333b48);
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #3d4756),
+		color-stop(100%, #333b48) );
+	background-image: -webkit-linear-gradient(#3d4756, #333b48);
+	background-image: -o-linear-gradient(#3d4756, #333b48);
+	background-image: linear-gradient(#3d4756, #333b48);
+	z-index: 10;
+	*/
+}
+
+.group-hdr h1 {
+	color: #757A7D;
+	font-size: 1.2em;
+	
+	padding: .5em 0 0 .8em;
+	margin: 0;
+	
+	float: right;
+	/*
+	line-height: 1.2em;
+	font-weight: bold;
+	text-shadow: 0 -0.0625em 0 #111;
+	*/
+}
+
+.group-hdr .action {
+	float: left;
+	padding: .5em 0 0 .8em;
+	position: relative
+}
+
+.group-hdr .button {
+	font-size: .75em;
+	border-width: .0834em;
+	border-color: #252c37;
+	-moz-border-radius: .2031em;
+	-webkit-border-radius: .2031em;
+	border-radius: .2031em;
+	color: #eee;
+	background: #465267;
+	background-repeat: repeat-x;
+	background-repeat: repeat-x;
+	background-image: -khtml-gradient(linear, left top, left bottom, from(#465267),
+		to(#343c49) );
+	background-image: -moz-linear-gradient(#465267, #343c49);
+	background-image: -ms-linear-gradient(#465267, #343c49);
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #465267),
+		color-stop(100%, #343c49) );
+	background-image: -webkit-linear-gradient(#465267, #343c49);
+	background-image: -o-linear-gradient(#465267, #343c49);
+	background-image: linear-gradient(#465267, #343c49);
+	-moz-box-shadow: inset 0 .0834em 0 #5f697b;
+	-webkit-box-shadow: inset 0 .0834em 0 #5f697b;
+	box-shadow: inset 0 .0834em 0 #5f697b;
+	text-shadow: 0 -0.0834em 0 #111
+}
+
+.no-cssgradients .group-hdr .button {
+	background: #353d4a repeat-x url('../img/grad-button-small-blue.jpg') 0
+		0
+}
+
+.group-hdr .button.drop:after {
+	border-top-color: #eee
+}
+
+.group-hdr .button.drop:before {
+	border-top-color: #111
+}
+
+.group-hdr .button:hover,.group-hdr .button:focus,.group-hdr .button.open
+	{
+	background: #4e5c74;
+	background-repeat: repeat-x;
+	background-repeat: repeat-x;
+	background-image: -khtml-gradient(linear, left top, left bottom, from(#4e5c74),
+		to(#3b4453) );
+	background-image: -moz-linear-gradient(#4e5c74, #3b4453);
+	background-image: -ms-linear-gradient(#4e5c74, #3b4453);
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #4e5c74),
+		color-stop(100%, #3b4453) );
+	background-image: -webkit-linear-gradient(#4e5c74, #3b4453);
+	background-image: -o-linear-gradient(#4e5c74, #3b4453);
+	background-image: linear-gradient(#4e5c74, #3b4453);
+	color: #fff
+}
+
+.no-cssgradients .group-hdr .button:hover,.no-cssgradients .group-hdr .button:focus,.no-cssgradients .group-hdr .button.open
+	{
+	background: #3c4554 repeat-x url('../img/grad-button-small-blue-on.jpg')
+		0 0
+}
+
+.group-hdr .dropdown {
+	display: none;
+	position: absolute;
+	background-color: #4e5c74;
+	padding: .2em .2em .2em .2em;
+	border: .0625em solid #252c37;
+	top: 2.55em;
+	left: .8em
+}
+
+.group-hdr .dropdown a {
+	font-size: .75em;
+	font-weight: bold;
+	color: #fff;
+	display: block;
+	padding: .5em .8em .5em 1.8em;
+	line-height: 1em;
+	text-decoration: none;
+	white-space: nowrap;
+	text-shadow: 0 -0.0834em 0 #111
+}
+
+.group-hdr .dropdown a.active {
+	background: url(../img/icon-check-1.png) no-repeat .4em .5em
+}
+
+.group-hdr .dropdown a:hover,.group-hdr .dropdown a.active:hover {
+	background-color: #333b48
+}
+
+.shell>.tabs {
+	clear: both;
+	margin: 0 0 0 1.2em;
+	z-index: 1;
+	position: relative
+}
+
+.shell>.tabs a {
+	display: inline-block;
+	padding: .4em .9em .5em 0;
+	margin: 0 0 0 .4em;
+	color: #fff;
+	font-size: 1em;
+	line-height: 1em;
+	font-weight: bold;
+	text-decoration: none;
+	text-transform: uppercase;
+	text-shadow: 0 -0.0625em 0 #222;
+	background-color: #34609f;
+	-moz-border-radius: .2em .2em 0 0;
+	-webkit-border-radius: .2em .2em 0 0;
+	border-radius: .2em .2em 0 0;
+	background-repeat: repeat-x;
+	background-image: -khtml-gradient(linear, left top, left bottom, from(#4173b2),
+		to(#34609f) );
+	background-image: -moz-linear-gradient(#4173b2, #34609f);
+	background-image: -ms-linear-gradient(#4173b2, #34609f);
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #4173b2),
+		color-stop(100%, #34609f) );
+	background-image: -webkit-linear-gradient(#4173b2, #34609f);
+	background-image: -o-linear-gradient(#4173b2, #34609f);
+	background-image: linear-gradient(#4173b2, #34609f);
+	-moz-box-shadow: inset 0 .0625em 0 #6294d3, inset 0 -0.125em .0625em
+		#274776;
+	-webkit-box-shadow: inset 0 .0625em 0 #6294d3, inset 0 -0.125em .0625em
+		#274776;
+	box-shadow: inset 0 .0625em 0 #6294d3, inset 0 -0.125em .0625em #274776;
+	position: relative;
+	text-indent: 1em;
+	text-align: center
+}
+
+.no-cssgradients .shell>.tabs a {
+	background: #34609f repeat-x url('../img/grad-tab.jpg') 0 0
+}
+
+.lt-ie8 .shell>.tabs a {
+	padding: .4em .9em .5em .9em;
+	text-indent: 0
+}
+
+.shell>.tabs a:before {
+	content: "";
+	position: absolute;
+	top: 50%;
+	height: 19px;
+	width: 19px;
+	margin-top: -10px;
+	left: .9em;
+	/*background: url('../img/icons-tabs.png') no-repeat 0 0 */
+}
+
+.shell>.tabs a.cls.active:before {
+	background-position: 0 -19px
+}
+
+.shell>.tabs a.crr:before {
+	background-position: -19px 0
+}
+
+.shell>.tabs a.crr.active:before {
+	background-position: -19px -19px
+}
+
+.shell>.tabs a.ppl:before {
+	background-position: -38px 0
+}
+
+.shell>.tabs a.ppl.active:before {
+	background-position: -38px -19px
+}
+
+.shell>.tabs a:hover,.shell>.tabs a:focus {
+	background-repeat: repeat-x;
+	background-image: -khtml-gradient(linear, left top, left bottom, from(#477dc2),
+		to(#3a6cb0) );
+	background-image: -moz-linear-gradient(#477dc2, #3a6cb0);
+	background-image: -ms-linear-gradient(#477dc2, #3a6cb0);
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #477dc2),
+		color-stop(100%, #3a6cb0) );
+	background-image: -webkit-linear-gradient(#477dc2, #3a6cb0);
+	background-image: -o-linear-gradient(#477dc2, #3a6cb0);
+	background-image: linear-gradient(#477dc2, #3a6cb0)
+}
+
+.no-cssgradients .shell>.tabs a:hover,.no-cssgradients .shell>.tabs a:focus
+	{
+	background: #3a6cb0 repeat-x url('../img/grad-tab-on.jpg') 0 0
+}
+
+.shell>.tabs a.active {
+	color: #232831;
+	text-shadow: none;
+	background-color: #dbe5f3;
+	background-repeat: repeat-x;
+	background-image: -khtml-gradient(linear, left top, left bottom, from(#ebf0f8),
+		to(#dbe5f3) );
+	background-image: -moz-linear-gradient(#ebf0f8, #dbe5f3);
+	background-image: -ms-linear-gradient(#ebf0f8, #dbe5f3);
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ebf0f8),
+		color-stop(100%, #dbe5f3) );
+	background-image: -webkit-linear-gradient(#ebf0f8, #dbe5f3);
+	background-image: -o-linear-gradient(#ebf0f8, #dbe5f3);
+	background-image: linear-gradient(#ebf0f8, #dbe5f3);
+	-moz-box-shadow: inset 0 .0625em 0 #fff;
+	-webkit-box-shadow: inset 0 .0625em 0 #fff;
+	box-shadow: inset 0 .0625em 0 #fff
+}
+
+.no-cssgradients .shell>.tabs a.active {
+	background: #dbe5f3 repeat-x url('../img/grad-tab-active.jpg') 0 0
+}
+
+.shell>.section {
+	min-height: 30em;
+	
+	background-color: #dbe5f3;
+	clear: both;
+	padding: 1em
+	/*
+	margin: 0 1em 1em 1em;
+	*/
+}
+.shell.nogroup {
+	padding-top: 1.6em
+}
+
+.shell>.content {
+	margin: 0 1em;
+	padding: 2em 3em
+}
+
+.section>.content {
+	
+	min-height: 26em;
+	padding-left: 1.6em
+	/*
+	z-index: 3;
+	margin-left: 10em;
+	*/
+}
+

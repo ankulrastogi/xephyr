@@ -99,8 +99,7 @@
 				<fmt:message key="dlt.createaccount.form.label.register" />
 			</button>
 			<p class="info">
-				By clicking &#8220;Create Account,&#8221; I accept Personal&#8217;s
-				<a href="#">Terms &amp; Conditions</a>.
+				<fmt:message key="dlt.account.info.createaccount" />
 			</p>
 		</form:form>
 	</div>

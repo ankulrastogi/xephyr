@@ -117,5 +117,11 @@ public class MerchantManagerImpl implements MerchantManager {
 		
 		return merchant;
 	}
+	
+	@Override
+	public long getCount()
+	{
+		return merchantRepository.count();
+	}
 
 }

@@ -13,6 +13,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -42,7 +43,7 @@ public class Merchant implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	
+	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "tableID")
 	private Integer id;
@@ -50,9 +51,9 @@ public class Merchant implements Serializable {
 	@Column(name = "merchantName")
 	private String name;
 
-	@Id
-	@GenericGenerator(name="userIDGen",strategy="com.own.merchant.model.sql.generator.MerchantUserIDGenerator")
-	@GeneratedValue(generator="userIDGen") 
+	//@Id
+	//@GenericGenerator(name="userIDGen",strategy="com.own.merchant.model.sql.generator.MerchantUserIDGenerator")
+	//@GeneratedValue(generator="userIDGen") 
 	@Column(name = "merchantUserID",unique=true,nullable=false)
 	private String merchantUserID;
 

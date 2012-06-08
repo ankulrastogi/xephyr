@@ -85,14 +85,4 @@ public class MerchantController extends BaseController {
 		model.addAttribute("username",principal.getName());
 		return "groupList";
 	}
-	
-	@RequestMapping(value={"logout"},method=RequestMethod.GET)
-	public String logoutPage(Model model,Principal principal,HttpSession session)
-	
-	{
-//		SecurityContextHolder.clearContext();
-//		session.invalidate();
-		return "redirect:login";
-	}
-	
 }
