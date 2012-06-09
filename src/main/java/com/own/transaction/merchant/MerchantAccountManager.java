@@ -1,7 +1,7 @@
 package com.own.transaction.merchant;
 
+import com.own.merchant.model.MerchantAccount;
 import com.own.transaction.enums.MerchantAccountStatus;
-import com.own.transaction.merchant.model.MerchantAccount;
 
 public interface MerchantAccountManager {
 

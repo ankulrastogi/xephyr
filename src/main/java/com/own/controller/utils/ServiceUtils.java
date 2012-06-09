@@ -23,17 +23,22 @@ public class ServiceUtils {
 	
 	public static ServiceResponse composeServiceResponse(String respCode,
 			String errorMessage, Object response) {
+		return composeServiceResponse(respCode, "ERROR",errorMessage, response);
+	}
+	
+	public static ServiceResponse composeServiceResponse(String respCode,
+			String errorCode,String errorMessage, Object response) {
 		Map<String, List<String>> errorMap = new HashMap<String, List<String>>();
 		List<String> errorList = new ArrayList<String>();
 		errorList.add(errorMessage);
-		errorMap.put("ERROR", errorList);
+		errorMap.put(errorCode, errorList);
 		ServiceResponse sResponse = new ServiceResponse();
 		sResponse.setResponseCode(respCode);
 		sResponse.setErrorMap(errorMap);
 		sResponse.setResponse(response);
 		return sResponse;
-
 	}
+
 
 	/**
 	 * This method compares two strings and checks if both are equal or not
@@ -45,5 +50,7 @@ public class ServiceUtils {
 	public static boolean compareString(String one, String two) {
 		return false;
 	}
+
+
 
 }

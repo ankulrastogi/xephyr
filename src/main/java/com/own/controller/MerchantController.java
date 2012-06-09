@@ -5,8 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.validation.Valid;
-
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,6 +20,7 @@ import com.own.controller.utils.ServiceConstants;
 import com.own.controller.utils.ServiceUtils;
 import com.own.merchant.manager.MerchantValidator;
 import com.own.merchant.model.Merchant;
+import com.own.merchant.model.MerchantAccount;
 import com.own.merchant.model.MerchantRegistration;
 import com.own.merchant.model.MerchantRegistration.ValidationType;
 import com.own.merchant.model.ServiceResponse;
@@ -32,7 +31,6 @@ import com.own.service.exception.DuplicateValueException;
 import com.own.service.exception.IllegalObjectStateException;
 import com.own.service.exception.ServiceException;
 import com.own.transaction.enums.MerchantStatus;
-import com.own.transaction.merchant.model.MerchantAccount;
 
 /**
  * REST based controller to handle all the merchant related requests.
@@ -42,7 +40,7 @@ import com.own.transaction.merchant.model.MerchantAccount;
  * 
  */
 @Controller
-@RequestMapping("/merchant")
+@RequestMapping("/service/merchant")
 public class MerchantController {
 
 	private Logger logger = Logger.getLogger(MerchantController.class);
@@ -260,9 +258,26 @@ public class MerchantController {
 	/**
 	 * Get merchant details
 	 */
-	@RequestMapping(value = "/get/{id}", method = RequestMethod.POST)
-	public String getMerchantDetails(@PathVariable("id") String merchantID) {
-		return null;
+	@RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
+	public @ResponseBody
+	ServiceResponse getMerchantDetails(@PathVariable("id") String merchantUserID) {
+		if (null == merchantUserID || merchantUserID.trim().length() == 0) {
+			return ServiceUtils.composeServiceResponse(ServiceConstants.FAIL,
+					String.valueOf(ErrorConstants.FIELD_EMPTY),
+					"No Merchant User ID specified", null);
+		}
+		try {
+			Merchant merchant = mService.getMerchantByMerchantUserID(merchantUserID);
+			logger.info("Merchant Details:" + merchant);
+			return ServiceUtils.composeServiceResponse(ServiceConstants.SUCCESS, new HashMap<String, List<String>>(), merchant);
+		} catch (ServiceException e) {
+			e.printStackTrace();
+			Map<String, List<String>> messages = convertorfactory
+					.convertExceptionMessages(e
+							.getAllErrorMessages(ExceptionType.VIEW));
+			return ServiceUtils.composeServiceResponse(ServiceConstants.FAIL,
+					messages, null);
+		}
 	}
 
 	/**
@@ -317,8 +332,8 @@ public class MerchantController {
 	 * @return
 	 */
 	@RequestMapping(value = { "/{id}/account" }, method = RequestMethod.POST)
-	public ServiceResponse createMerchantAccount(
-			@PathVariable("id") String userID,
+	public @ResponseBody
+	ServiceResponse createMerchantAccount(@PathVariable("id") String userID,
 			@RequestBody MerchantAccount mAccount) {
 		Map<String, List<String>> messages = new HashMap<String, List<String>>();
 		try {
@@ -330,7 +345,15 @@ public class MerchantController {
 				return ServiceUtils.composeServiceResponse(
 						ServiceConstants.FAIL, messages, null);
 			}
-			
+			// check if the merchant Account name given is null
+			if (null == mAccount.getName()) {
+				return ServiceUtils.composeServiceResponse(
+						ServiceConstants.FAIL,
+						String.valueOf(ErrorConstants.FIELD_EMPTY),
+						"Merchant Account name cannot be null", null);
+			}
+			mAccount = mService.createAccountForMerchant(mAccount, merchant);
+
 		} catch (ServiceException e) {
 			messages = convertorfactory.convertExceptionMessages(e
 					.getAllErrorMessages(ExceptionType.VIEW));
@@ -338,7 +361,9 @@ public class MerchantController {
 			return ServiceUtils.composeServiceResponse(ServiceConstants.FAIL,
 					messages, null);
 		}
-		return new ServiceResponse();
+		logger.info("Merchant Account:" + mAccount);
+		return ServiceUtils.composeServiceResponse(ServiceConstants.SUCCESS,
+				new HashMap<String, List<String>>(), mAccount);
 
 	}
 

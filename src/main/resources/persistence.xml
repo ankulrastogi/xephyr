@@ -4,7 +4,7 @@
   		<properties>
 			<property name="hibernate.default_schema" value="${jdbc.default_schema}"/>
 			<property name="hibernate.dialect" value="${db.hibernateDialect}" />
-			<property name="hibernate.hbm2ddl.auto" value="${hibernate.hbm2ddl.auto}" />
+			<property name="hibernate.hbm2ddl.auto" value="create" />
 			<property name="hibernate.validator.fail_fast" value="true" />
 		</properties>
   </persistence-unit>

@@ -12,6 +12,7 @@
 	<http pattern="/view/merchant/login*" security="none"/>
 	<http pattern="/view/merchant/logout*" security="none"/>
 	<http pattern="/view/merchant/createaccount*" security="none"/>
+	<http pattern="/service/**" security="none" />
 	
 	<http use-expressions="true" >
 	    <form-login login-page="/view/merchant/login" 

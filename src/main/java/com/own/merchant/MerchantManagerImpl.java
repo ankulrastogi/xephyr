@@ -5,36 +5,39 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.own.common.constants.ErrorConstants;
+import com.own.database.repositories.MerchantAccountRepository;
 import com.own.database.repositories.MerchantRepository;
 import com.own.merchant.model.Merchant;
+import com.own.merchant.model.MerchantAccount;
 import com.own.merchant.model.Merchant.ValidationType;
 import com.own.service.exception.DatabaseException;
 import com.own.service.exception.IllegalObjectStateException;
 import com.own.service.exception.BaseException.ExceptionType;
 import com.own.transaction.enums.MerchantStatus;
-import com.own.transaction.merchant.model.MerchantAccount;
 
 @Component
 public class MerchantManagerImpl implements MerchantManager {
 
 	private static Logger logger = Logger.getLogger(MerchantManagerImpl.class);
-	
+
 	@Autowired
 	MerchantRepository merchantRepository;
-	
+
+	@Autowired
+	MerchantAccountRepository mAccountRepository;
+
 	@Override
-	public Merchant getMerchantByID(String merchantID) throws DatabaseException{
+	public Merchant getMerchantByID(String merchantID) throws DatabaseException {
 		// TODO Auto-generated method stub
 		Merchant findOne = null;
-		try
-		{
-			 findOne = merchantRepository.findbyUserID(merchantID);
-		}catch(Exception e)
-		{
+		try {
+			findOne = merchantRepository.findbyUserID(merchantID);
+		} catch (Exception e) {
 			logger.info("cannot get info from the database:" + e.getMessage());
-			throw new DatabaseException(ExceptionType.LOG,ErrorConstants.DATABASE_ERROR,e);
+			throw new DatabaseException(ExceptionType.LOG,
+					ErrorConstants.DATABASE_ERROR, e);
 		}
-		
+
 		return findOne;
 	}
 
@@ -45,18 +48,19 @@ public class MerchantManagerImpl implements MerchantManager {
 	}
 
 	@Override
-	public Merchant saveMerchant(Merchant merchant) throws IllegalObjectStateException,DatabaseException{
+	public Merchant saveMerchant(Merchant merchant)
+			throws IllegalObjectStateException, DatabaseException {
 		merchant.validate(ValidationType.PRE);
 		Merchant result = null;
-		try
-		{
+		try {
 			result = merchantRepository.save(merchant);
-		}catch(Exception e)
-		{
-			logger.info("Error in saving merchant data:" + merchant + e.getMessage());
-			throw new DatabaseException(ExceptionType.LOG,ErrorConstants.DATABASE_ERROR,e);
+		} catch (Exception e) {
+			logger.info("Error in saving merchant data:" + merchant
+					+ e.getMessage());
+			throw new DatabaseException(ExceptionType.LOG,
+					ErrorConstants.DATABASE_ERROR, e);
 		}
-		
+
 		result.validate(ValidationType.POST);
 		return result;
 	}
@@ -104,24 +108,59 @@ public class MerchantManagerImpl implements MerchantManager {
 	}
 
 	@Override
-	public Merchant getMerchantByEmail(String emailID) throws DatabaseException{
-		Merchant merchant=null;
-		try
-		{
+	public Merchant getMerchantByEmail(String emailID) throws DatabaseException {
+		Merchant merchant = null;
+		try {
 			merchant = merchantRepository.findByEmailID(emailID);
-		}catch (Exception e) {
-			logger.info("Could not get merchant infor from the database:" + emailID + e.getMessage());
-			throw new DatabaseException(ExceptionType.LOG,ErrorConstants.DATABASE_ERROR,e);
-			
+		} catch (Exception e) {
+			logger.info("Could not get merchant info from the database:"
+					+ emailID + e.getMessage());
+			throw new DatabaseException(ExceptionType.LOG,
+					ErrorConstants.DATABASE_ERROR, e);
+
 		}
-		
+
 		return merchant;
 	}
-	
+
 	@Override
-	public long getCount()
-	{
+	public long getCount() {
 		return merchantRepository.count();
+	}
+
+	@Override
+	public MerchantAccount findAccountByAccountName(String name)
+			throws DatabaseException {
+
+		MerchantAccount mAccount = null;
+		try {
+			mAccount = mAccountRepository.findByNameIgnoreCase(name);
+		} catch (Exception e) {
+			logger.info("Could not get merchant account info from the database:"
+					+ name + e.getMessage());
+			throw new DatabaseException(ExceptionType.LOG,
+					ErrorConstants.DATABASE_ERROR, e);
+
+		}
+
+		return mAccount;
+	}
+
+	@Override
+	public MerchantAccount saveMerchantAccount(MerchantAccount mAccount)
+			throws DatabaseException {
+
+		try {
+			mAccount = mAccountRepository.save(mAccount);
+		} catch (Exception e) {
+			logger.info("Could not get merchant account info from the database:"
+					+ mAccount + e.getMessage());
+			throw new DatabaseException(ExceptionType.LOG,
+					ErrorConstants.DATABASE_ERROR, e);
+
+		}
+
+		return mAccount;
 	}
 
 }

@@ -6,16 +6,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.annotations.GenericGenerator;
@@ -25,7 +26,6 @@ import com.own.service.exception.BaseException.ExceptionType;
 import com.own.service.exception.IllegalObjectStateException;
 import com.own.service.exception.MerchantException;
 import com.own.transaction.enums.MerchantStatus;
-import com.own.transaction.merchant.model.MerchantAccount;
 
 /**
  * This is a class containing the details related to a merchant object TODO -
@@ -42,34 +42,33 @@ public class Merchant implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+
 	@Column(name = "tableID")
 	private Integer id;
 
 	@Column(name = "merchantName")
 	private String name;
 
-	//@Id
-	//@GenericGenerator(name="userIDGen",strategy="com.own.merchant.model.sql.generator.MerchantUserIDGenerator")
-	//@GeneratedValue(generator="userIDGen") 
-	@Column(name = "merchantUserID",unique=true,nullable=false)
+	 @Id
+	 @GenericGenerator(name="userIDGen",strategy="com.own.merchant.model.sql.generator.MerchantUserIDGenerator")
+	 @GeneratedValue(generator="userIDGen")
+	@Column(name = "merchantUserID", unique = true, nullable = false)
 	private String merchantUserID;
 
-	@Transient
-	List<MerchantAccount> accounts;
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinColumn(name="merchantUserID")
+	private List<MerchantAccount> accounts;
 
-	@Column(name = "merchantEmail",unique=true,nullable=false)
+	@Column(name = "merchantEmail", unique = true, nullable = false)
 	private String emailID;
-	
-	@Column(name="password")	
+
+	@Column(name = "password")
 	private String password;
 
-	@Column(name="merchantStatus")
+	@Column(name = "merchantStatus")
 	@Enumerated(EnumType.STRING)
 	private MerchantStatus status;
-	
+
 	public String getName() {
 		return name;
 	}
@@ -105,7 +104,7 @@ public class Merchant implements Serializable {
 	@Override
 	public String toString() {
 		return "Merchant [id=" + id + ", name=" + name + ", merchantUsername="
-				+ merchantUserID + ", accounts=" + accounts + ", emailID="
+				+ merchantUserID + ", accounts=" + getAccounts() + ", emailID="
 				+ emailID + "]";
 	}
 
@@ -119,11 +118,9 @@ public class Merchant implements Serializable {
 		EMAIL, ID, NAME
 	}
 
-	
 	public enum ValidationType {
-		PRE, POST,LOGIN;
+		PRE, POST, LOGIN;
 	}
-	
 
 	/**
 	 * This method checks if the merchant is valid or not. A Merchant is checked
@@ -146,34 +143,40 @@ public class Merchant implements Serializable {
 			switch (type) {
 			case POST:
 				if (id <= 0) {
-					errorMap = addToMap(errorMap,ErrorConstants.INVALID_ID, new String[]{"merchant"});
+					errorMap = addToMap(errorMap, ErrorConstants.INVALID_ID,
+							new String[] { "merchant" });
 				}
 			case PRE:
 				if (StringUtils.isEmpty(name)) {
-					errorMap = addToMap(errorMap,ErrorConstants.FIELD_EMPTY, new String[]{"merchant name"});
+					errorMap = addToMap(errorMap, ErrorConstants.FIELD_EMPTY,
+							new String[] { "merchant name" });
 				}
-				
-			case LOGIN:	
-				
+
+			case LOGIN:
+
 				if (StringUtils.isEmpty(emailID)) {
-					errorMap = addToMap(errorMap,ErrorConstants.FIELD_EMPTY, new String[]{"username"});
+					errorMap = addToMap(errorMap, ErrorConstants.FIELD_EMPTY,
+							new String[] { "username" });
 				}
 				if (StringUtils.isEmpty(password)) {
-					errorMap = addToMap(errorMap,ErrorConstants.FIELD_EMPTY,new String[]{"password"});
+					errorMap = addToMap(errorMap, ErrorConstants.FIELD_EMPTY,
+							new String[] { "password" });
 				}
 
 			}
 
 			if (errorMap.size() > 0) {
-				throw new IllegalObjectStateException(ExceptionType.VIEW,errorMap, new Throwable());
+				throw new IllegalObjectStateException(ExceptionType.VIEW,
+						errorMap, new Throwable());
 			}
 		}
 
 	}
-	public Map<Integer, List<Object>> addToMap(Map<Integer, List<Object>> errorMap,Integer key,Object value) 
-	{
+
+	public Map<Integer, List<Object>> addToMap(
+			Map<Integer, List<Object>> errorMap, Integer key, Object value) {
 		List<Object> list = errorMap.get(key);
-		if(null == list)
+		if (null == list)
 			list = new ArrayList<Object>();
 		list.add(value);
 		errorMap.put(key, list);
@@ -196,5 +199,12 @@ public class Merchant implements Serializable {
 		this.status = status;
 	}
 
-}
-;
+	public List<MerchantAccount> getAccounts() {
+		return accounts;
+	}
+
+	public void setAccounts(List<MerchantAccount> accounts) {
+		this.accounts = accounts;
+	}
+
+};

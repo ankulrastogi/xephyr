@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.own.merchant.model.Merchant;
+import com.own.merchant.model.MerchantAccount;
 import com.own.merchant.model.Merchant.SearchTypes;
 import com.own.merchant.model.MerchantRegistration;
 import com.own.service.exception.DuplicateValueException;
@@ -129,5 +130,15 @@ public interface MerchantService {
 	 * @return
 	 */
 	public Merchant getMerchantByMerchantUserID(String userID) throws ServiceException;
+
+	/**
+	 * Creates a merchant account for a given merchant ID
+	 * @param mAccount
+	 * @param merchant
+	 * @return 
+	 * @throws ServiceException 
+	 */
+	public MerchantAccount createAccountForMerchant(MerchantAccount mAccount,
+			Merchant merchant) throws ServiceException;
 
 }

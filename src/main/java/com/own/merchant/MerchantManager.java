@@ -1,14 +1,15 @@
 package com.own.merchant;
 
 import com.own.merchant.model.Merchant;
+import com.own.merchant.model.MerchantAccount;
 import com.own.service.exception.DatabaseException;
 import com.own.service.exception.IllegalObjectStateException;
 import com.own.transaction.enums.MerchantStatus;
-import com.own.transaction.merchant.model.MerchantAccount;
 
 public interface MerchantManager {
 
-	public Merchant getMerchantByID(String merchantID) throws IllegalObjectStateException, DatabaseException;
+	public Merchant getMerchantByID(String merchantID)
+			throws IllegalObjectStateException, DatabaseException;
 
 	/**
 	 * Checks if the merchant email ID is already present in the system.
@@ -23,7 +24,7 @@ public interface MerchantManager {
 	 * 
 	 * @param emailID
 	 * @return
-	 * @throws DatabaseException 
+	 * @throws DatabaseException
 	 */
 	public Merchant getMerchantByEmail(String emailID) throws DatabaseException;
 
@@ -46,8 +47,30 @@ public interface MerchantManager {
 
 	/**
 	 * Gets the total count of the merchant present
+	 * 
 	 * @return
 	 */
 	public long getCount();
+
+	/**
+	 * Finds a merchant based on the account name. Does an exact match for the
+	 * string
+	 * 
+	 * @param name
+	 * @return
+	 * @throws DatabaseException
+	 */
+	public MerchantAccount findAccountByAccountName(String name)
+			throws DatabaseException;
+
+	/**
+	 * Persists a merchant account in the database
+	 * 
+	 * @param mAccount
+	 * @return
+	 * @throws DatabaseException
+	 */
+	public MerchantAccount saveMerchantAccount(MerchantAccount mAccount)
+			throws DatabaseException;
 
 }

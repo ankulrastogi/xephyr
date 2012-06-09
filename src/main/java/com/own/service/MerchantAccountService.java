@@ -1,6 +1,6 @@
 package com.own.service;
 
-import com.own.transaction.merchant.model.MerchantAccount;
+import com.own.merchant.model.MerchantAccount;
 
 /**
  * Service to handle merchant account related information
