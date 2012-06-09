@@ -260,4 +260,27 @@ public class MerchantServiceImpl implements MerchantService {
 
 	}
 
+	@Override
+	public Merchant getMerchantByUsername(String username) throws ServiceException{
+
+		Merchant response = null;
+
+		try {
+			response = merchantManager
+					.getMerchantByEmail(username);
+
+			if (null == response) {
+				logger.info("Throw new exception no merchant exists by this mail ID");
+				throw new ServiceException(ExceptionType.VIEW,
+						ErrorConstants.NO_MERCHANT_FOUND, new Throwable());
+			}
+			
+		} catch (DatabaseException e) {
+			logger.info("Failed to get merchant information:" + e.getMessage());
+			throw new ServiceException(e.getErrorMessages(), e);
+		}
+
+		return response;
+	}
+
 }

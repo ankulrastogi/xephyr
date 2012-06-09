@@ -141,4 +141,12 @@ public interface MerchantService {
 	public MerchantAccount createAccountForMerchant(MerchantAccount mAccount,
 			Merchant merchant) throws ServiceException;
 
+	/**
+	 * Gets the merchant information based on the email ID which is currently the username
+	 * @param username
+	 * @return
+	 * @throws ServiceException 
+	 */
+	public Merchant getMerchantByUsername(String username) throws ServiceException;
+
 }

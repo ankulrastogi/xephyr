@@ -346,7 +346,7 @@ public class MerchantController {
 						ServiceConstants.FAIL, messages, null);
 			}
 			// check if the merchant Account name given is null
-			if (null == mAccount.getName()) {
+			if (null == mAccount.getName() || mAccount.getName().trim().length() == 0) {
 				return ServiceUtils.composeServiceResponse(
 						ServiceConstants.FAIL,
 						String.valueOf(ErrorConstants.FIELD_EMPTY),
@@ -368,3 +368,4 @@ public class MerchantController {
 	}
 
 }
+

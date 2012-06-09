@@ -20,6 +20,7 @@ public class ErrorConstants {
 	public static final Integer FIELD_EMPTY = 22;
 	public static final Integer MERCHANT_NOT_ACTIVE = 23;
 	public static final Integer ACCOUNT_EXISTS = 24;
+	public static final Integer NO_MERCHANT_FOUND = 25;
 
 
 }
