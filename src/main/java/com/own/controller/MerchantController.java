@@ -1,6 +1,5 @@
 package com.own.controller;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,12 +14,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.own.common.constants.ErrorConstants;
-import com.own.controller.factory.MessageConvertorFactory;
 import com.own.controller.utils.ServiceConstants;
 import com.own.controller.utils.ServiceUtils;
+import com.own.controller.view.BaseController;
 import com.own.merchant.manager.MerchantValidator;
 import com.own.merchant.model.Merchant;
-import com.own.merchant.model.MerchantAccount;
 import com.own.merchant.model.MerchantRegistration;
 import com.own.merchant.model.MerchantRegistration.ValidationType;
 import com.own.merchant.model.ServiceResponse;
@@ -30,7 +28,6 @@ import com.own.service.exception.BaseException.ExceptionType;
 import com.own.service.exception.DuplicateValueException;
 import com.own.service.exception.IllegalObjectStateException;
 import com.own.service.exception.ServiceException;
-import com.own.transaction.enums.MerchantStatus;
 
 /**
  * REST based controller to handle all the merchant related requests.
@@ -41,7 +38,7 @@ import com.own.transaction.enums.MerchantStatus;
  */
 @Controller
 @RequestMapping("/service/merchant")
-public class MerchantController {
+public class MerchantController extends BaseController {
 
 	private Logger logger = Logger.getLogger(MerchantController.class);
 
@@ -54,8 +51,7 @@ public class MerchantController {
 	@Autowired
 	MerchantRegistrationService merchantRegistrationService;
 
-	@Autowired
-	MessageConvertorFactory convertorfactory;
+	
 
 	/**
 	 * Add the specified merchant to the system
@@ -323,49 +319,6 @@ public class MerchantController {
 
 	}
 
-	/**
-	 * REST service to create a merchant account. Account can only be created
-	 * for merchants which are in ACTIVE state. Merchant account will only be
-	 * created in PENDING state, and should only be activated by the system
-	 * admin after he process is completed.
-	 * 
-	 * @return
-	 */
-	@RequestMapping(value = { "/{id}/account" }, method = RequestMethod.POST)
-	public @ResponseBody
-	ServiceResponse createMerchantAccount(@PathVariable("id") String userID,
-			@RequestBody MerchantAccount mAccount) {
-		Map<String, List<String>> messages = new HashMap<String, List<String>>();
-		try {
-			Merchant merchant = mService.getMerchantByMerchantUserID(userID);
-			if (!merchant.getStatus().equals(MerchantStatus.ACTIVE)) {
-				messages.put(
-						String.valueOf(ErrorConstants.MERCHANT_NOT_ACTIVE),
-						new ArrayList<String>());
-				return ServiceUtils.composeServiceResponse(
-						ServiceConstants.FAIL, messages, null);
-			}
-			// check if the merchant Account name given is null
-			if (null == mAccount.getName() || mAccount.getName().trim().length() == 0) {
-				return ServiceUtils.composeServiceResponse(
-						ServiceConstants.FAIL,
-						String.valueOf(ErrorConstants.FIELD_EMPTY),
-						"Merchant Account name cannot be null", null);
-			}
-			mAccount = mService.createAccountForMerchant(mAccount, merchant);
-
-		} catch (ServiceException e) {
-			messages = convertorfactory.convertExceptionMessages(e
-					.getAllErrorMessages(ExceptionType.VIEW));
-			e.printStackTrace();
-			return ServiceUtils.composeServiceResponse(ServiceConstants.FAIL,
-					messages, null);
-		}
-		logger.info("Merchant Account:" + mAccount);
-		return ServiceUtils.composeServiceResponse(ServiceConstants.SUCCESS,
-				new HashMap<String, List<String>>(), mAccount);
-
-	}
 
 }
 

@@ -85,14 +85,12 @@ public class MerchantController extends BaseController {
 		String username = principal.getName();
 		try {
 			Merchant merchant = mService.getMerchantByUsername(username);
-			
+			logger.info("Merchant INFO:" + merchant);
 		} catch (ServiceException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		model.addAttribute("username",principal.getName());
-		
-		
 		
 		return "groupList";
 	}

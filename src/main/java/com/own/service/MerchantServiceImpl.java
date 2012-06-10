@@ -15,10 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.own.common.constants.ErrorConstants;
 import com.own.merchant.MerchantManager;
 import com.own.merchant.model.Merchant;
-import com.own.merchant.model.MerchantAccount;
 import com.own.merchant.model.Merchant.SearchTypes;
 import com.own.merchant.model.Merchant.ValidationType;
-import com.own.merchant.model.MerchantAccount.MerchantAccountStatus;
 import com.own.merchant.model.MerchantRegistration;
 import com.own.merchant.model.MerchantRegistration.RegistrationStatus;
 import com.own.service.exception.BaseException.ExceptionType;
@@ -233,32 +231,7 @@ public class MerchantServiceImpl implements MerchantService {
 		return merchantInfo;
 	}
 
-	@Override
-	public MerchantAccount createAccountForMerchant(MerchantAccount mAccount,
-			Merchant merchant) throws ServiceException {
-
-		// check if the merchantAccount already exists
-		try {
-			MerchantAccount existing = merchantManager
-					.findAccountByAccountName(mAccount.getName());
-			if (null != existing) {
-				throw new ServiceException(ExceptionType.VIEW,
-						ErrorConstants.ACCOUNT_EXISTS, new Throwable());
-			}
-
-			mAccount.setMerchantUserID(merchant.getMerchantUserID());
-			mAccount.setStatus(MerchantAccountStatus.PENDING);
-			mAccount.setUniqueKey("account_" + mAccount.getName());
-
-			mAccount = merchantManager.saveMerchantAccount(mAccount);
-		} catch (DatabaseException e) {
-
-			throw new ServiceException(e.getErrorMessages(), e);
-		}
-
-		return mAccount;
-
-	}
+	
 
 	@Override
 	public Merchant getMerchantByUsername(String username) throws ServiceException{

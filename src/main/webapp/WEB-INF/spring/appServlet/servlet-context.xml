@@ -7,7 +7,7 @@
 
     	<!-- DispatcherServlet Context: defines this servlet's request-processing 
 		infrastructure -->
-	<import resource="classpath:database-context.xml" />
+	<import resource="database-context.xml" />
 
 	<context:annotation-config />
 	<context:component-scan base-package="com.own.service" />
@@ -40,5 +40,5 @@
 	</bean>
 		
 		
-	<import resource="classpath:security-context.xml" />
+	<import resource="security-context.xml" />
 </beans>

@@ -5,13 +5,18 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 
 import com.own.common.constants.AppConstant;
+import com.own.controller.factory.MessageConvertorFactory;
 
 public class BaseController {
 
 	private final String REDIRECT = "redirect:";
+	
+	@Autowired
+	protected MessageConvertorFactory convertorfactory;
 	
 	protected String getInternalRedirect(String controllerName)
 	{

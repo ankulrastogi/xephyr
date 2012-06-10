@@ -50,8 +50,10 @@ public class Merchant implements Serializable {
 	private String name;
 
 	 @Id
-	 @GenericGenerator(name="userIDGen",strategy="com.own.merchant.model.sql.generator.MerchantUserIDGenerator")
-	 @GeneratedValue(generator="userIDGen")
+	 @GenericGenerator(name="uuid-gen",strategy="uuid")
+	 @GeneratedValue(generator="uuid-gen")
+	// @GenericGenerator(name="userIDGen",strategy="com.own.merchant.model.sql.generator.MerchantUserIDGenerator")
+	// @GeneratedValue(generator="userIDGen")
 	@Column(name = "merchantUserID", unique = true, nullable = false)
 	private String merchantUserID;
 

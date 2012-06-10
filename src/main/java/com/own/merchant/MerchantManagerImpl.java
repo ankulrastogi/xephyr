@@ -128,39 +128,5 @@ public class MerchantManagerImpl implements MerchantManager {
 		return merchantRepository.count();
 	}
 
-	@Override
-	public MerchantAccount findAccountByAccountName(String name)
-			throws DatabaseException {
-
-		MerchantAccount mAccount = null;
-		try {
-			mAccount = mAccountRepository.findByNameIgnoreCase(name);
-		} catch (Exception e) {
-			logger.info("Could not get merchant account info from the database:"
-					+ name + e.getMessage());
-			throw new DatabaseException(ExceptionType.LOG,
-					ErrorConstants.DATABASE_ERROR, e);
-
-		}
-
-		return mAccount;
-	}
-
-	@Override
-	public MerchantAccount saveMerchantAccount(MerchantAccount mAccount)
-			throws DatabaseException {
-
-		try {
-			mAccount = mAccountRepository.save(mAccount);
-		} catch (Exception e) {
-			logger.info("Could not get merchant account info from the database:"
-					+ mAccount + e.getMessage());
-			throw new DatabaseException(ExceptionType.LOG,
-					ErrorConstants.DATABASE_ERROR, e);
-
-		}
-
-		return mAccount;
-	}
 
 }

@@ -52,25 +52,6 @@ public interface MerchantManager {
 	 */
 	public long getCount();
 
-	/**
-	 * Finds a merchant based on the account name. Does an exact match for the
-	 * string
-	 * 
-	 * @param name
-	 * @return
-	 * @throws DatabaseException
-	 */
-	public MerchantAccount findAccountByAccountName(String name)
-			throws DatabaseException;
 
-	/**
-	 * Persists a merchant account in the database
-	 * 
-	 * @param mAccount
-	 * @return
-	 * @throws DatabaseException
-	 */
-	public MerchantAccount saveMerchantAccount(MerchantAccount mAccount)
-			throws DatabaseException;
 
 }

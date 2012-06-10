@@ -11,6 +11,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.GenericGenerator;
+
 @Entity
 @Table(name = "merchantAccount")
 public class MerchantAccount implements Serializable {
@@ -24,16 +26,24 @@ public class MerchantAccount implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "accountID")
-	private String id;
+	@Column(name="tableID")
+	private long id;
+	
+	
+	//@GenericGenerator(name="accIDGen",strategy="com.own.merchant.model.sql.generator.MerchantAccountIDGenerator")
+	//@GeneratedValue(generator="accIDGen")
+	@Column(name = "accountID", unique = true, nullable = false)
+	private String accountID;
 
 	@Column(name = "accountName")
 	private String name;
 	
 	@Column(name="merchantUserID")
 	private String merchantUserID;
+	
 	
 	@Column(name="accountUniqueKey")
 	private String uniqueKey;
@@ -49,12 +59,12 @@ public class MerchantAccount implements Serializable {
 //	@Transient
 //	private RenewalPolicy renew;
 
-	public String getId() {
-		return id;
+	public String getAccountID() {
+		return accountID;
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	public void setAccountID(String accountID) {
+		this.accountID = accountID;
 	}
 
 	public String getName() {
@@ -107,9 +117,17 @@ public class MerchantAccount implements Serializable {
 
 	@Override
 	public String toString() {
-		return "MerchantAccount [id=" + id + ", name=" + name
+		return "MerchantAccount [id=" + accountID + ", name=" + name
 				+ ", merchantUserID=" + merchantUserID + ", uniqueKey="
 				+ uniqueKey + ", status=" + status + "]";
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
 	}
 
 	
