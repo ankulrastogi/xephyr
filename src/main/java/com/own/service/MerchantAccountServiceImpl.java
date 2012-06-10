@@ -52,5 +52,5 @@ public class MerchantAccountServiceImpl implements MerchantAccountService {
 		return mAccount;
 
 	}
-	private String get accountID()
+
 }
