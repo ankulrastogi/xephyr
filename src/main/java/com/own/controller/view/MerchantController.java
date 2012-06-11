@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.own.controller.factory.MessageConvertorFactory;
 import com.own.merchant.model.Merchant;
 import com.own.merchant.model.MerchantRegistration;
+import com.own.merchant.model.view.form.AddAccountForm;
 import com.own.merchant.model.view.form.NewRegistrationFormModel;
 import com.own.service.MerchantRegistrationService;
 import com.own.service.MerchantService;
@@ -91,7 +92,7 @@ public class MerchantController extends BaseController {
 			e.printStackTrace();
 		}
 		model.addAttribute("username",principal.getName());
-		
+		model.addAttribute("account",new AddAccountForm());
 		return "groupList";
 	}
 }
