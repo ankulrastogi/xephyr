@@ -43,7 +43,7 @@ public class MerchantAccountController extends BaseController {
 
 	@Autowired
 	MerchantService mService;
-	
+
 	@Autowired
 	MerchantAccountService maService;
 
@@ -64,9 +64,17 @@ public class MerchantAccountController extends BaseController {
 			@PathVariable("merchID") String merchatnUserID,
 			@RequestBody MerchantAccount mAccount) {
 		Map<String, List<String>> messages = new HashMap<String, List<String>>();
+		// check if the merchant Account name given is null
+		if (null == mAccount.getName()
+				|| mAccount.getName().trim().length() == 0) {
+			return ServiceUtils.composeServiceResponse(ServiceConstants.FAIL,
+					String.valueOf(ErrorConstants.FIELD_EMPTY),
+					"Merchant Account name cannot be null", null);
+		}
 		try {
 			Merchant merchant = mService
 					.getMerchantByMerchantUserID(merchatnUserID);
+			
 			if (!merchant.getStatus().equals(MerchantStatus.ACTIVE)) {
 				messages.put(
 						String.valueOf(ErrorConstants.MERCHANT_NOT_ACTIVE),
@@ -74,14 +82,7 @@ public class MerchantAccountController extends BaseController {
 				return ServiceUtils.composeServiceResponse(
 						ServiceConstants.FAIL, messages, null);
 			}
-			// check if the merchant Account name given is null
-			if (null == mAccount.getName()
-					|| mAccount.getName().trim().length() == 0) {
-				return ServiceUtils.composeServiceResponse(
-						ServiceConstants.FAIL,
-						String.valueOf(ErrorConstants.FIELD_EMPTY),
-						"Merchant Account name cannot be null", null);
-			}
+
 			mAccount = maService.createAccountForMerchant(mAccount, merchant);
 
 		} catch (ServiceException e) {
@@ -121,10 +122,35 @@ public class MerchantAccountController extends BaseController {
 	 * Activate a merchant account
 	 */
 	@RequestMapping(value = "/{merchID}/activate/{id}", method = RequestMethod.POST)
-	public String activateMerchantAccount(
+	public ServiceResponse activateMerchantAccount(
 			@PathVariable("merchID") String merchantUserID,
 			@PathVariable("id") String accountID) {
-		return null;
+		Map<String, List<String>> messages = new HashMap<String, List<String>>();
+		MerchantAccount mAccount = null;
+		try {
+			Merchant merchant = mService
+					.getMerchantByMerchantUserID(merchantUserID);
+			
+			if (!merchant.getStatus().equals(MerchantStatus.ACTIVE)) {
+				messages.put(
+						String.valueOf(ErrorConstants.MERCHANT_NOT_ACTIVE),
+						new ArrayList<String>());
+				return ServiceUtils.composeServiceResponse(
+						ServiceConstants.FAIL, messages, null);
+			}
+
+			mAccount = maService.activateAcccount(mAccount);
+
+		} catch (ServiceException e) {
+			messages = convertorfactory.convertExceptionMessages(e
+					.getAllErrorMessages(ExceptionType.VIEW));
+			e.printStackTrace();
+			return ServiceUtils.composeServiceResponse(ServiceConstants.FAIL,
+					messages, null);
+		}
+		logger.info("Merchant Account:" + mAccount);
+		return ServiceUtils.composeServiceResponse(ServiceConstants.SUCCESS,
+				new HashMap<String, List<String>>(), mAccount);
 	}
 
 	/**

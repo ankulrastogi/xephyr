@@ -27,17 +27,23 @@ public class MerchantManagerImpl implements MerchantManager {
 	MerchantAccountRepository mAccountRepository;
 
 	@Override
-	public Merchant getMerchantByID(String merchantID) throws DatabaseException {
-		// TODO Auto-generated method stub
+	public Merchant getMerchantByID(String merchantID)
+			throws DatabaseException, IllegalObjectStateException {
+		
 		Merchant findOne = null;
 		try {
 			findOne = merchantRepository.findbyUserID(merchantID);
+
 		} catch (Exception e) {
 			logger.info("cannot get info from the database:" + e.getMessage());
 			throw new DatabaseException(ExceptionType.LOG,
 					ErrorConstants.DATABASE_ERROR, e);
 		}
-
+		if (null == findOne) {
+			throw new IllegalObjectStateException(ExceptionType.VIEW,
+					ErrorConstants.NO_MERCHANT_FOUND, "", new Throwable());
+		}
+		
 		return findOne;
 	}
 
@@ -127,6 +133,5 @@ public class MerchantManagerImpl implements MerchantManager {
 	public long getCount() {
 		return merchantRepository.count();
 	}
-
 
 }

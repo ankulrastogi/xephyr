@@ -142,6 +142,7 @@ public class Merchant implements Serializable {
 			throws IllegalObjectStateException {
 		{
 			Map<Integer, List<Object>> errorMap = new HashMap<Integer, List<Object>>();
+			
 			switch (type) {
 			case POST:
 				if (id <= 0) {
@@ -168,7 +169,7 @@ public class Merchant implements Serializable {
 			}
 
 			if (errorMap.size() > 0) {
-				throw new IllegalObjectStateException(ExceptionType.VIEW,
+				throw new IllegalObjectStateException(ExceptionType.LOG,
 						errorMap, new Throwable());
 			}
 		}

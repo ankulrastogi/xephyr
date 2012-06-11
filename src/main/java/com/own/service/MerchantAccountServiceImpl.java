@@ -15,13 +15,13 @@ import com.own.service.exception.ServiceException;
 
 @Service
 public class MerchantAccountServiceImpl implements MerchantAccountService {
-	
+
 	@Autowired
 	MerchantAccountManager maManager;
-	
+
 	@Transactional
 	public MerchantAccount createAccount(MerchantAccount account) {
-		
+
 		return null;
 	}
 
@@ -42,7 +42,7 @@ public class MerchantAccountServiceImpl implements MerchantAccountService {
 			mAccount.setMerchantUserID(merchant.getMerchantUserID());
 			mAccount.setStatus(MerchantAccountStatus.PENDING);
 			mAccount.setUniqueKey("account_" + mAccount.getName());
-			
+
 			mAccount = maManager.saveMerchantAccount(mAccount);
 		} catch (DatabaseException e) {
 
@@ -51,6 +51,27 @@ public class MerchantAccountServiceImpl implements MerchantAccountService {
 
 		return mAccount;
 
+	}
+
+	@Transactional
+	@Override
+	public MerchantAccount activateAcccount(MerchantAccount mAccount)
+			throws ServiceException {
+
+		try {
+			MerchantAccount current = maManager
+					.findAccountByAccountName(mAccount.getName());
+			if (null == current) {
+				throw new ServiceException(ExceptionType.VIEW,
+						ErrorConstants.MERCHANT_ACCOUNT_NOT_FOUND, "",
+						new Throwable());
+			}
+		} catch (DatabaseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return null;
 	}
 
 }

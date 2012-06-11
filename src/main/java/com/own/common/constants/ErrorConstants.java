@@ -21,6 +21,7 @@ public class ErrorConstants {
 	public static final Integer MERCHANT_NOT_ACTIVE = 23;
 	public static final Integer ACCOUNT_EXISTS = 24;
 	public static final Integer NO_MERCHANT_FOUND = 25;
+	public static final Integer MERCHANT_ACCOUNT_NOT_FOUND = 26;
 
 
 }
