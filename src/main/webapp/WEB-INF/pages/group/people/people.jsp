@@ -39,8 +39,14 @@
 
 							</div>
 						</div>
+						<div class="input-3">
+							<form:button id="addNewUserButton" type="submit">
+								<fmt:message key="dlt.people.button.add" />
+							</form:button>
+							<!-- <button type="button">Cancel</button> -->
+						</div>
 					</div>
-
+				
 				</div>
 			</form:form>
 				<div id="remove-modal" class="modal confirm">
