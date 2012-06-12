@@ -43,7 +43,7 @@ public class MerchantRegistrationServiceImpl implements
 
 			}
 
-			rMerchant.setActivationLink("");
+			rMerchant.setActivationLink("activationLink");
 			rMerchant.setStatus(RegistrationStatus.PENDING);
 			rMerchant.setCreationDate(Calendar.getInstance().getTime());
 			rMerchant.setUpdationDate(Calendar.getInstance().getTime());

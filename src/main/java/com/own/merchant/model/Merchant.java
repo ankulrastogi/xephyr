@@ -50,10 +50,9 @@ public class Merchant implements Serializable {
 	private String name;
 
 	 @Id
-	 @GenericGenerator(name="uuid-gen",strategy="uuid")
-	 @GeneratedValue(generator="uuid-gen")
-	// @GenericGenerator(name="userIDGen",strategy="com.own.merchant.model.sql.generator.MerchantUserIDGenerator")
-	// @GeneratedValue(generator="userIDGen")
+
+	@GenericGenerator(name="userIDGen",strategy="com.own.merchant.model.sql.generator.MerchantUserIDGenerator")
+	@GeneratedValue(generator="userIDGen")
 	@Column(name = "merchantUserID", unique = true, nullable = false)
 	private String merchantUserID;
 
@@ -145,10 +144,10 @@ public class Merchant implements Serializable {
 			
 			switch (type) {
 			case POST:
-				if (id <= 0) {
-					errorMap = addToMap(errorMap, ErrorConstants.INVALID_ID,
-							new String[] { "merchant" });
-				}
+//				if (id <= 0) {
+//					errorMap = addToMap(errorMap, ErrorConstants.INVALID_ID,
+//							new String[] { "merchant" });
+//				}
 			case PRE:
 				if (StringUtils.isEmpty(name)) {
 					errorMap = addToMap(errorMap, ErrorConstants.FIELD_EMPTY,

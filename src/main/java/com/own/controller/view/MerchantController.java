@@ -93,6 +93,12 @@ public class MerchantController extends BaseController {
 		}
 		model.addAttribute("username",principal.getName());
 		model.addAttribute("account",new AddAccountForm());
-		return "groupList";
+		return "people";
+	}
+	
+	@RequestMapping(value={"groupList"},method=RequestMethod.POST)
+	public String dummyPost()
+	{
+		return null;
 	}
 }

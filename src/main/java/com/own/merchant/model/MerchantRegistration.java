@@ -46,7 +46,7 @@ public class MerchantRegistration {
 	@Column(name="merchantPassword")
 	private String password;
 	
-	@Column(name="activationURLstring",unique=true,nullable=false)
+	@Column(name="activationURLstring",nullable=false)
 	private String activationLink;
 	
 	@Column(name="registrationStatus")

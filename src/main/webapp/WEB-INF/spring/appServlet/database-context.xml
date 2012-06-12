@@ -45,7 +45,6 @@
 
 	<util:map id="jpaPropertyMap">
 		<entry key="hibernate.hbm2ddl.auto" value="${hibernate.hbm2ddl.auto}" />
-		<entry key="hibernate.dialect" value="${hibernate.dialect}" />
 		<entry key="hibernate.show_sql" value="${hibernate.show_sql}" />
 	</util:map>
 

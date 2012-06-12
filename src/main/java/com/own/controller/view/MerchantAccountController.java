@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.own.merchant.model.view.form.AddAccountForm;
 
-@Controller
+@Controller(value="merchantAccountViewController")
 @RequestMapping("/view/merchant/account")
 public class MerchantAccountController extends BaseController
 {
