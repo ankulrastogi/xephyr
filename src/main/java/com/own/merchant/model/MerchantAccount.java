@@ -27,14 +27,14 @@ public class MerchantAccount implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 
-	@Id
+	
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name="tableID")
 	private long id;
 	
-	
-	//@GenericGenerator(name="accIDGen",strategy="com.own.merchant.model.sql.generator.MerchantAccountIDGenerator")
-	//@GeneratedValue(generator="accIDGen")
+	@Id
+	@GenericGenerator(name="accIDGen",strategy="com.own.merchant.model.sql.generator.MerchantAccountIDGenerator")
+	@GeneratedValue(generator="accIDGen")
 	@Column(name = "accountID", unique = true, nullable = false)
 	private String accountID;
 

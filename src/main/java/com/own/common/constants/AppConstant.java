@@ -36,6 +36,8 @@ public final class AppConstant {
 
 	public static final String ADD_USER_MODEL_DISPLAY = "userModal";
 
+	public static final String SESSION_MERCHANT_ID = "merchantID";
+
 	private AppConstant() {
 
 	}

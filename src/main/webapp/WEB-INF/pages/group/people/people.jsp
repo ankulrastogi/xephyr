@@ -15,7 +15,7 @@
 
 
 			<form:form id="peopleForm" method="post" modelAttribute="account"
-				action="people.html">
+				action="${contextRoot}/view/merchant/account/create">
 				<div class="add-user form">
 
 
@@ -25,10 +25,8 @@
 							key="dlt.people.title.addnewuser" /></a>
 
 					<div class="wrap">
-
-
 						<div class="input-2 text-2">
-							<form:hidden path="merchantID" id="merchantID" value="${param.groupId}" />
+							<form:hidden path="merchantID" id="merchantID" value="${sessionScope.merchantID}" />
 							<label class="label-1" for="accountName"><fmt:message
 									key="dlt.people.label.email" /></label>
 							<div class="wrap">

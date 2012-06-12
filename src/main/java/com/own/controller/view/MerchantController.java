@@ -2,6 +2,7 @@ package com.own.controller.view;
 
 import java.security.Principal;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.apache.log4j.Logger;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.own.common.constants.AppConstant;
 import com.own.controller.factory.MessageConvertorFactory;
 import com.own.merchant.model.Merchant;
 import com.own.merchant.model.MerchantRegistration;
@@ -80,13 +82,14 @@ public class MerchantController extends BaseController {
 	}
 	
 	@RequestMapping(value={"groupList"},method=RequestMethod.GET)
-	public String postLoginPage(Model model,Principal principal)
+	public String postLoginPage(Model model,Principal principal,HttpSession session)
 	
 	{
 		String username = principal.getName();
 		try {
 			Merchant merchant = mService.getMerchantByUsername(username);
 			logger.info("Merchant INFO:" + merchant);
+			session.setAttribute(AppConstant.SESSION_MERCHANT_ID, merchant.getMerchantUserID());
 		} catch (ServiceException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

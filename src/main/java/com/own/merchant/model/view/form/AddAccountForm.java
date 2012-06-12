@@ -1,5 +1,7 @@
 package com.own.merchant.model.view.form;
 
+import com.own.merchant.model.MerchantAccount;
+
 public class AddAccountForm {
 
 	private String merchantID;
@@ -20,6 +22,13 @@ public class AddAccountForm {
 
 	public void setAccountName(String accountName) {
 		this.accountName = accountName;
+	}
+
+	public MerchantAccount buildMerchantAccount() {
+		MerchantAccount account = new MerchantAccount();
+		account.setName(this.accountName);
+		account.setMerchantUserID(this.merchantID);
+		return account;
 	}
 	
 }
