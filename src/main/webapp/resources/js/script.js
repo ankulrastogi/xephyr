@@ -80,8 +80,10 @@ jQuery(function($){
             var $add_user_div = $add_user_button.parent();
             if($add_user_div.hasClass("open")){
                 $add_user_div.removeClass("open");
+                $(".add-user > .wrap").hide();
             }else{
                 $add_user_div.addClass("open");
+                $(".add-user > .wrap").show();
             }
             return false;
         });
