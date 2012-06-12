@@ -23,7 +23,7 @@ public final class AppConstant {
 	public static final String MESSAGE_KEY = "messageKey";
 	public static final String ALERT_MESSAGE_KEY = "alertMessageKey";
 	public static final String HAS_ERROR_MESSAGES_KEY = "hasErrorMessages";
-	public static final String ERROR_MESSAGES_KEY = "errorMessageKey";
+	public static final String ERROR_MESSAGES_KEY = "error";
 
 	public static final String FIRSTNAME = "firstName";
 	public static final String LASTNAME = "lastName";
@@ -37,6 +37,8 @@ public final class AppConstant {
 	public static final String ADD_USER_MODEL_DISPLAY = "userModal";
 
 	public static final String SESSION_MERCHANT_ID = "merchantID";
+
+	public static final String SESSION_USERNAME = "username";
 
 	private AppConstant() {
 

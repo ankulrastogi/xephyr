@@ -10,16 +10,13 @@
 		<div class="content">
 
 
-			<c:set var="formName" value="people" />
 			<%@ include file="/WEB-INF/pages/include/errorTemplate.jsp"%>
+			<input type="hidden" id="modalPopup" value="${popup}">	
 
 
 			<form:form id="peopleForm" method="post" modelAttribute="account"
 				action="${contextRoot}/view/merchant/account/create">
 				<div class="add-user form">
-
-
-
 
 					<a href="" class="button"><fmt:message
 							key="dlt.people.title.addnewuser" /></a>

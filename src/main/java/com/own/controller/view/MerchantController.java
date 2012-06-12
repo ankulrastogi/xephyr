@@ -18,7 +18,6 @@ import com.own.common.constants.AppConstant;
 import com.own.controller.factory.MessageConvertorFactory;
 import com.own.merchant.model.Merchant;
 import com.own.merchant.model.MerchantRegistration;
-import com.own.merchant.model.view.form.AddAccountForm;
 import com.own.merchant.model.view.form.NewRegistrationFormModel;
 import com.own.service.MerchantRegistrationService;
 import com.own.service.MerchantService;
@@ -81,7 +80,7 @@ public class MerchantController extends BaseController {
 		return viewName;
 	}
 	
-	@RequestMapping(value={"groupList"},method=RequestMethod.GET)
+	@RequestMapping(value={"loginSuccess"},method=RequestMethod.GET)
 	public String postLoginPage(Model model,Principal principal,HttpSession session)
 	
 	{
@@ -91,17 +90,11 @@ public class MerchantController extends BaseController {
 			logger.info("Merchant INFO:" + merchant);
 			session.setAttribute(AppConstant.SESSION_MERCHANT_ID, merchant.getMerchantUserID());
 		} catch (ServiceException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
-		model.addAttribute("username",principal.getName());
-		model.addAttribute("account",new AddAccountForm());
-		return "people";
-	}
-	
-	@RequestMapping(value={"groupList"},method=RequestMethod.POST)
-	public String dummyPost()
-	{
-		return null;
+		session.setAttribute(AppConstant.SESSION_USERNAME, username);
+		
+		return getInternalRedirectView("/view/merchant/account/create");
 	}
 }

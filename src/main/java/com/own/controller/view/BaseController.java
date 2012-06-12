@@ -14,22 +14,21 @@ import com.own.controller.factory.MessageConvertorFactory;
 public class BaseController {
 
 	private final String REDIRECT = "redirect:";
-	
+
 	@Autowired
 	protected MessageConvertorFactory convertorfactory;
-	
-	protected String getInternalRedirect(String controllerName)
-	{
-		
+
+	protected String getInternalRedirect(String controllerName) {
+
 		return REDIRECT + controllerName;
 	}
-	
-	protected String getInternalRedirect(String controllerName,String queryString)
-	{
-		
+
+	protected String getInternalRedirect(String controllerName,
+			String queryString) {
+
 		return REDIRECT + controllerName + "?" + queryString;
 	}
-	
+
 	/**
 	 * The Enum MESSAGES.
 	 */
@@ -43,7 +42,6 @@ public class BaseController {
 		ERROR
 	}
 
-
 	private void addAlertMessage(final Model model, final String key) {
 		model.addAttribute(AppConstant.HAS_ALERT_MESSAGES_KEY, true);
 		model.addAttribute(AppConstant.ALERT_MESSAGE_KEY, key);
@@ -54,14 +52,13 @@ public class BaseController {
 		model.addAttribute(AppConstant.ERROR_MESSAGES_KEY, key);
 	}
 
-	//TODO: check this 
+	// TODO: check this
 	private void addErrorMessageFromException(final Throwable e,
 			final Model model, final String key) {
 		if (key != null) {
 			addErrorMessage(model, key);
 			return;
 		}
-	
 
 	}
 
@@ -137,7 +134,7 @@ public class BaseController {
 		model.addAttribute(AppConstant.HASMESSAGES_KEY, true);
 		model.addAttribute(AppConstant.MESSAGE_KEY, key);
 	}
-	
+
 	private String convertToQueryString(final Map<String, String[]> paramMap) {
 
 		StringBuffer buffer = new StringBuffer();
@@ -149,7 +146,7 @@ public class BaseController {
 		buffer.deleteCharAt(buffer.length() - 1);
 		return buffer.toString();
 	}
-	
+
 	protected String getInternalRedirectView(final HttpServletRequest request,
 			final String controllerPath, final Map<String, String> param) {
 
@@ -170,20 +167,20 @@ public class BaseController {
 
 		return getInternalRedirectView(controllerPath, queryString);
 	}
+
 	protected String getInternalRedirectView(final String name,
 			final String queryString) {
 		if (null == queryString) {
 			return getInternalRedirectView(name);
 		}
 		return new StringBuilder().append(AppConstant.REDIRECT).append(name)
-				.append(AppConstant.EXTENSION).append("?").append(queryString)
-				.toString();
+				.append("?").append(queryString).toString();
 
 	}
-	
+
 	protected String getInternalRedirectView(final String name) {
 		return new StringBuilder().append(AppConstant.REDIRECT).append(name)
-				.append(AppConstant.EXTENSION).toString();
+				.toString();
 
 	}
 }

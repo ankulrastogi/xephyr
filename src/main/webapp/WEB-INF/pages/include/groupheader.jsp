@@ -2,7 +2,7 @@
 
 <div class="group-hdr">
 	<h1>
-			Welcome <c:out value="${username}"></c:out>
+			Welcome <c:out value="${sessionScope.username}"></c:out>
 	</h1>
 	
 	
@@ -23,7 +23,8 @@
 		<c:set var="navPeopleValue" value="active" />
 	</c:if>
 	
-	<a class="cls ${navClassesValue}" id="classes" href=""><fmt:message key="dlt.groupheader.label.classes" /></a> 
-	<a class="crr ${navCurriculumValue}" id="curriculum" href="${contextRoot}/curriculum/curriculumlist.html?groupId=${sessionScope.activeGroup.id}"><fmt:message key="dlt.groupheader.label.curriculum" /></a> 
-	<a class="ppl ${navPeopleValue}" id="people" href="${contextRoot}/people.html?groupId=${sessionScope.activeGroup.id}"><fmt:message key="dlt.groupheader.label.people" /></a>
+	<a class="cls ${navClassesValue}" id="classes" href="#"><fmt:message key="dlt.groupheader.label.data" /></a> 
+	<a class="crr ${navCurriculumValue}" id="curriculum" href="#"><fmt:message key="dlt.groupheader.label.profile" /></a> 
+	<a class="ppl ${navPeopleValue} " id="people" href="#"><fmt:message key="dlt.groupheader.label.accounts" /></a>
 </div>
+

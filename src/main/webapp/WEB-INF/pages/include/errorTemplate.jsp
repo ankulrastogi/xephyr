@@ -1,37 +1,21 @@
 <div class="notices">
 
-<c:if test="${hasErrorMessages}">
+<c:if test="${not empty requestScope.error}">
+<c:forEach items="${requestScope.error}" var="error">
 	<div class="error">
-		<p>
-			<span class="label"><fmt:message key="dlt.error" /></span>
-			<spring:message code="${errorMessageKey}"></spring:message>
-		</p>
-	</div>
+			<p>
+				<span class="label"><fmt:message key="dlt.error" /></span>
+				<spring:message code="${error}" />
+			</p>
+		</div>
+</c:forEach>
 </c:if>
-<c:if test="${hasMessages}">
+
+<c:if test="${not empty requestScope.success}">
 	<div class="success">
 		<p>
 			<span class="label"><fmt:message key="dlt.success" /></span>
-			<spring:message code="${messageKey}"></spring:message>
-		</p>
-	</div>
-</c:if>
-
-<spring:hasBindErrors name="${formName}">
-	<c:forEach items="${errors.globalErrors}" var="error">
-		<div class="error">
-			<p>
-				<span class="label"><fmt:message key="dlt.error" /></span>
-				<spring:message code="${error.code}" />
-			</p>
-		</div>
-	</c:forEach>
-</spring:hasBindErrors>
-<c:if test="${hasAlertMessages}">
-	<div class="alert">
-		<p>
-			<span class="label"><fmt:message key="dlt.notice" /></span>
-			<spring:message code="${alertMessageKey}"></spring:message>
+			<spring:message code="${requestScope.success}" />
 		</p>
 	</div>
 </c:if>
