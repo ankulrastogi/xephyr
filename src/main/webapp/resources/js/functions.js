@@ -19,7 +19,6 @@ if(null != element)
 	{
 	$(".showing").append(element);
 	}
-});
 
 var isClicked = false;
 var confirmElement  = $("a.confirm",$("#invite-modal"));
@@ -30,4 +29,31 @@ if(!isClicked) {
 } else {
   e.preventDefault();
 }
+
 });
+
+$("#peopleForm").submit(function(e){
+	e.preventDefault();
+	
+	var accountName = $("#accountName").val();
+	var merchantID = $("#merchantID").val();
+	var submitJSON = JSON.stringify({"name":accountName});
+	alert(submitJSON);
+	var submitUrl = "http://localhost:8080/test/service/merchant/"+merchantID+"/account";//$(location).attr("href");
+	
+	$.ajax( {
+		url : submitUrl,
+		type : "POST",
+		data : submitJSON,
+		dataType : "json",
+		contentType:"application/json",
+		success : function(response) {				
+			alert("success"+response);
+		},
+		error : function(response) {
+			alert("failed"+response);
+		}
+	});
+});
+});
+

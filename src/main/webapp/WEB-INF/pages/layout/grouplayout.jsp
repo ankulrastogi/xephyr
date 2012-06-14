@@ -28,6 +28,7 @@ response.setDateHeader ("Expires", -1);
 <script type="text/javascript" src="https://use.typekit.com/yiy1stl.js"></script>
 <script src="<%=request.getContextPath() %>/resources/js/libs/jquery-1.7.2.min.js"></script>
 <script src="<%=request.getContextPath() %>/resources/js/libs/jquery.simplemodal.1.4.2.min.js"></script>
+<script src="<%=request.getContextPath() %>/resources/js/libs/json2.js"></script>
 <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
 </head>
 <body>

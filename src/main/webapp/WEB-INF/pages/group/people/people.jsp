@@ -15,7 +15,7 @@
 
 
 			<form:form id="peopleForm" method="post" modelAttribute="account"
-				action="${contextRoot}/view/merchant/account/create">
+				action="account/create">
 				<div class="add-user form">
 
 					<a href="" class="button"><fmt:message
