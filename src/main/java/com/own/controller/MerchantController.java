@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -257,7 +258,7 @@ public class MerchantController extends BaseController {
 	@RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
 	public @ResponseBody
 	ServiceResponse getMerchantDetails(@PathVariable("id") String merchantUserID) {
-		if (null == merchantUserID || merchantUserID.trim().length() == 0) {
+		if (StringUtils.isBlank(merchantUserID)) {
 			return ServiceUtils.composeServiceResponse(ServiceConstants.FAIL,
 					String.valueOf(ErrorConstants.FIELD_EMPTY),
 					"No Merchant User ID specified", null);

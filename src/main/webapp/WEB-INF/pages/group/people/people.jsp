@@ -44,6 +44,25 @@
 				
 				</div>
 			</form:form>
+			
+			<table class="users">
+				<thead>
+					<tr>
+						<th class="name"><a href="" class="sort-asc">Account Name</a></th>
+						<th class="role"><a href="" class="sort-desc">Role</a></th>
+						<th class="status"><a href="">Status</a></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr class="base hidden">
+						<td class="name"></td>
+						<td class="role"></td>
+						<td class="status"></td>
+						<td class="action"><a href="" class="edit">Edit</a><a href=""
+							class="remove">Remove</a></td>
+					</tr>
+				</tbody>
+			</table>		
 				<div id="remove-modal" class="modal confirm">
     
                         <div class="content">

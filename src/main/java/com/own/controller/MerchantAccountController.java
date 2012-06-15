@@ -5,9 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -74,7 +76,7 @@ public class MerchantAccountController extends BaseController {
 		try {
 			Merchant merchant = mService
 					.getMerchantByMerchantUserID(merchatnUserID);
-			
+
 			if (!merchant.getStatus().equals(MerchantStatus.ACTIVE)) {
 				messages.put(
 						String.valueOf(ErrorConstants.MERCHANT_NOT_ACTIVE),
@@ -93,10 +95,11 @@ public class MerchantAccountController extends BaseController {
 					messages, null);
 		}
 		logger.info("Merchant Account:" + mAccount);
-		
-		Map<String, List<String>> successMap = convertorfactory.getSuccessMessage(ErrorConstants.MERCHANT_ACCOUNT_CREATE_SUCCESS);
-		return ServiceUtils.composeServiceResponse(ServiceConstants.SUCCESS,successMap
-				, mAccount);
+
+		Map<String, List<String>> successMap = convertorfactory
+				.getSuccessMessage(ErrorConstants.MERCHANT_ACCOUNT_CREATE_SUCCESS);
+		return ServiceUtils.composeServiceResponse(ServiceConstants.SUCCESS,
+				successMap, mAccount);
 
 	}
 
@@ -132,7 +135,7 @@ public class MerchantAccountController extends BaseController {
 		try {
 			Merchant merchant = mService
 					.getMerchantByMerchantUserID(merchantUserID);
-			
+
 			if (!merchant.getStatus().equals(MerchantStatus.ACTIVE)) {
 				messages.put(
 						String.valueOf(ErrorConstants.MERCHANT_NOT_ACTIVE),
@@ -174,6 +177,40 @@ public class MerchantAccountController extends BaseController {
 	public String deleteAccount(@PathVariable("merchID") String merchantUserID,
 			@PathVariable("id") String accountID) {
 		return null;
+	}
+
+	/**
+	 * Get linked account details for a particular merchant
+	 */
+
+	@RequestMapping(value = { "/{merchID}/account/get" }, method = RequestMethod.GET)
+	public @ResponseBody
+	ServiceResponse getAccountDetails(@PathVariable("merchID") String merchantID) {
+		if (StringUtils.isBlank(merchantID)) {
+			return ServiceUtils.composeServiceResponse(ServiceConstants.FAIL,
+					String.valueOf(ErrorConstants.FIELD_EMPTY),
+					"No Merchant User ID specified", null);
+		}
+		Merchant merchant = null;
+		try {
+			merchant = mService.getMerchantByMerchantUserID(merchantID);
+			if (null == merchant) {
+				return ServiceUtils.composeServiceResponse(
+						ServiceConstants.FAIL,
+						String.valueOf(ErrorConstants.FIELD_EMPTY),
+						"No Merchant for the given Merchant User ID specified",
+						null);
+			}
+		} catch (ServiceException e) {
+			Map<String, List<String>> messageList = convertorfactory
+					.convertExceptionMessages(e
+							.getAllErrorMessages(ExceptionType.VIEW));
+			return ServiceUtils.composeServiceResponse(ServiceConstants.FAIL,
+					messageList, null);
+
+		}
+		return ServiceUtils.composeServiceResponse(ServiceConstants.SUCCESS,
+				new HashMap<String, List<String>>(), merchant.getAccounts());
 	}
 
 	/**

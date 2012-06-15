@@ -52,8 +52,36 @@ $("#peopleForm").submit(function(e){
 			if(response.responseCode == '0')
 				{
 					var message = messages[200];
-					$(".success").removeClass("hidden");
+					var successClone = $(".success").clone();
+					$(successClone).removeClass("hidden");
+					$(".notices").append(successClone);
 					$("p > span[class=message]",$(".success")).text(message);
+					$.ajax( {
+						url : "http://localhost:8080/test/service/merchant/"+merchantID+"/account/get",
+						type : "GET",
+						async:true,
+						contentType:"application/json",
+						success:function(response){
+							  $("tr:not(.hidden)",$("tbody",$(".users"))).remove();
+								var tdElement = $(".hidden",$(".users"));
+								$.each(response.response,function(index,data){
+									var clone =$(tdElement).clone();
+									$(clone).removeClass("hidden");
+									$(".users").append(clone);
+									$(".name",$(clone)).text(data.name);
+									$(".status",$(clone)).text(data.status);
+									$(".role",$(clone)).text(data.uniqueKey);
+									
+								
+							});
+								var $table_users = $("table.users");
+							    if($table_users.length){
+							        $table_users.find("tr:nth-child(2n)").addClass("even");
+							    }
+						}
+							
+					});
+					
 				}
 			else
 				{
