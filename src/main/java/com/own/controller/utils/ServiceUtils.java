@@ -15,7 +15,7 @@ public class ServiceUtils {
 
 		ServiceResponse sResponse = new ServiceResponse();
 		sResponse.setResponseCode(respCode);
-		sResponse.setErrorMap(messages);
+		sResponse.setMessage(messages);
 		sResponse.setResponse(response);
 		return sResponse;
 
@@ -34,7 +34,7 @@ public class ServiceUtils {
 		errorMap.put(errorCode, errorList);
 		ServiceResponse sResponse = new ServiceResponse();
 		sResponse.setResponseCode(respCode);
-		sResponse.setErrorMap(errorMap);
+		sResponse.setMessage(errorMap);
 		sResponse.setResponse(response);
 		return sResponse;
 	}

@@ -93,8 +93,10 @@ public class MerchantAccountController extends BaseController {
 					messages, null);
 		}
 		logger.info("Merchant Account:" + mAccount);
-		return ServiceUtils.composeServiceResponse(ServiceConstants.SUCCESS,
-				new HashMap<String, List<String>>(), mAccount);
+		
+		Map<String, List<String>> successMap = convertorfactory.getSuccessMessage(ErrorConstants.MERCHANT_ACCOUNT_CREATE_SUCCESS);
+		return ServiceUtils.composeServiceResponse(ServiceConstants.SUCCESS,successMap
+				, mAccount);
 
 	}
 

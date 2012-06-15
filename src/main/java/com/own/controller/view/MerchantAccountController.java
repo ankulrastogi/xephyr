@@ -24,6 +24,7 @@ import com.own.merchant.model.view.form.AddAccountForm;
 import com.own.service.MerchantAccountService;
 import com.own.service.MerchantService;
 import com.own.service.exception.ServiceException;
+import com.own.transaction.enums.MerchantStatus;
 
 @Controller(value = "merchantAccountViewController")
 @RequestMapping("/view/merchant/account")
@@ -56,15 +57,22 @@ public class MerchantAccountController extends BaseController {
 
 			addError(request, ErrorConstants.ACTIVATION_EXPIRED);
 			model.addAttribute(AppConstant.POPUP_PARAM,Boolean.TRUE);
+			return "people";
 		}
 
 		Merchant merchant;
 		try {
 			merchant = mService.getMerchantByMerchantUserID(accForm
 					.getMerchantID());
+			if(!merchant.getStatus().equals(MerchantStatus.ACTIVE))
+			{
+				addError(request, ErrorConstants.MERCHANT_NOT_ACTIVE);
+				model.addAttribute(AppConstant.POPUP_PARAM,Boolean.TRUE);
+				return "people";
+			}
 			maService.createAccountForMerchant(account, merchant);
 			request.setAttribute(ServiceConstants.SUCCESS_MESSAGE_KEY,
-					String.valueOf(ErrorConstants.MESSAGE_SUCCESS));
+					String.valueOf(ErrorConstants.MERCHANT_ACCOUNT_CREATE_SUCCESS));
 
 		} catch (ServiceException e) {
 			// TODO Auto-generated catch block

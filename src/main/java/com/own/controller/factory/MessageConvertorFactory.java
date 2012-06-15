@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
 
+import com.own.controller.utils.ServiceConstants;
+
 @Component
 public class MessageConvertorFactory {
 
@@ -76,6 +78,16 @@ public class MessageConvertorFactory {
 			resultList.addAll(convertExceptionMessages.get(key));
 		}
 		return resultList;
+	}
+
+	public Map<String, List<String>> getSuccessMessage(
+			Integer messageCode) {
+		Map<String, List<String>> successList = new HashMap<String, List<String>>();
+		
+		List<String> resultList = new ArrayList<String>();
+		resultList.add(exceptionMessageSource.getMessage(String.valueOf(messageCode), null,Locale.US));
+		successList.put(ServiceConstants.SUCCESS_MESSAGE_CODE, resultList);
+		return successList;
 	}
 	
 	

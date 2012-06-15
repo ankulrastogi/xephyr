@@ -7,7 +7,7 @@ public class ServiceResponse {
 
 	private String responseCode;
 	
-	private Map<String,List<String>> errorMap;
+	private Map<String,List<String>> message;
 	
 	private Object response;
 
@@ -19,12 +19,12 @@ public class ServiceResponse {
 		this.responseCode = responseCode;
 	}
 
-	public Map<String,List<String>> getErrorMap() {
-		return errorMap;
+	public Map<String,List<String>> getMessage() {
+		return message;
 	}
 
-	public void setErrorMap(Map<String,List<String>> errorMap) {
-		this.errorMap = errorMap;
+	public void setMessage(Map<String,List<String>> message) {
+		this.message = message;
 	}
 
 	public Object getResponse() {

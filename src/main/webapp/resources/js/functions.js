@@ -48,7 +48,13 @@ $("#peopleForm").submit(function(e){
 		dataType : "json",
 		contentType:"application/json",
 		success : function(response) {				
-			alert("success"+response);
+			if(response.responseCode == '0')
+				{
+					var message = response.message[200];
+					alert(message);
+					$(".success").removeClass("hidden");
+					$("p > span[class=message]",$(".success")).text(message);
+				}
 		},
 		error : function(response) {
 			alert("failed"+response);
