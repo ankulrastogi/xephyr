@@ -16,7 +16,6 @@
 			<spring:message code="${errorMap.successfulEditProfile}"></spring:message>
 		</div>
 	</c:if>
-	<%@include file="changePassword.jsp"%>
 	<%@include file="userProfile.jsp"%>
 </div>
 

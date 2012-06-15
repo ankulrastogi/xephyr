@@ -71,7 +71,8 @@ $("#peopleForm").submit(function(e){
 									$(".name",$(clone)).text(data.name);
 									$(".status",$(clone)).text(data.status);
 									$(".role",$(clone)).text(data.uniqueKey);
-									
+									var editLink = "http://localhost:8080/test/service/merchant/"+merchantID+"/account/edit";
+									$(".edit",$(".action",$(clone))).attr("href",editLink);
 								
 							});
 								var $table_users = $("table.users");
