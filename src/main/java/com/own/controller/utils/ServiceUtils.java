@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.own.common.constants.ErrorConstants;
 import com.own.merchant.model.ServiceResponse;
 
 public class ServiceUtils {
@@ -32,6 +33,11 @@ public class ServiceUtils {
 		List<String> errorList = new ArrayList<String>();
 		errorList.add(errorMessage);
 		errorMap.put(errorCode, errorList);
+		
+		List<String> errorList1 = new ArrayList<String>();
+		errorList.add("Custom dummy method");
+		errorMap.put(String.valueOf(ErrorConstants.ACTIVATION_EXPIRED), errorList1);
+		
 		ServiceResponse sResponse = new ServiceResponse();
 		sResponse.setResponseCode(respCode);
 		sResponse.setMessage(errorMap);

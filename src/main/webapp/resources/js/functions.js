@@ -38,7 +38,6 @@ $("#peopleForm").submit(function(e){
 	var accountName = $("#accountName").val();
 	var merchantID = $("#merchantID").val();
 	var submitJSON = JSON.stringify({"name":accountName});
-	alert(submitJSON);
 	var submitUrl = "http://localhost:8080/test/service/merchant/"+merchantID+"/account";//$(location).attr("href");
 	
 	$.ajax( {
@@ -48,13 +47,27 @@ $("#peopleForm").submit(function(e){
 		dataType : "json",
 		contentType:"application/json",
 		success : function(response) {				
+			var messages = response.message;
+			$("div:not(.hidden)",$(".notices")).remove();
 			if(response.responseCode == '0')
 				{
-					var message = response.message[200];
-					alert(message);
+					var message = messages[200];
 					$(".success").removeClass("hidden");
 					$("p > span[class=message]",$(".success")).text(message);
 				}
+			else
+				{
+					$.each(messages,function(key,value)
+					{
+						$.each(value,function(index,data){
+							var errorDiv = $(".hidden.error").clone();
+							$(errorDiv).removeClass("hidden");
+							$(".notices").append(errorDiv);
+							$("p > span[class=message]",$(errorDiv)).text(data);
+							});
+					});
+				}
+			
 		},
 		error : function(response) {
 			alert("failed"+response);
@@ -62,4 +75,5 @@ $("#peopleForm").submit(function(e){
 	});
 });
 });
+
 
