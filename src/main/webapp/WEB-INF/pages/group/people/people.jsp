@@ -49,7 +49,7 @@
 				<thead>
 					<tr>
 						<th class="name"><a href="" class="sort-asc">Account Name</a></th>
-						<th class="role"><a href="" class="sort-desc">Role</a></th>
+						<th class="role"><a href="" class="sort-desc">AccountID</a></th>
 						<th class="status"><a href="">Status</a></th>
 					</tr>
 				</thead>

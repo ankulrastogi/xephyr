@@ -113,7 +113,7 @@
 	
 	<definition name="editAccount" extends="accountlayout">
 		<put-attribute name="title" value="DLT" />
-		<put-attribute name="navigation" value="" />
+		<put-attribute name="navigation" value="peopleTab" />
 		<put-attribute name="body" value="/WEB-INF/pages/account/editaccount.jsp" />
 	</definition>	
 	
