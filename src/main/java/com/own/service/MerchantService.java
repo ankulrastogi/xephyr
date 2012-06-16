@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.own.merchant.model.Merchant;
 import com.own.merchant.model.Merchant.SearchTypes;
+import com.own.merchant.model.MerchantAccount;
 import com.own.merchant.model.MerchantRegistration;
 import com.own.service.exception.DuplicateValueException;
 import com.own.service.exception.IllegalObjectStateException;
@@ -144,6 +145,6 @@ public interface MerchantService {
 	 * @param accountID
 	 * @return
 	 */
-	public boolean accountBelongsToMerchant(String merchantID, String accountID);
+	public MerchantAccount accountBelongsToMerchant(String merchantID, String accountID);
 
 }

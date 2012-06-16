@@ -20,9 +20,9 @@
 			<button type="submit">
 				<fmt:message key="own.generic.button.label.save" />
 			</button>
-			<button type="button">
-				<fmt:message key="own.generic.button.label.cancel" />
-			</button>
+			<a class="button primary"
+				href="${contextRoot}/view/merchant/account/create"><fmt:message
+					key="own.generic.button.label.cancel" /></a>
 		</form:form>
 	</div>
 </div>

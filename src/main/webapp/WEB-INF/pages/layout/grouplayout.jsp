@@ -42,7 +42,7 @@ response.setDateHeader ("Expires", -1);
 			<script src="js/libs/DOMAssistant-2.8.js"></script>
 			<script src="js/libs/selectivizr-min.js"></script>
 		<![endif]-->
-
+<script src="<%=request.getContextPath() %>/resources/js/helper.js"></script>
 <script src="<%=request.getContextPath() %>/resources/js/functions.js"></script>
 <script src="<%=request.getContextPath() %>/resources/js/onload.js"></script>
 <script src="<%=request.getContextPath() %>/resources/js/script.js"></script>

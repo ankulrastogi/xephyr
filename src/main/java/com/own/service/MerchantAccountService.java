@@ -2,6 +2,7 @@ package com.own.service;
 
 import com.own.merchant.model.Merchant;
 import com.own.merchant.model.MerchantAccount;
+import com.own.service.exception.IllegalObjectStateException;
 import com.own.service.exception.ServiceException;
 
 /**
@@ -36,4 +37,22 @@ public interface MerchantAccountService {
 	 */
 	public MerchantAccount activateAcccount(MerchantAccount mAccount)
 			throws ServiceException;
+
+	/**
+	 * Update the merchant Account details
+	 * 
+	 * @param mAccount
+	 * @return
+	 * @throws IllegalObjectStateException
+	 */
+	public MerchantAccount updateMerchantAccount(MerchantAccount mAccount)
+			throws ServiceException, IllegalObjectStateException;
+
+	
+	/**
+	 * Removes an account from the merchant list . Account will be marked as disabled as of now.
+	 * @param mAccount
+	 * @throws ServiceException
+	 */
+	public void removeAccount(MerchantAccount mAccount) throws ServiceException;
 }

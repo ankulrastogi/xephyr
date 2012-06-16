@@ -9,7 +9,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,8 +25,8 @@ import com.own.merchant.model.ServiceResponse;
 import com.own.service.MerchantAccountService;
 import com.own.service.MerchantRegistrationService;
 import com.own.service.MerchantService;
-import com.own.service.exception.ServiceException;
 import com.own.service.exception.BaseException.ExceptionType;
+import com.own.service.exception.ServiceException;
 import com.own.transaction.enums.MerchantStatus;
 
 /**
@@ -221,6 +220,48 @@ public class MerchantAccountController extends BaseController {
 	public String updateAccount(@PathVariable("merchID") String merchantUserID,
 			@PathVariable("id") String accountID) {
 		return null;
+	}
+
+	@RequestMapping(value = "/{merchID}/remove/{accID}", method = {RequestMethod.DELETE,RequestMethod.GET})
+	public @ResponseBody
+	ServiceResponse removeMerchantAccount(
+			@PathVariable("merchID") String merchantID,
+			@PathVariable("accID") String accountID) {
+		if (StringUtils.isBlank(merchantID)) {
+			return ServiceUtils.composeServiceResponse(ServiceConstants.FAIL,
+					convertorfactory.getMessage(ErrorConstants.FIELD_EMPTY,
+							new String[] { "merchantID" }), null);
+		}
+		if (StringUtils.isBlank(accountID)) {
+			return ServiceUtils.composeServiceResponse(ServiceConstants.FAIL,
+					convertorfactory.getMessage(ErrorConstants.FIELD_EMPTY,
+							new String[] { "AccountID" }), null);
+		}
+
+		MerchantAccount mAccount = null;
+		if (null == (mAccount = mService.accountBelongsToMerchant(merchantID,
+				accountID))) {
+			return ServiceUtils
+					.composeServiceResponse(
+							ServiceConstants.FAIL,
+							convertorfactory
+									.getMessage(ErrorConstants.ACCOUNT_MERCHANT_MISMATCH),
+							null);
+		}
+		
+		try {
+			maService.removeAccount(mAccount);
+		} catch (ServiceException e) {
+			e.printStackTrace();
+			Map<String, List<String>> messages = convertorfactory
+					.convertExceptionMessages(e
+							.getAllErrorMessages(ExceptionType.VIEW));
+			return ServiceUtils.composeServiceResponse(ServiceConstants.FAIL,
+					messages, null);
+		}
+
+		return ServiceUtils.composeServiceResponse(ServiceConstants.SUCCESS,
+				convertorfactory.getSuccessMessage(ErrorConstants.ACCOUNT_REMOVAL_SUCCESS), mAccount);
 	}
 
 }

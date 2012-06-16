@@ -102,4 +102,10 @@
 	<!-- /.section -->
 
 </div>
+<script type="text/javascript">
+jQuery( function($){
+	ServiceHelper.setupPeoplePageList();
+});
+
+</script>
 <!-- /.shell -->

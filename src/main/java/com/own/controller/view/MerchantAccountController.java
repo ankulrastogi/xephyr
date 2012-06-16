@@ -24,6 +24,7 @@ import com.own.merchant.model.MerchantAccount;
 import com.own.merchant.model.view.form.MerchantAccountForm;
 import com.own.service.MerchantAccountService;
 import com.own.service.MerchantService;
+import com.own.service.exception.IllegalObjectStateException;
 import com.own.service.exception.ServiceException;
 import com.own.transaction.enums.MerchantStatus;
 
@@ -55,8 +56,6 @@ public class MerchantAccountController extends BaseController {
 		if (null == accForm.getAccountName()
 				|| accForm.getAccountName().trim().length() == 0) {
 			addError(request, ErrorConstants.AUTHENTICATION_FAILED);
-
-			addError(request, ErrorConstants.ACTIVATION_EXPIRED);
 			model.addAttribute(AppConstant.POPUP_PARAM, Boolean.TRUE);
 			return "people";
 		}
@@ -78,6 +77,7 @@ public class MerchantAccountController extends BaseController {
 		} catch (ServiceException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			addError(request, ErrorConstants.GENERAL_ERROR);
 		}
 
 		return "people";
@@ -91,7 +91,8 @@ public class MerchantAccountController extends BaseController {
 		model.addAttribute("editAccountForm", new MerchantAccountForm());
 		model.addAttribute("merchantID", merchantID);
 		model.addAttribute("accountID", accountID);
-		if (!mService.accountBelongsToMerchant(merchantID, accountID)) {
+		
+		if (null == mService.accountBelongsToMerchant(merchantID, accountID)) {
 			addError(request, ErrorConstants.ACCOUNT_MERCHANT_MISMATCH);
 			return "editAccount";
 		}
@@ -105,12 +106,27 @@ public class MerchantAccountController extends BaseController {
 			@PathVariable("accountID") String accountID,
 			@Valid @ModelAttribute("editAccountForm") MerchantAccountForm editForm,
 			BindingResult result, Model model, HttpServletRequest request) {
-		if (!mService.accountBelongsToMerchant(merchantID, accountID)) {
+		MerchantAccount mAccount = null;
+		if (null == (mAccount = mService.accountBelongsToMerchant(merchantID, accountID))) {
 			addError(request, ErrorConstants.ACCOUNT_MERCHANT_MISMATCH);
 			return "editAccount";
 		}
-
-		return null;
+		try {
+			mAccount.setName(editForm.getAccountName());
+			maService.updateMerchantAccount(mAccount);
+			request.setAttribute(ServiceConstants.SUCCESS_MESSAGE_KEY, String
+					.valueOf(ErrorConstants.MERCHANT_ACCOUNT_UPDATE_SUCCESS));
+		} catch (ServiceException e) {
+			
+			e.printStackTrace();
+			addError(request, ErrorConstants.GENERAL_ERROR);
+		} catch (IllegalObjectStateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			addError(request, ErrorConstants.ACCOUNT_NAME_EXISTS);
+		}
+		
+		return "editAccount";
 	}
 
 	@SuppressWarnings("unchecked")

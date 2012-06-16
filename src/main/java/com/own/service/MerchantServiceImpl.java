@@ -257,32 +257,30 @@ public class MerchantServiceImpl implements MerchantService {
 	}
 
 	@Override
-	public boolean accountBelongsToMerchant(String merchantID, String accountID) {
+	public MerchantAccount accountBelongsToMerchant(String merchantID, String accountID) {
 
 		if (StringUtils.isBlank(merchantID) || StringUtils.isBlank(accountID))
-			return false;
+			return null;
 		try {
 			Merchant merchant = getMerchantByMerchantUserID(merchantID);
-			if (hasMerchantAccount(merchant.getAccounts(), accountID))
-				return true;
+			return hasMerchantAccount(merchant.getAccounts(), accountID);
+				
 		} catch (ServiceException e) {
 			logger.info("Cannot get required information. So cannot take decision.Returning false:"
 					+ e.getMessage());
 			e.printStackTrace();
-			return false;
+			return null;
 		}
-
-		return false;
 	}
 
-	private boolean hasMerchantAccount(List<MerchantAccount> mAccount,
+	private MerchantAccount hasMerchantAccount(List<MerchantAccount> mAccount,
 			String accountID) {
 
 		for (MerchantAccount account : mAccount) {
 			if (accountID.equals(account.getAccountID()))
-				return true;
+				return account;
 		}
-		return false;
+		return null;
 	}
 
 }

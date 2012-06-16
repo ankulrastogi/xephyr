@@ -52,8 +52,6 @@ public class MerchantController extends BaseController {
 	@Autowired
 	MerchantRegistrationService merchantRegistrationService;
 
-	
-
 	/**
 	 * Add the specified merchant to the system
 	 * 
@@ -264,9 +262,12 @@ public class MerchantController extends BaseController {
 					"No Merchant User ID specified", null);
 		}
 		try {
-			Merchant merchant = mService.getMerchantByMerchantUserID(merchantUserID);
+			Merchant merchant = mService
+					.getMerchantByMerchantUserID(merchantUserID);
 			logger.info("Merchant Details:" + merchant);
-			return ServiceUtils.composeServiceResponse(ServiceConstants.SUCCESS, new HashMap<String, List<String>>(), merchant);
+			return ServiceUtils.composeServiceResponse(
+					ServiceConstants.SUCCESS,
+					new HashMap<String, List<String>>(), merchant);
 		} catch (ServiceException e) {
 			e.printStackTrace();
 			Map<String, List<String>> messages = convertorfactory
@@ -320,6 +321,4 @@ public class MerchantController extends BaseController {
 
 	}
 
-
 }
-

@@ -80,6 +80,26 @@ public class MessageConvertorFactory {
 		return resultList;
 	}
 
+	public Map<String, List<String>> getMessage(Integer messageCode)
+	{
+		Map<String, List<String>> successList = new HashMap<String, List<String>>();
+		
+		List<String> resultList = new ArrayList<String>();
+		resultList.add(exceptionMessageSource.getMessage(String.valueOf(messageCode), null,Locale.US));
+		successList.put(String.valueOf(messageCode), resultList);
+		return successList;
+	}
+	
+	public Map<String, List<String>> getMessage(Integer messageCode,Object[] placeHolders)
+	{
+		Map<String, List<String>> successList = new HashMap<String, List<String>>();
+		
+		List<String> resultList = new ArrayList<String>();
+		resultList.add(exceptionMessageSource.getMessage(String.valueOf(messageCode), placeHolders,Locale.US));
+		successList.put(String.valueOf(messageCode), resultList);
+		return successList;
+	}
+	
 	public Map<String, List<String>> getSuccessMessage(
 			Integer messageCode) {
 		Map<String, List<String>> successList = new HashMap<String, List<String>>();
