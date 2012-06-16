@@ -23,6 +23,7 @@ public class ErrorConstants {
 	public static final Integer NO_MERCHANT_FOUND = 25;
 	public static final Integer MERCHANT_ACCOUNT_NOT_FOUND = 26;
 	public static final Integer MERCHANT_ACCOUNT_CREATE_SUCCESS = 27;
+	public static final Integer ACCOUNT_MERCHANT_MISMATCH = 28;
 
 
 }

@@ -2,9 +2,11 @@ package com.own.merchant.model.view.form;
 
 import com.own.merchant.model.MerchantAccount;
 
-public class AddAccountForm {
+public class MerchantAccountForm {
 
 	private String merchantID;
+	
+	private String accountID;
 
 	private String accountName;
 	
@@ -29,6 +31,14 @@ public class AddAccountForm {
 		account.setName(this.accountName);
 		account.setMerchantUserID(this.merchantID);
 		return account;
+	}
+
+	public String getAccountID() {
+		return accountID;
+	}
+
+	public void setAccountID(String accountID) {
+		this.accountID = accountID;
 	}
 	
 }

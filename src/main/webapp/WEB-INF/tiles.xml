@@ -111,5 +111,11 @@
 		<put-attribute name="body" value="/WEB-INF/pages/group/people/people.jsp" />
 	</definition>
 	
+	<definition name="editAccount" extends="accountlayout">
+		<put-attribute name="title" value="DLT" />
+		<put-attribute name="navigation" value="" />
+		<put-attribute name="body" value="/WEB-INF/pages/account/editaccount.jsp" />
+	</definition>	
+	
 <!-- PAGES END-->	
 </tiles-definitions>

@@ -16,6 +16,6 @@
 			<spring:message code="${errorMap.successfulEditProfile}"></spring:message>
 		</div>
 	</c:if>
-	<%@include file="userProfile.jsp"%>
+	
 </div>
 

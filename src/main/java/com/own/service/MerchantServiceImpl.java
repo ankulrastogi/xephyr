@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.validation.Validator;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ import com.own.merchant.MerchantManager;
 import com.own.merchant.model.Merchant;
 import com.own.merchant.model.Merchant.SearchTypes;
 import com.own.merchant.model.Merchant.ValidationType;
+import com.own.merchant.model.MerchantAccount;
 import com.own.merchant.model.MerchantRegistration;
 import com.own.merchant.model.MerchantRegistration.RegistrationStatus;
 import com.own.service.exception.BaseException.ExceptionType;
@@ -43,9 +45,9 @@ public class MerchantServiceImpl implements MerchantService {
 
 		Merchant response = null;
 
-//		String username = generateMerchantUserID(merchant);
-//
-//		merchant.setMerchantUserID(username);
+		// String username = generateMerchantUserID(merchant);
+		//
+		// merchant.setMerchantUserID(username);
 
 		try {
 			response = merchantManager
@@ -231,29 +233,56 @@ public class MerchantServiceImpl implements MerchantService {
 		return merchantInfo;
 	}
 
-	
-
 	@Override
-	public Merchant getMerchantByUsername(String username) throws ServiceException{
+	public Merchant getMerchantByUsername(String username)
+			throws ServiceException {
 
 		Merchant response = null;
 
 		try {
-			response = merchantManager
-					.getMerchantByEmail(username);
+			response = merchantManager.getMerchantByEmail(username);
 
 			if (null == response) {
 				logger.info("Throw new exception no merchant exists by this mail ID");
 				throw new ServiceException(ExceptionType.VIEW,
 						ErrorConstants.NO_MERCHANT_FOUND, new Throwable());
 			}
-			
+
 		} catch (DatabaseException e) {
 			logger.info("Failed to get merchant information:" + e.getMessage());
 			throw new ServiceException(e.getErrorMessages(), e);
 		}
 
 		return response;
+	}
+
+	@Override
+	public boolean accountBelongsToMerchant(String merchantID, String accountID) {
+
+		if (StringUtils.isBlank(merchantID) || StringUtils.isBlank(accountID))
+			return false;
+		try {
+			Merchant merchant = getMerchantByMerchantUserID(merchantID);
+			if (hasMerchantAccount(merchant.getAccounts(), accountID))
+				return true;
+		} catch (ServiceException e) {
+			logger.info("Cannot get required information. So cannot take decision.Returning false:"
+					+ e.getMessage());
+			e.printStackTrace();
+			return false;
+		}
+
+		return false;
+	}
+
+	private boolean hasMerchantAccount(List<MerchantAccount> mAccount,
+			String accountID) {
+
+		for (MerchantAccount account : mAccount) {
+			if (accountID.equals(account.getAccountID()))
+				return true;
+		}
+		return false;
 	}
 
 }

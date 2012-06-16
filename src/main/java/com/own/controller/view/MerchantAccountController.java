@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -20,7 +21,7 @@ import com.own.common.constants.ErrorConstants;
 import com.own.controller.utils.ServiceConstants;
 import com.own.merchant.model.Merchant;
 import com.own.merchant.model.MerchantAccount;
-import com.own.merchant.model.view.form.AddAccountForm;
+import com.own.merchant.model.view.form.MerchantAccountForm;
 import com.own.service.MerchantAccountService;
 import com.own.service.MerchantService;
 import com.own.service.exception.ServiceException;
@@ -41,14 +42,14 @@ public class MerchantAccountController extends BaseController {
 
 	@RequestMapping(value = { "/create" }, method = RequestMethod.GET)
 	public String setupCreatePage(Model model) {
-		model.addAttribute("account", new AddAccountForm());
+		model.addAttribute("account", new MerchantAccountForm());
 		return "people";
 	}
 
 	@RequestMapping(value = { "/create" }, method = RequestMethod.POST)
 	public String createAccount(
-			@Valid @ModelAttribute("account") AddAccountForm accForm,BindingResult result,Model model,
-			HttpServletRequest request) {
+			@Valid @ModelAttribute("account") MerchantAccountForm accForm,
+			BindingResult result, Model model, HttpServletRequest request) {
 		logger.info("About to add merchant account");
 		MerchantAccount account = accForm.buildMerchantAccount();
 		if (null == accForm.getAccountName()
@@ -56,7 +57,7 @@ public class MerchantAccountController extends BaseController {
 			addError(request, ErrorConstants.AUTHENTICATION_FAILED);
 
 			addError(request, ErrorConstants.ACTIVATION_EXPIRED);
-			model.addAttribute(AppConstant.POPUP_PARAM,Boolean.TRUE);
+			model.addAttribute(AppConstant.POPUP_PARAM, Boolean.TRUE);
 			return "people";
 		}
 
@@ -64,15 +65,15 @@ public class MerchantAccountController extends BaseController {
 		try {
 			merchant = mService.getMerchantByMerchantUserID(accForm
 					.getMerchantID());
-			if(!merchant.getStatus().equals(MerchantStatus.ACTIVE))
-			{
+			if (!merchant.getStatus().equals(MerchantStatus.ACTIVE)) {
 				addError(request, ErrorConstants.MERCHANT_NOT_ACTIVE);
-				model.addAttribute(AppConstant.POPUP_PARAM,Boolean.TRUE);
+				model.addAttribute(AppConstant.POPUP_PARAM, Boolean.TRUE);
 				return "people";
 			}
 			maService.createAccountForMerchant(account, merchant);
-			request.setAttribute(ServiceConstants.SUCCESS_MESSAGE_KEY,
-					String.valueOf(ErrorConstants.MERCHANT_ACCOUNT_CREATE_SUCCESS));
+
+			request.setAttribute(ServiceConstants.SUCCESS_MESSAGE_KEY, String
+					.valueOf(ErrorConstants.MERCHANT_ACCOUNT_CREATE_SUCCESS));
 
 		} catch (ServiceException e) {
 			// TODO Auto-generated catch block
@@ -80,6 +81,36 @@ public class MerchantAccountController extends BaseController {
 		}
 
 		return "people";
+	}
+
+	@RequestMapping(value = { "/{merchID}/{accountID}/edit" }, method = RequestMethod.GET)
+	public String setupEditAccountsPage(
+			@PathVariable("merchID") String merchantID,
+			@PathVariable("accountID") String accountID, Model model,
+			HttpServletRequest request) {
+		model.addAttribute("editAccountForm", new MerchantAccountForm());
+		model.addAttribute("merchantID", merchantID);
+		model.addAttribute("accountID", accountID);
+		if (!mService.accountBelongsToMerchant(merchantID, accountID)) {
+			addError(request, ErrorConstants.ACCOUNT_MERCHANT_MISMATCH);
+			return "editAccount";
+		}
+
+		return "editAccount";
+	}
+
+	@RequestMapping(value = { "/{merchID}/{accountID}/edit" }, method = RequestMethod.POST)
+	public String editAccountsPage(
+			@PathVariable("merchID") String merchantID,
+			@PathVariable("accountID") String accountID,
+			@Valid @ModelAttribute("editAccountForm") MerchantAccountForm editForm,
+			BindingResult result, Model model, HttpServletRequest request) {
+		if (!mService.accountBelongsToMerchant(merchantID, accountID)) {
+			addError(request, ErrorConstants.ACCOUNT_MERCHANT_MISMATCH);
+			return "editAccount";
+		}
+
+		return null;
 	}
 
 	@SuppressWarnings("unchecked")

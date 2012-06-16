@@ -25,7 +25,7 @@
 						<div class="input-2 text-2">
 							<form:hidden path="merchantID" id="merchantID" value="${sessionScope.merchantID}" />
 							<label class="label-1" for="accountName"><fmt:message
-									key="dlt.people.label.email" /></label>
+									key="dlt.people.label.accountname" /></label>
 							<div class="wrap">
 								<form:input id="accountName" path="accountName" />
 								<p class="hint">
@@ -36,7 +36,7 @@
 						</div>
 						<div class="input-3">
 							<form:button id="addNewUserButton" type="submit">
-								<fmt:message key="dlt.people.button.add" />
+								<fmt:message key="own.generic.button.label.account.create" />
 							</form:button>
 							<!-- <button type="button">Cancel</button> -->
 						</div>

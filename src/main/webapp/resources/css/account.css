@@ -1284,3 +1284,54 @@ small {
 	*/
 }
 
+.notices {
+	margin-bottom: 1.6em
+}
+
+.notices div {
+	font-size: .875em;
+	border: .0715em solid #bbb;
+	padding: .8em 1.2em;
+	margin-bottom: 1em;
+	-moz-border-radius: .2em;
+	-webkit-border-radius: .2em;
+	border-radius: .2em
+}
+
+.notices p {
+	margin: 0;
+	text-align: left;
+	
+}
+
+.notices p .label {
+	font-weight: bold;
+	padding-right: .4em
+}
+
+.notices .alert {
+	border-color: #d1bf81;
+	background-color: #fdfade
+}
+
+.notices .alert p .label {
+	color: #9f7e2e
+}
+
+.notices .error {
+	border-color: #c99a9a;
+	background-color: #fdd8d8
+}
+
+.notices .error p .label {
+	color: #8a3a3a
+}
+
+.notices .success {
+	border-color: #8cc093;
+	background-color: #cffdd5
+}
+
+.notices .success p .label {
+	color: #387640
+}
