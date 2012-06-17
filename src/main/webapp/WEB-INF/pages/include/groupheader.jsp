@@ -28,8 +28,8 @@
 </c:if>
 
 <div class="tabs">
-	<a class="cls ${navClassesValue}" id="classes" href="#"><fmt:message key="dlt.groupheader.label.data" /></a> 
-	<a class="crr ${navCurriculumValue}" id="curriculum" href="#"><fmt:message key="dlt.groupheader.label.profile" /></a> 
-	<a class="ppl ${navPeopleValue} " id="people" href="#"><fmt:message key="dlt.groupheader.label.accounts" /></a>
+	<a class="cls ${navClassesValue}" id="subscription" href="#"><fmt:message key="dlt.groupheader.label.subscription" /></a> 
+	<a class="crr ${navCurriculumValue}" id="profile" href="#"><fmt:message key="dlt.groupheader.label.profile" /></a> 
+	<a class="ppl ${navPeopleValue} " id="accounts" href="#"><fmt:message key="dlt.groupheader.label.accounts" /></a>
 </div>
 
