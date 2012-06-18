@@ -1,4 +1,4 @@
-package com.own.controller.factory;
+package com.pg.controller.factory;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
 
-import com.own.controller.utils.ServiceConstants;
+import com.pg.common.constant.ServiceConstants;
 
 @Component
 public class MessageConvertorFactory {

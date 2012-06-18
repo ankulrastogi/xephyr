@@ -1,4 +1,4 @@
-package com.own.controller.view;
+package com.pg.controller.view;
 
 import java.security.Principal;
 
@@ -14,14 +14,14 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.own.common.constants.AppConstant;
-import com.own.controller.factory.MessageConvertorFactory;
 import com.own.merchant.model.Merchant;
 import com.own.merchant.model.MerchantRegistration;
 import com.own.merchant.model.view.form.NewRegistrationFormModel;
 import com.own.service.MerchantRegistrationService;
 import com.own.service.MerchantService;
 import com.own.service.exception.ServiceException;
+import com.pg.common.constant.AppConstant;
+import com.pg.controller.factory.MessageConvertorFactory;
 
 @Controller(value = "merchantViewController")
 @RequestMapping("/view/merchant")

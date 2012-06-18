@@ -1,12 +1,12 @@
-package com.own.controller.utils;
+package com.pg.controller.utils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.own.common.constants.ErrorConstants;
 import com.own.merchant.model.ServiceResponse;
+import com.pg.common.constant.MessageCodeConstant;
 
 public class ServiceUtils {
 

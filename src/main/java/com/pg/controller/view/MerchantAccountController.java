@@ -1,4 +1,4 @@
-package com.own.controller.view;
+package com.pg.controller.view;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,9 +16,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.own.common.constants.AppConstant;
-import com.own.common.constants.ErrorConstants;
-import com.own.controller.utils.ServiceConstants;
 import com.own.merchant.model.Merchant;
 import com.own.merchant.model.MerchantAccount;
 import com.own.merchant.model.view.form.MerchantAccountForm;
@@ -27,6 +24,9 @@ import com.own.service.MerchantService;
 import com.own.service.exception.IllegalObjectStateException;
 import com.own.service.exception.ServiceException;
 import com.own.transaction.enums.MerchantStatus;
+import com.pg.common.constant.AppConstant;
+import com.pg.common.constant.MessageCodeConstant;
+import com.pg.common.constant.ServiceConstants;
 
 @Controller(value = "merchantAccountViewController")
 @RequestMapping("/view/merchant/account")
@@ -55,7 +55,7 @@ public class MerchantAccountController extends BaseController {
 		MerchantAccount account = accForm.buildMerchantAccount();
 		if (null == accForm.getAccountName()
 				|| accForm.getAccountName().trim().length() == 0) {
-			addError(request, ErrorConstants.AUTHENTICATION_FAILED);
+			addError(request, MessageCodeConstant.AUTHENTICATION_FAILED);
 			model.addAttribute(AppConstant.POPUP_PARAM, Boolean.TRUE);
 			return "people";
 		}
@@ -65,19 +65,19 @@ public class MerchantAccountController extends BaseController {
 			merchant = mService.getMerchantByMerchantUserID(accForm
 					.getMerchantID());
 			if (!merchant.getStatus().equals(MerchantStatus.ACTIVE)) {
-				addError(request, ErrorConstants.MERCHANT_NOT_ACTIVE);
+				addError(request, MessageCodeConstant.MERCHANT_NOT_ACTIVE);
 				model.addAttribute(AppConstant.POPUP_PARAM, Boolean.TRUE);
 				return "people";
 			}
 			maService.createAccountForMerchant(account, merchant);
 
 			request.setAttribute(ServiceConstants.SUCCESS_MESSAGE_KEY, String
-					.valueOf(ErrorConstants.MERCHANT_ACCOUNT_CREATE_SUCCESS));
+					.valueOf(MessageCodeConstant.MERCHANT_ACCOUNT_CREATE_SUCCESS));
 
 		} catch (ServiceException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			addError(request, ErrorConstants.GENERAL_ERROR);
+			addError(request, MessageCodeConstant.GENERAL_ERROR);
 		}
 
 		return "people";
@@ -93,7 +93,7 @@ public class MerchantAccountController extends BaseController {
 		model.addAttribute("accountID", accountID);
 		
 		if (null == mService.accountBelongsToMerchant(merchantID, accountID)) {
-			addError(request, ErrorConstants.ACCOUNT_MERCHANT_MISMATCH);
+			addError(request, MessageCodeConstant.ACCOUNT_MERCHANT_MISMATCH);
 			return "editAccount";
 		}
 
@@ -108,22 +108,22 @@ public class MerchantAccountController extends BaseController {
 			BindingResult result, Model model, HttpServletRequest request) {
 		MerchantAccount mAccount = null;
 		if (null == (mAccount = mService.accountBelongsToMerchant(merchantID, accountID))) {
-			addError(request, ErrorConstants.ACCOUNT_MERCHANT_MISMATCH);
+			addError(request, MessageCodeConstant.ACCOUNT_MERCHANT_MISMATCH);
 			return "editAccount";
 		}
 		try {
 			mAccount.setName(editForm.getAccountName());
 			maService.updateMerchantAccount(mAccount);
 			request.setAttribute(ServiceConstants.SUCCESS_MESSAGE_KEY, String
-					.valueOf(ErrorConstants.MERCHANT_ACCOUNT_UPDATE_SUCCESS));
+					.valueOf(MessageCodeConstant.MERCHANT_ACCOUNT_UPDATE_SUCCESS));
 		} catch (ServiceException e) {
 			
 			e.printStackTrace();
-			addError(request, ErrorConstants.GENERAL_ERROR);
+			addError(request, MessageCodeConstant.GENERAL_ERROR);
 		} catch (IllegalObjectStateException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			addError(request, ErrorConstants.ACCOUNT_NAME_EXISTS);
+			addError(request, MessageCodeConstant.ACCOUNT_NAME_EXISTS);
 		}
 		
 		return "editAccount";

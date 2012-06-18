@@ -1,4 +1,4 @@
-package com.own.controller;
+package com.pg.controller.service;
 
 import java.util.HashMap;
 import java.util.List;
@@ -14,10 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.own.common.constants.ErrorConstants;
-import com.own.controller.utils.ServiceConstants;
-import com.own.controller.utils.ServiceUtils;
-import com.own.controller.view.BaseController;
 import com.own.merchant.manager.MerchantValidator;
 import com.own.merchant.model.Merchant;
 import com.own.merchant.model.MerchantRegistration;
@@ -29,6 +25,10 @@ import com.own.service.exception.BaseException.ExceptionType;
 import com.own.service.exception.DuplicateValueException;
 import com.own.service.exception.IllegalObjectStateException;
 import com.own.service.exception.ServiceException;
+import com.pg.common.constant.MessageCodeConstant;
+import com.pg.common.constant.ServiceConstants;
+import com.pg.controller.utils.ServiceUtils;
+import com.pg.controller.view.BaseController;
 
 /**
  * REST based controller to handle all the merchant related requests.
@@ -258,7 +258,7 @@ public class MerchantController extends BaseController {
 	ServiceResponse getMerchantDetails(@PathVariable("id") String merchantUserID) {
 		if (StringUtils.isBlank(merchantUserID)) {
 			return ServiceUtils.composeServiceResponse(ServiceConstants.FAIL,
-					String.valueOf(ErrorConstants.FIELD_EMPTY),
+					String.valueOf(MessageCodeConstant.FIELD_EMPTY),
 					"No Merchant User ID specified", null);
 		}
 		try {

@@ -1,4 +1,4 @@
-package com.own.controller.utils;
+package com.pg.common.constant;
 
 public class ServiceConstants {
 

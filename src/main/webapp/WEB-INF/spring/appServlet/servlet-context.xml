@@ -14,8 +14,8 @@
 	<context:component-scan base-package="com.own.merchant.model" />
 	<context:component-scan base-package="com.own.merchant.*" />
 	<context:component-scan base-package="com.own.merchant" />
-	<context:component-scan base-package="com.own.common.authentication" />
-	<context:component-scan base-package="com.own.controller.factory" />
+	<context:component-scan base-package="com.pg.spring.extension.authentication" />
+	<context:component-scan base-package="com.pg.controller.service.factory" />
 	<context:component-scan base-package="com.own.merchant.model.sql.generator" />
 	
 	<bean id="validator"

@@ -1,4 +1,4 @@
-package com.own.controller;
+package com.pg.controller.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,10 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.own.common.constants.ErrorConstants;
-import com.own.controller.utils.ServiceConstants;
-import com.own.controller.utils.ServiceUtils;
-import com.own.controller.view.BaseController;
 import com.own.merchant.model.Merchant;
 import com.own.merchant.model.MerchantAccount;
 import com.own.merchant.model.ServiceResponse;
@@ -28,6 +24,10 @@ import com.own.service.MerchantService;
 import com.own.service.exception.BaseException.ExceptionType;
 import com.own.service.exception.ServiceException;
 import com.own.transaction.enums.MerchantStatus;
+import com.pg.common.constant.MessageCodeConstant;
+import com.pg.common.constant.ServiceConstants;
+import com.pg.controller.utils.ServiceUtils;
+import com.pg.controller.view.BaseController;
 
 /**
  * REST based controller to handle multiple merchant accounts for a merchant
@@ -69,7 +69,7 @@ public class MerchantAccountController extends BaseController {
 		if (null == mAccount.getName()
 				|| mAccount.getName().trim().length() == 0) {
 			return ServiceUtils.composeServiceResponse(ServiceConstants.FAIL,
-					String.valueOf(ErrorConstants.FIELD_EMPTY),
+					String.valueOf(MessageCodeConstant.FIELD_EMPTY),
 					"Merchant Account name cannot be null", null);
 		}
 		try {
@@ -78,7 +78,7 @@ public class MerchantAccountController extends BaseController {
 
 			if (!merchant.getStatus().equals(MerchantStatus.ACTIVE)) {
 				messages.put(
-						String.valueOf(ErrorConstants.MERCHANT_NOT_ACTIVE),
+						String.valueOf(MessageCodeConstant.MERCHANT_NOT_ACTIVE),
 						new ArrayList<String>());
 				return ServiceUtils.composeServiceResponse(
 						ServiceConstants.FAIL, messages, null);
@@ -96,7 +96,7 @@ public class MerchantAccountController extends BaseController {
 		logger.info("Merchant Account:" + mAccount);
 
 		Map<String, List<String>> successMap = convertorfactory
-				.getSuccessMessage(ErrorConstants.MERCHANT_ACCOUNT_CREATE_SUCCESS);
+				.getSuccessMessage(MessageCodeConstant.MERCHANT_ACCOUNT_CREATE_SUCCESS);
 		return ServiceUtils.composeServiceResponse(ServiceConstants.SUCCESS,
 				successMap, mAccount);
 
@@ -137,7 +137,7 @@ public class MerchantAccountController extends BaseController {
 
 			if (!merchant.getStatus().equals(MerchantStatus.ACTIVE)) {
 				messages.put(
-						String.valueOf(ErrorConstants.MERCHANT_NOT_ACTIVE),
+						String.valueOf(MessageCodeConstant.MERCHANT_NOT_ACTIVE),
 						new ArrayList<String>());
 				return ServiceUtils.composeServiceResponse(
 						ServiceConstants.FAIL, messages, null);
@@ -187,7 +187,7 @@ public class MerchantAccountController extends BaseController {
 	ServiceResponse getAccountDetails(@PathVariable("merchID") String merchantID) {
 		if (StringUtils.isBlank(merchantID)) {
 			return ServiceUtils.composeServiceResponse(ServiceConstants.FAIL,
-					String.valueOf(ErrorConstants.FIELD_EMPTY),
+					String.valueOf(MessageCodeConstant.FIELD_EMPTY),
 					"No Merchant User ID specified", null);
 		}
 		Merchant merchant = null;
@@ -196,7 +196,7 @@ public class MerchantAccountController extends BaseController {
 			if (null == merchant) {
 				return ServiceUtils.composeServiceResponse(
 						ServiceConstants.FAIL,
-						String.valueOf(ErrorConstants.FIELD_EMPTY),
+						String.valueOf(MessageCodeConstant.FIELD_EMPTY),
 						"No Merchant for the given Merchant User ID specified",
 						null);
 			}
@@ -229,12 +229,12 @@ public class MerchantAccountController extends BaseController {
 			@PathVariable("accID") String accountID) {
 		if (StringUtils.isBlank(merchantID)) {
 			return ServiceUtils.composeServiceResponse(ServiceConstants.FAIL,
-					convertorfactory.getMessage(ErrorConstants.FIELD_EMPTY,
+					convertorfactory.getMessage(MessageCodeConstant.FIELD_EMPTY,
 							new String[] { "merchantID" }), null);
 		}
 		if (StringUtils.isBlank(accountID)) {
 			return ServiceUtils.composeServiceResponse(ServiceConstants.FAIL,
-					convertorfactory.getMessage(ErrorConstants.FIELD_EMPTY,
+					convertorfactory.getMessage(MessageCodeConstant.FIELD_EMPTY,
 							new String[] { "AccountID" }), null);
 		}
 
@@ -245,7 +245,7 @@ public class MerchantAccountController extends BaseController {
 					.composeServiceResponse(
 							ServiceConstants.FAIL,
 							convertorfactory
-									.getMessage(ErrorConstants.ACCOUNT_MERCHANT_MISMATCH),
+									.getMessage(MessageCodeConstant.ACCOUNT_MERCHANT_MISMATCH),
 							null);
 		}
 		
@@ -261,7 +261,7 @@ public class MerchantAccountController extends BaseController {
 		}
 
 		return ServiceUtils.composeServiceResponse(ServiceConstants.SUCCESS,
-				convertorfactory.getSuccessMessage(ErrorConstants.ACCOUNT_REMOVAL_SUCCESS), mAccount);
+				convertorfactory.getSuccessMessage(MessageCodeConstant.ACCOUNT_REMOVAL_SUCCESS), mAccount);
 	}
 
 }

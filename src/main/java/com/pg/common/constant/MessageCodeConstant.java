@@ -1,7 +1,7 @@
-package com.own.common.constants;
+package com.pg.common.constant;
 
 
-public class ErrorConstants {
+public class MessageCodeConstant {
 
 	public static final Integer USER_ALREADY_EXISTS = 11;
 	//General Error constant only for logging purpose

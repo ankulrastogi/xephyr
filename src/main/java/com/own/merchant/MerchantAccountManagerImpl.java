@@ -4,12 +4,12 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.own.common.constants.ErrorConstants;
 import com.own.database.repositories.MerchantAccountRepository;
 import com.own.merchant.model.MerchantAccount;
 import com.own.service.exception.BaseException.ExceptionType;
 import com.own.service.exception.DatabaseException;
 import com.own.transaction.enums.MerchantAccountStatus;
+import com.pg.common.constant.MessageCodeConstant;
 
 @Component
 public class MerchantAccountManagerImpl implements MerchantAccountManager{
@@ -29,7 +29,7 @@ public class MerchantAccountManagerImpl implements MerchantAccountManager{
 			logger.info("Could not get merchant account info from the database:"
 					+ name + e.getMessage());
 			throw new DatabaseException(ExceptionType.LOG,
-					ErrorConstants.DATABASE_ERROR, e);
+					MessageCodeConstant.DATABASE_ERROR, e);
 
 		}
 
@@ -46,7 +46,7 @@ public class MerchantAccountManagerImpl implements MerchantAccountManager{
 			logger.info("Could not get merchant account info from the database:"
 					+ mAccount + e.getMessage());
 			throw new DatabaseException(ExceptionType.LOG,
-					ErrorConstants.DATABASE_ERROR, e);
+					MessageCodeConstant.DATABASE_ERROR, e);
 
 		}
 

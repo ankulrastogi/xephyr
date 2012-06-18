@@ -5,13 +5,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.own.common.constants.ErrorConstants;
 import com.own.database.repositories.MerchantRegistrationRepository;
 import com.own.merchant.model.MerchantRegistration;
 import com.own.merchant.model.MerchantRegistration.ValidationType;
 import com.own.service.exception.DatabaseException;
 import com.own.service.exception.IllegalObjectStateException;
 import com.own.service.exception.BaseException.ExceptionType;
+import com.pg.common.constant.MessageCodeConstant;
 
 @Component
 public class RegistrationManagerImpl implements RegistrationManager {
@@ -33,7 +33,7 @@ public class RegistrationManagerImpl implements RegistrationManager {
 		} catch (Exception e) {
 			logger.info("Cannot persist user object in data:" + rMerchant
 					+ e.getMessage());
-			throw new DatabaseException(ExceptionType.VIEW,ErrorConstants.DATABASE_ERROR,e);
+			throw new DatabaseException(ExceptionType.VIEW,MessageCodeConstant.DATABASE_ERROR,e);
 		}
 		logger.info("saved:" + result);
 		
@@ -52,7 +52,7 @@ public class RegistrationManagerImpl implements RegistrationManager {
 
 			logger.info("ERROR in getting info for email:" + emailID
 					+ e.getMessage());
-			throw new DatabaseException(ExceptionType.VIEW,ErrorConstants.DATABASE_ERROR,e);
+			throw new DatabaseException(ExceptionType.VIEW,MessageCodeConstant.DATABASE_ERROR,e);
 		}
 		return rMerchant;
 	}

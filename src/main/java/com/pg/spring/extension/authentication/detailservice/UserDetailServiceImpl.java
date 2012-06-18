@@ -1,4 +1,4 @@
-package com.own.common.authentication.detailservice;
+package com.pg.spring.extension.authentication.detailservice;
 
 import java.util.Arrays;
 

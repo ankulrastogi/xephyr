@@ -21,11 +21,11 @@ import javax.persistence.Table;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.annotations.GenericGenerator;
 
-import com.own.common.constants.ErrorConstants;
 import com.own.service.exception.BaseException.ExceptionType;
 import com.own.service.exception.IllegalObjectStateException;
 import com.own.service.exception.MerchantException;
 import com.own.transaction.enums.MerchantStatus;
+import com.pg.common.constant.MessageCodeConstant;
 
 /**
  * This is a class containing the details related to a merchant object TODO -
@@ -150,18 +150,18 @@ public class Merchant implements Serializable {
 //				}
 			case PRE:
 				if (StringUtils.isEmpty(name)) {
-					errorMap = addToMap(errorMap, ErrorConstants.FIELD_EMPTY,
+					errorMap = addToMap(errorMap, MessageCodeConstant.FIELD_EMPTY,
 							new String[] { "merchant name" });
 				}
 
 			case LOGIN:
 
 				if (StringUtils.isEmpty(emailID)) {
-					errorMap = addToMap(errorMap, ErrorConstants.FIELD_EMPTY,
+					errorMap = addToMap(errorMap, MessageCodeConstant.FIELD_EMPTY,
 							new String[] { "username" });
 				}
 				if (StringUtils.isEmpty(password)) {
-					errorMap = addToMap(errorMap, ErrorConstants.FIELD_EMPTY,
+					errorMap = addToMap(errorMap, MessageCodeConstant.FIELD_EMPTY,
 							new String[] { "password" });
 				}
 

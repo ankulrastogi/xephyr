@@ -1,4 +1,4 @@
-package com.own.common.authentication;
+package com.pg.spring.extension.authentication;
 
 import java.util.Arrays;
 import java.util.List;
@@ -14,13 +14,13 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 
-import com.own.controller.factory.MessageConvertorFactory;
 import com.own.merchant.model.Merchant;
 import com.own.service.MerchantService;
 import com.own.service.exception.BaseException;
 import com.own.service.exception.BaseException.ExceptionType;
 import com.own.service.exception.IllegalObjectStateException;
 import com.own.service.exception.ServiceException;
+import com.pg.controller.factory.MessageConvertorFactory;
 
 @Component(value = "customAuthProvider")
 public class CustomAuthenticationProvider implements AuthenticationProvider {

@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.own.common.constants.ErrorConstants;
 import com.own.merchant.MerchantAccountManager;
 import com.own.merchant.model.Merchant;
 import com.own.merchant.model.MerchantAccount;
@@ -14,6 +13,7 @@ import com.own.service.exception.BaseException.ExceptionType;
 import com.own.service.exception.DatabaseException;
 import com.own.service.exception.IllegalObjectStateException;
 import com.own.service.exception.ServiceException;
+import com.pg.common.constant.MessageCodeConstant;
 
 @Service
 public class MerchantAccountServiceImpl implements MerchantAccountService {
@@ -38,7 +38,7 @@ public class MerchantAccountServiceImpl implements MerchantAccountService {
 					.findAccountByAccountName(mAccount.getName());
 			if (null != existing) {
 				throw new ServiceException(ExceptionType.VIEW,
-						ErrorConstants.ACCOUNT_EXISTS, new Throwable());
+						MessageCodeConstant.ACCOUNT_EXISTS, new Throwable());
 			}
 
 			mAccount.setMerchantUserID(merchant.getMerchantUserID());
@@ -65,7 +65,7 @@ public class MerchantAccountServiceImpl implements MerchantAccountService {
 					.findAccountByAccountName(mAccount.getName());
 			if (null == current) {
 				throw new ServiceException(ExceptionType.VIEW,
-						ErrorConstants.MERCHANT_ACCOUNT_NOT_FOUND, "",
+						MessageCodeConstant.MERCHANT_ACCOUNT_NOT_FOUND, "",
 						new Throwable());
 			}
 		} catch (DatabaseException e) {
@@ -83,7 +83,7 @@ public class MerchantAccountServiceImpl implements MerchantAccountService {
 		// check if there is another account with the same name
 		if (checkDuplicateName(mAccount.getName()))
 			throw new IllegalObjectStateException(ExceptionType.VIEW,
-					ErrorConstants.ACCOUNT_NAME_EXISTS, new Throwable());
+					MessageCodeConstant.ACCOUNT_NAME_EXISTS, new Throwable());
 		MerchantAccount saveMerchantAccount = null;
 		try {
 			saveMerchantAccount = maManager.saveMerchantAccount(mAccount);

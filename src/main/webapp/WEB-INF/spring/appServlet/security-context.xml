@@ -19,13 +19,13 @@
 	        password-parameter="password" username-parameter="userName" 
 	        authentication-failure-url="/view/merchant/login?error=1" default-target-url="/view/merchant/loginSuccess"
 	        />
-	    <intercept-url pattern="/**" access="isAuthenticated()"/>
+	    <intercept-url pattern="/**" access="isAuthenticated()" />
 	    <logout delete-cookies="true" invalidate-session="true" 
 	       logout-success-url="/view/merchant/login"/>
 	    <session-management invalid-session-url="/view/merchant/login" />
 	    
 	</http>
-	<authentication-manager alias="authManager" >
+	<authentication-manager alias="authManager"  >
         <authentication-provider ref="customAuthProvider">
         </authentication-provider>
     </authentication-manager>

@@ -18,9 +18,9 @@ import javax.persistence.Transient;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.own.common.constants.ErrorConstants;
 import com.own.service.exception.BaseException.ExceptionType;
 import com.own.service.exception.IllegalObjectStateException;
+import com.pg.common.constant.MessageCodeConstant;
 
 
 
@@ -128,17 +128,17 @@ public class MerchantRegistration {
 		{
 		case POST://conditions for POST
 					if(this.signUpID == 0)
-						errorMap = addToMap(errorMap,ErrorConstants.FIELD_EMPTY, new String[]{"SignUp ID"});
+						errorMap = addToMap(errorMap,MessageCodeConstant.FIELD_EMPTY, new String[]{"SignUp ID"});
 		case PRE: //conditions for pre persistence
 					if(this.status == null)
-						errorMap = addToMap(errorMap, ErrorConstants.FIELD_EMPTY, new String[]{"status "});
+						errorMap = addToMap(errorMap, MessageCodeConstant.FIELD_EMPTY, new String[]{"status "});
 		case SIGNUP://conditions for signup
 					if(null == this.activationLink)
-						errorMap = addToMap(errorMap,ErrorConstants.FIELD_EMPTY,new String[]{"activation link "});
+						errorMap = addToMap(errorMap,MessageCodeConstant.FIELD_EMPTY,new String[]{"activation link "});
 					if(StringUtils.isEmpty(this.email))
-						errorMap = addToMap(errorMap,ErrorConstants.FIELD_EMPTY,new String[]{"email"});
+						errorMap = addToMap(errorMap,MessageCodeConstant.FIELD_EMPTY,new String[]{"email"});
 					if(StringUtils.isEmpty(this.password))
-						errorMap = addToMap(errorMap,ErrorConstants.FIELD_EMPTY, new String[]{"password"});
+						errorMap = addToMap(errorMap,MessageCodeConstant.FIELD_EMPTY, new String[]{"password"});
 		}
 		
 		if(!errorMap.isEmpty())

@@ -1,4 +1,4 @@
-package com.own.configuration;
+package com.pg.spring.extension.url.configuration;
 
 import java.util.Locale;
 

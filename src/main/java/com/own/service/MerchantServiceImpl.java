@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.own.common.constants.ErrorConstants;
 import com.own.merchant.MerchantManager;
 import com.own.merchant.model.Merchant;
 import com.own.merchant.model.Merchant.SearchTypes;
@@ -26,6 +25,7 @@ import com.own.service.exception.DatabaseException;
 import com.own.service.exception.IllegalObjectStateException;
 import com.own.service.exception.ServiceException;
 import com.own.transaction.enums.MerchantStatus;
+import com.pg.common.constant.MessageCodeConstant;
 
 @Service
 public class MerchantServiceImpl implements MerchantService {
@@ -56,7 +56,7 @@ public class MerchantServiceImpl implements MerchantService {
 			if (null != response) {
 				logger.info("Throw new exception that the merchant already exists");
 				throw new ServiceException(ExceptionType.VIEW,
-						ErrorConstants.DUPLICATE_MERCHANT, new Throwable());
+						MessageCodeConstant.DUPLICATE_MERCHANT, new Throwable());
 			}
 			response = merchantManager.saveMerchant(merchant);
 
@@ -91,7 +91,7 @@ public class MerchantServiceImpl implements MerchantService {
 		}
 		if (null == result) {
 			throw new ServiceException(ExceptionType.LOG,
-					ErrorConstants.MERCHANT_NOT_FOUND_EMAIL, new Throwable());
+					MessageCodeConstant.MERCHANT_NOT_FOUND_EMAIL, new Throwable());
 		}
 
 		return result;
@@ -167,7 +167,7 @@ public class MerchantServiceImpl implements MerchantService {
 			logger.info("no merchant found for the given username");
 
 			throw new ServiceException(ExceptionType.VIEW,
-					ErrorConstants.MERCHANT_NOT_FOUND_EMAIL_USERNAME,
+					MessageCodeConstant.MERCHANT_NOT_FOUND_EMAIL_USERNAME,
 					new Throwable());
 
 		}
@@ -175,7 +175,7 @@ public class MerchantServiceImpl implements MerchantService {
 			logger.info("Merchant successfully authenticated:");
 		} else {
 			logger.info("Merchant Authentication failed");
-			response.put(ErrorConstants.AUTHENTICATION_FAILED,
+			response.put(MessageCodeConstant.AUTHENTICATION_FAILED,
 					new ArrayList<Object>());
 		}
 
@@ -201,11 +201,11 @@ public class MerchantServiceImpl implements MerchantService {
 
 		if (null == registrationByEmail)
 			throw new ServiceException(ExceptionType.VIEW,
-					ErrorConstants.MERCHANT_NOT_FOUND_EMAIL, new Throwable());
+					MessageCodeConstant.MERCHANT_NOT_FOUND_EMAIL, new Throwable());
 
 		if (registrationByEmail.getStatus() != RegistrationStatus.ACTIVE)
 			throw new ServiceException(ExceptionType.VIEW,
-					ErrorConstants.REGISTRATION_NOT_ACTIVE, new Throwable());
+					MessageCodeConstant.REGISTRATION_NOT_ACTIVE, new Throwable());
 
 		Merchant merchant = new Merchant();
 		merchant.setEmailID(registrationByEmail.getEmail());
@@ -245,7 +245,7 @@ public class MerchantServiceImpl implements MerchantService {
 			if (null == response) {
 				logger.info("Throw new exception no merchant exists by this mail ID");
 				throw new ServiceException(ExceptionType.VIEW,
-						ErrorConstants.NO_MERCHANT_FOUND, new Throwable());
+						MessageCodeConstant.NO_MERCHANT_FOUND, new Throwable());
 			}
 
 		} catch (DatabaseException e) {
