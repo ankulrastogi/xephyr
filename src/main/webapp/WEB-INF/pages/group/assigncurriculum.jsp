@@ -115,7 +115,7 @@
 		<div class="box-1">
 
 			<img class="right"
-				src="<%=request.getContextPath()%>/resources/img/content/about-groups-illustration.png"
+				src="${contextRoot}/resources/img/content/about-groups-illustration.png"
 				alt="">
 
 			<h2>

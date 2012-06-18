@@ -10,13 +10,8 @@
 	<import resource="database-context.xml" />
 
 	<context:annotation-config />
-	<context:component-scan base-package="com.own.service" />
-	<context:component-scan base-package="com.own.merchant.model" />
-	<context:component-scan base-package="com.own.merchant.*" />
-	<context:component-scan base-package="com.own.merchant" />
-	<context:component-scan base-package="com.pg.spring.extension.authentication" />
-	<context:component-scan base-package="com.pg.controller.service.factory" />
-	<context:component-scan base-package="com.own.merchant.model.sql.generator" />
+	<context:component-scan base-package="com.own.*" />
+	<context:component-scan base-package="com.pg.*" />
 	
 	<bean id="validator"
 		class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" >
