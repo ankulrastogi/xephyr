@@ -107,7 +107,7 @@
 	
 	<definition name="people" extends="grouplayout">
 		<put-attribute name="title" value="DLT" />
-		<put-attribute name="navigation" value="" />
+		<put-attribute name="navigation" value="people" />
 		<put-attribute name="body" value="/WEB-INF/pages/group/people/people.jsp" />
 	</definition>
 	

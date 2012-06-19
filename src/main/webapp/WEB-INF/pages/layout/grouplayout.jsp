@@ -32,9 +32,9 @@ response.setDateHeader ("Expires", -1);
 <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
 </head>
 <body>
+<tiles:useAttribute id="navigation" name="navigation" scope="request" ignore="true"/>
 
 <tiles:insertAttribute name="header" />
-<tiles:insertAttribute name="navigation" />
 <tiles:insertAttribute name="body" />
 <tiles:insertAttribute name="footer" />
 
