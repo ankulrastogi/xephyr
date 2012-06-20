@@ -4,7 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 
@@ -78,4 +80,30 @@ public class BaseController {
 				.toString();
 
 	}
+	
+	protected Object getValueFromSession(final HttpSession session,
+			final String paramName) {
+
+		Object value = null;
+		if (null != session && !StringUtils.isEmpty(paramName)) {
+			value = session.getAttribute(paramName);
+		}
+
+		return value;
+
+	}
+
+	@SuppressWarnings("unchecked")
+	protected <T> T getValueFromSession(final HttpSession session,
+			final String paramName, final Class<T> objClass) {
+		T convertedElement = null;
+		Object element = getValueFromSession(session, paramName);
+		if (null != element) {
+			if (element.getClass().isAssignableFrom(objClass)) {
+				convertedElement = (T) element;
+			}
+		}
+		return convertedElement;
+	}
+
 }
