@@ -9,6 +9,7 @@ import org.springframework.context.annotation.ImportResource;
 @Import({DataAccessConfiguration.class,MessageConfiguration.class})
 @ImportResource({"/WEB-INF/spring/appServlet/security-context.xml"})
 @ComponentScan(basePackages = {"com.own","com.pg"})
-public class RootConfig {
+public class RootConfig{
+
 
 }

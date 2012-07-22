@@ -31,9 +31,9 @@ public class MessageConfiguration {
 		messageSource
 				.setBasenames(new String[] { "classpath:messages/error-messages" });
 		messageSource.setCacheSeconds(10);
+		
 		return messageSource;
 	}
-	
 	@Bean
 	public Validator validator()
 	{
@@ -51,4 +51,5 @@ public class MessageConfiguration {
 		propMap.put("hibernate.validator.fail_fast", "false");
 		return propMap;
 	}
+	
 }

@@ -2,9 +2,11 @@ package com.own.configuration;
 
 import java.util.Locale;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.ImportResource;
+import org.springframework.validation.Validator;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -19,9 +21,11 @@ import com.pg.spring.extension.url.configuration.CustomURLBasedViewResolver;
 
 @EnableWebMvc
 @Configuration
-@ImportResource({"classpath:xml/mvc-component.xml"})
+@ComponentScan({"com.pg.controller"})
 public class ViewConfiguration extends WebMvcConfigurerAdapter {
-
+	
+	@Autowired
+	Validator validator;
 	
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -29,6 +33,12 @@ public class ViewConfiguration extends WebMvcConfigurerAdapter {
 		ResourceHandlerRegistration addResourceHandler = registry.addResourceHandler("/resources/**");
 		addResourceHandler.addResourceLocations("/resources/");
 		addResourceHandler.setCachePeriod(0);
+	}
+	
+	@Override
+	public Validator getValidator()
+	{
+		return validator;
 	}
 	@Bean
 	public ViewResolver viewResolver()
