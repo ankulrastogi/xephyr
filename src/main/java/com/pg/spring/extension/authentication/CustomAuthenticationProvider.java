@@ -12,7 +12,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.stereotype.Component;
 
 import com.own.merchant.model.Merchant;
 import com.own.service.MerchantService;
@@ -22,7 +21,7 @@ import com.own.service.exception.IllegalObjectStateException;
 import com.own.service.exception.ServiceException;
 import com.pg.controller.factory.MessageConvertorFactory;
 
-@Component(value = "customAuthProvider")
+//@Component(value = "customAuthProvider")
 public class CustomAuthenticationProvider implements AuthenticationProvider {
 
 	private static Logger logger = Logger

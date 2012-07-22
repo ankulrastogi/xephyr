@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.own.merchant.model.Merchant;
 import com.own.merchant.model.MerchantAccount;
@@ -105,7 +106,7 @@ public class MerchantAccountController extends BaseController {
 			@PathVariable("merchID") String merchantID,
 			@PathVariable("accountID") String accountID,
 			@Valid @ModelAttribute("editAccountForm") MerchantAccountForm editForm,
-			BindingResult result, Model model, HttpServletRequest request) {
+			BindingResult result, Model model, HttpServletRequest request,RedirectAttributes redirectValues) {
 		MerchantAccount mAccount = null;
 		if (null == (mAccount = mService.accountBelongsToMerchant(merchantID, accountID))) {
 			addError(request, MessageCodeConstant.ACCOUNT_MERCHANT_MISMATCH);
@@ -114,8 +115,9 @@ public class MerchantAccountController extends BaseController {
 		try {
 			mAccount.setName(editForm.getAccountName());
 			maService.updateMerchantAccount(mAccount);
-			request.setAttribute(ServiceConstants.SUCCESS_MESSAGE_KEY, String
+			redirectValues.addFlashAttribute(ServiceConstants.SUCCESS_MESSAGE_KEY, String
 					.valueOf(MessageCodeConstant.MERCHANT_ACCOUNT_UPDATE_SUCCESS));
+			return getInternalRedirectView("/view/merchant/account/create");
 		} catch (ServiceException e) {
 			
 			e.printStackTrace();

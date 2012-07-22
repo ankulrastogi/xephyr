@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+
+<tiles-definitions>
+
+
+<!-- LAYOUTS BEGIN -->
+	<definition name="baseLayout" template="/WEB-INF/pages/layout/layout.jsp">
+		<put-attribute name="title" value="DLT" />
+		<put-attribute name="header" value="/WEB-INF/pages/layout/header.jsp" />
+		<put-attribute name="navigation" value="" />
+		<put-attribute name="body" value="" />
+		<put-attribute name="footer" value="/WEB-INF/pages/layout/footer.jsp" />
+	</definition>
+
+	<definition name="login" extends="baseLayout">
+		<put-attribute name="title" value="DLT : Login" />
+		<put-attribute name="navigation" value="" />
+		<put-attribute name="body" value="/WEB-INF/pages/login.jsp" />
+	</definition>
+	
+	<definition name="grouplayout" template="/WEB-INF/pages/layout/grouplayout.jsp">
+		<put-attribute name="title" value="DLT" />
+		<put-attribute name="header" value="/WEB-INF/pages/include/groupheadertop.jsp" />
+		<put-attribute name="navigation" value="" />
+		<put-attribute name="body" value="" />
+		<put-attribute name="footer" value="/WEB-INF/pages/include/groupfooter.jsp" />
+	</definition>
+	
+	<definition name="accountlayout" template="/WEB-INF/pages/layout/accountlayout.jsp">
+		<put-attribute name="title" value="DLT" />
+		<put-attribute name="header" value="/WEB-INF/pages/include/accountheader.jsp" />
+		<put-attribute name="navigation" value="" />
+		<put-attribute name="body" value="" />
+		<put-attribute name="footer" value="/WEB-INF/pages/include/accountfooter.jsp" />
+	</definition>
+	
+	
+<!-- LAYOUTS END -->
+
+<!-- PAGES BEGIN-->
+	<definition name="welcome" extends="baseLayout">
+		<put-attribute name="title" value="DLT : Welcome" />
+		<put-attribute name="body" value="/WEB-INF/pages/welcome.jsp" />
+	</definition>
+
+	<definition name="profile" extends="baseLayout">
+		<put-attribute name="title" value="DLT: User Profile" />
+		<put-attribute name="body" value="/WEB-INF/pages/profile.jsp" />
+	</definition>
+
+<!--  
+	<definition name="grouplist" extends="baseLayout">
+		<put-attribute name="title" value="DLT: User Profile" />
+		<put-attribute name="body" value="/WEB-INF/pages/grouplist.jsp" />
+	</definition>
+	
+	-->
+	
+	<definition name="recoverPassword" extends="baseLayout">
+		<put-attribute name="title" value="DLT: Recover Password" />
+		<put-attribute name="body" value="/WEB-INF/pages/user/recoverPassword.jsp" />
+	</definition>
+	
+	<definition name="tempPassword" extends="baseLayout">
+		<put-attribute name="title" value="DLT: Change Temporary Password" />
+		<put-attribute name="body" value="/WEB-INF/pages/user/recoverChangePassword.jsp" />
+	</definition>
+	
+	<definition name="error" extends="baseLayout">
+		<put-attribute name="title" value="DLT: Error" />
+		<put-attribute name="body" value="/WEB-INF/pages/error.jsp" />
+	</definition>
+	
+	
+	
+	<definition name="creategroup" extends="grouplayout">
+		<put-attribute name="title" value="DLT" />
+		<put-attribute name="navigation" value="" />
+		<put-attribute name="body" value="/WEB-INF/pages/group/creategroup.jsp" />
+	</definition>
+	
+	<definition name="groupList" extends="baseLayout">
+		<put-attribute name="title" value="Merchant Service" />
+		<put-attribute name="navigation" value="" />
+		<put-attribute name="body" value="/WEB-INF/pages/group/grouplist.jsp" />
+	</definition>
+	
+	<definition name="assigncurriculum" extends="grouplayout">
+		<put-attribute name="title" value="DLT" />
+		<put-attribute name="navigation" value="" />
+		<put-attribute name="body" value="/WEB-INF/pages/group/assigncurriculum.jsp" />
+	</definition>
+	<definition name="nogroupnocurridummy" extends="grouplayout">
+		<put-attribute name="title" value="DLT" />
+		<put-attribute name="navigation" value="" />
+		<put-attribute name="body" value="/WEB-INF/pages/group/nogroupnocurridummy.jsp" />
+	</definition>
+	
+	<definition name="createaccount" extends="accountlayout">
+		<put-attribute name="title" value="DLT" />
+		<put-attribute name="navigation" value="" />
+		<put-attribute name="body" value="/WEB-INF/pages/account/createaccount.jsp" />
+	</definition>
+	
+	<definition name="people" extends="grouplayout">
+		<put-attribute name="title" value="DLT" />
+		<put-attribute name="navigation" value="people" />
+		<put-attribute name="body" value="/WEB-INF/pages/group/people/people.jsp" />
+	</definition>
+	
+	<definition name="editAccount" extends="accountlayout">
+		<put-attribute name="title" value="DLT" />
+		<put-attribute name="navigation" value="peopleTab" />
+		<put-attribute name="body" value="/WEB-INF/pages/account/editaccount.jsp" />
+	</definition>	
+	
+<!-- PAGES END-->	
+</tiles-definitions>

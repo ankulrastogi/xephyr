@@ -97,4 +97,19 @@ public class MerchantController extends BaseController {
 		
 		return getInternalRedirectView("/view/merchant/account/create");
 	}
+	
+	@RequestMapping(value={"subscription"},method=RequestMethod.GET)
+	public String setupSubscriptionPage(Model model,Principal principal,HttpSession session)
+	{
+		
+		return "subscription";
+		
+	}
+	
+	@RequestMapping(value={"subscription"},method=RequestMethod.POST)
+	public String subscriptionPage(Model model,Principal principal,HttpSession session)
+	{
+		return null;
+		
+	}
 }

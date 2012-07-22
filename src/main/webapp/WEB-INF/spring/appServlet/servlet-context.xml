@@ -7,10 +7,12 @@
 
     	<!-- DispatcherServlet Context: defines this servlet's request-processing 
 		infrastructure -->
-	<import resource="database-context.xml" />
+<!-- 	<import resource="database-context.xml" /> -->
 
 	<context:annotation-config />
-	<context:component-scan base-package="com.own.*" />
+	<context:component-scan base-package="com.own.*" >
+<!-- 		<context:exclude-filter type="regex" expression="com.own.configuration.*"/> -->
+	</context:component-scan>
 	<context:component-scan base-package="com.pg.*" />
 	
 	<bean id="validator"

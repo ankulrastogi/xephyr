@@ -25,6 +25,8 @@
 	    <session-management invalid-session-url="/view/merchant/login" />
 	    
 	</http>
+	<beans:bean id="customAuthProvider" class="com.pg.spring.extension.authentication.CustomAuthenticationProvider"/>
+	
 	<authentication-manager alias="authManager"  >
         <authentication-provider ref="customAuthProvider">
         </authentication-provider>

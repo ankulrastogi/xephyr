@@ -13,8 +13,8 @@
 		</p>
 	</div>
 		
-<c:if test="${not empty requestScope.error}">
-<c:forEach items="${requestScope.error}" var="error">
+<c:if test="${not empty error}">
+<c:forEach items="${error}" var="error">
 	<div class="error">
 			<p>
 				<span class="label"><fmt:message key="dlt.error" /></span>
@@ -24,11 +24,11 @@
 </c:forEach>
 </c:if>
 
-<c:if test="${not empty requestScope.success}">
+<c:if test="${not empty success}">
 	<div class="success">
 		<p>
 			<span class="label"><fmt:message key="dlt.success" /></span>
-			<spring:message code="${requestScope.success}" />
+			<spring:message code="${success}" />
 		</p>
 	</div>
 </c:if>
