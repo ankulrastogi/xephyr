@@ -11,10 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.support.AnnotationConfigContextLoader;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes={DataAccessConfiguration.class})
-@ActiveProfiles("test")
+@ContextConfiguration(classes={DataAccessConfiguration.class},loader=AnnotationConfigContextLoader.class)
+@ActiveProfiles(profiles="test")
 public class DataAccessConfigurationTest {
 
 	@Autowired

@@ -22,6 +22,7 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import com.google.common.base.Throwables;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 @Configuration
@@ -34,8 +35,11 @@ public class DataAccessConfiguration {
 	private Environment environment;
 	
 	@Bean(autowire=Autowire.BY_TYPE)
-	public LocalContainerEntityManagerFactoryBean entityManagerFactoryBean() throws PropertyVetoException
+	public LocalContainerEntityManagerFactoryBean entityManagerFactoryBean() 
 	{
+		System.out.println(environment.getDefaultProfiles());
+		System.out.println(environment.getActiveProfiles());
+		
 		LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();
 		factoryBean.setJpaVendorAdapter(jpaVendorAdapter());
 		factoryBean.setPersistenceUnitName("test-bed");
@@ -46,7 +50,7 @@ public class DataAccessConfiguration {
 	}
 	
 	@Bean
-	public EntityManager entityManager() throws PropertyVetoException
+	public EntityManager entityManager()
 	{
 		return entityManagerFactoryBean().getObject().createEntityManager();
 	}
@@ -67,10 +71,16 @@ public class DataAccessConfiguration {
 		return adaptor;
 	}
 	@Bean
-	public DataSource dataSource() throws PropertyVetoException
+	public DataSource dataSource() 
 	{
 		ComboPooledDataSource dataSource = new ComboPooledDataSource();
-		dataSource.setDriverClass(environment.getProperty("jdbc.driverClassName"));
+		try {
+			dataSource.setDriverClass(environment.getProperty("jdbc.driverClassName"));
+		} catch (PropertyVetoException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			Throwables.propagate(e);
+		}
 		dataSource.setJdbcUrl(environment.getProperty("jdbc.url"));
 		dataSource.setUser(environment.getProperty("jdbc.username"));
 		dataSource.setPassword(environment.getProperty("jdbc.password"));
@@ -84,12 +94,11 @@ public class DataAccessConfiguration {
 	}
 	
 	@Bean
-	public PlatformTransactionManager transactionManager() throws PropertyVetoException
+	public PlatformTransactionManager transactionManager()
 	{
 		JpaTransactionManager txManager = new JpaTransactionManager();
 		txManager.setEntityManagerFactory(entityManagerFactoryBean().getObject());
 		txManager.setJpaDialect(new HibernateJpaDialect());
 		return txManager;
-			
 	}
 }
