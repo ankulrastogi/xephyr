@@ -29,7 +29,7 @@ public class MessageConfiguration {
 	public MessageSource exceptionMessageSource() {
 		ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
 		messageSource
-				.setBasenames(new String[] { "classpath:messages/error-messages" });
+				.setBasenames(new String[] { "classpath:messages/exception-messages" });
 		messageSource.setCacheSeconds(10);
 		
 		return messageSource;
@@ -51,5 +51,7 @@ public class MessageConfiguration {
 		propMap.put("hibernate.validator.fail_fast", "false");
 		return propMap;
 	}
+
+	
 	
 }

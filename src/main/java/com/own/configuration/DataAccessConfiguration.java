@@ -55,12 +55,19 @@ public class DataAccessConfiguration {
 		return entityManagerFactoryBean().getObject().createEntityManager();
 	}
 	
-	private Map<String, ?> jpaProperties() {
-		Map<String, String> propMap = new HashMap<String, String>();
-		propMap.put("hibernate.hbm2ddl.auto", environment.getProperty("hibernate.hbm2ddl.auto"));
-		propMap.put("hibernate.show_sql", environment.getProperty("hibernate.show.sql"));
-		return propMap;
-	}
+    @SuppressWarnings("serial")
+    private Map<String, ?> jpaProperties() {
+	Map<String, String> propMap = new HashMap<String, String>() {
+	    {
+		put("hibernate.hbm2ddl.auto",
+			environment.getProperty("hibernate.hbm2ddl.auto"));
+		put("hibernate.show_sql",
+			environment.getProperty("hibernate.show.sql"));
+	    }
+	};
+
+	return propMap;
+    }
 
 	@Bean
 	public JpaVendorAdapter jpaVendorAdapter()

@@ -44,7 +44,6 @@ response.setDateHeader ("Expires", -1);
 		<![endif]-->
 <script src="<%=request.getContextPath() %>/resources/js/helper.js"></script>
 <script src="<%=request.getContextPath() %>/resources/js/functions.js"></script>
-<script src="<%=request.getContextPath() %>/resources/js/onload.js"></script>
 <script src="<%=request.getContextPath() %>/resources/js/script.js"></script>
 </body>
 <head>
